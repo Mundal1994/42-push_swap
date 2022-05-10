@@ -33,9 +33,17 @@ int main(int argc, char **argv)
 			}
 			if (valid_instruction_checker(line) == ERROR)
 				return (1);
+			//save all of the instructions into an array so we can follow them afterwards to try and chekc if they are working
 			//ft_printf("line: %s\n", line);
 			free(line);
 		}
+		// after collecting everything we need to create stack a and b
+		// a if going to collect all the numbers from argv. first argv needs to be at the top of the stack
+		// b is going to be empty
+		// try to solve based on the input given from the push_swap or terminal
+			// check if b is empty after last command has been given
+			// check if a is sorted in ascending order
+			// or else failed
 	}
 	else
 		ft_putstr_fd("Usage: ./checker nbr1 nbr2 ...\n", 1);
