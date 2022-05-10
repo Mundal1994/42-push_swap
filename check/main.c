@@ -15,7 +15,9 @@
 int main(int argc, char **argv)
 {
 	char	*line;
+	t_stack	*stack;
 
+	stack = NULL;
 	line = NULL;
 	if (argc > 1)
 	{
@@ -37,6 +39,7 @@ int main(int argc, char **argv)
 			//ft_printf("line: %s\n", line);
 			free(line);
 		}
+		create_stack(argc, argv, stack);
 		// after collecting everything we need to create stack a and b
 		// a if going to collect all the numbers from argv. first argv needs to be at the top of the stack
 		// b is going to be empty

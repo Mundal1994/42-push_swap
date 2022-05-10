@@ -13,9 +13,21 @@
 #ifndef COMMON_H
 # define COMMON_H
 
-#include "../libft/ft_printf.h"
+# include "../libft/ft_printf.h"
+# include <stdlib.h>
 
-int	valid_input_checker(int argc, char **argv);
-int	error(void);
+typedef struct s_stack
+{
+	int			*a;
+	int			*b;
+	int			current;
+	int			below;
+	int			above;
+} t_stack;
+
+
+int		valid_input_checker(int argc, char **argv);
+int		error(void);
+void	create_stack(int argc, char **argv, t_stack *stack);
 
 #endif

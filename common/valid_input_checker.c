@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft/ft_printf.h"
+#include "common.h"
 
 /*	error printing message	*/
 

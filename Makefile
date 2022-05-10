@@ -22,9 +22,11 @@ CO = common/
 SRC = $(C)main.c
 SRC += $(C)instruction_check.c
 SRC += $(CO)valid_input_checker.c
+SRC += $(CO)create_stack.c
 
 SRC2 = $(S)main.c
 SRC2 += $(CO)valid_input_checker.c
+SRC2 += $(CO)create_stack.c
 
 MAKELIB = make -C libft/ fclean && make -C libft/
 
