@@ -16,14 +16,17 @@ int main(int argc, char **argv)
 {
 	t_stack	*stack;
 
-	stack = NULL;
 	if (argc > 1)
 	{
 		if (valid_input_checker(argc, argv) == ERROR)
 			return (1);
-		stack = create_stack(argc, argv, stack);
+		stack = malloc(sizeof(t_stack));
+		if (!stack)
+			exit(1);
+		create_stack(argc, argv, stack);
 		if (instruction_solve(stack) == ERROR)
 			return (1);
+		free(stack);
 	}
 	else
 		ft_putstr_fd("Usage: ./checker nbr1 nbr2 ...\n", 1);

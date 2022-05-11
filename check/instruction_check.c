@@ -88,29 +88,6 @@ static int	valid_instruction_checker(char *line)
 	}
 }
 
-static int	check_if_solved(t_stack *stack)
-{
-	int	i;
-
-	if (stack->b_empty == FALSE)
-	{
-		ft_putstr("KO\n");
-		return (ERROR);
-	}
-	i = 1;
-	while (i < stack->bottom)
-	{
-		if (stack->a[i] < stack->a[i - 1])
-		{
-			ft_putstr("KO\n");
-			return (ERROR);
-		}
-		++i;
-	}
-	ft_putstr("OK\n");
-	return (0);
-}
-
 int	instruction_solve(t_stack *stack)
 {
 	int		ret;
@@ -135,7 +112,7 @@ int	instruction_solve(t_stack *stack)
 		solve_stack(stack, line);
 		free(line);
 	}
-	if (check_if_solved(stack) == ERROR)
+	if (check_if_solved(stack, 'c') == ERROR)
 		return (ERROR);
 	return (0);
 }

@@ -31,6 +31,5 @@ typedef enum
 } operations;
 
 int		instruction_solve(t_stack *stack);
-void	solve_stack(t_stack *stack, char *line);
 
 #endif

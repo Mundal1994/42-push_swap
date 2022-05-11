@@ -15,4 +15,6 @@
 
 # include "../common/common.h"
 
+void	sort_stack(t_stack *stack);
+
 #endif

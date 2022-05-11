@@ -14,32 +14,17 @@
 
 int	main(int argc, char **argv)
 {
-	int	i;
 	t_stack	*stack;
 
-	i = 1;
-	stack = NULL;
 	if (argc > 1)
 	{
 		if (valid_input_checker(argc, argv) == ERROR)
 			return (1);
-		
-		// create stack a and b
-		// a if going to collect all the numbers from argv. first argv needs to be at the top of the stack
-		// b is going to be empty
-		//find shortest combo and print to standard output followed by a '\n'
+		stack = malloc(sizeof(t_stack));
+		if (!stack)
+			exit(1);
 		create_stack(argc, argv, stack);
-		
-		while (i < argc)
-		{
-
-			ft_putstr("sa");
-			ft_putchar('\n');
-			++i;
-		}
-		// while stack hasn't been solved or cannot be solved
-
-
+		sort_stack(stack);
 
 		/*
 			maybe sort into two stacks... i move everything from one stack to the other wait.... i can only move top element...
@@ -60,11 +45,9 @@ int	main(int argc, char **argv)
 
 		when both are sorted we move everything from b to a
 	*/
+		free(stack);
 	}
 	else
-		ft_putstr_fd("Usage: ./checker nbr1 nbr2 ...\n", 1);
-	//free(stack->a);
-	//free(stack->b);
-	//free(stack);
+		ft_putstr_fd("Usage: ./push_swap nbr1 nbr2 ...\n", 1);
 	return (0);
 }
