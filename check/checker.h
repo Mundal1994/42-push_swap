@@ -30,6 +30,7 @@ typedef enum
 	RRR
 } operations;
 
-int	valid_instruction_checker(char *line);
+int		instruction_solve(t_stack *stack);
+void	solve_stack(t_stack *stack, char *line);
 
 #endif

@@ -21,6 +21,7 @@ CO = common/
 
 SRC = $(C)main.c
 SRC += $(C)instruction_check.c
+SRC += $(C)solve_stack.c
 SRC += $(CO)valid_input_checker.c
 SRC += $(CO)create_stack.c
 

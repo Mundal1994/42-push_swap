@@ -20,14 +20,20 @@ typedef struct s_stack
 {
 	int			*a;
 	int			*b;
-	int			current;
-	int			below;
-	int			above;
+	int			top_a;
+	int			top_b;
+	int			bottom;
+	int			a_empty;
+	int			b_empty;
 } t_stack;
 
+typedef struct s_instruction
+{
+	char		*instr;
+} t_instruction;
 
 int		valid_input_checker(int argc, char **argv);
 int		error(void);
-void	create_stack(int argc, char **argv, t_stack *stack);
+void	*create_stack(int argc, char **argv, t_stack *stack);
 
 #endif

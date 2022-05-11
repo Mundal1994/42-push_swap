@@ -64,7 +64,7 @@ static int	swap_push_check(char *line, int len, char c)
 	return (ERROR);
 }
 
-int	valid_instruction_checker(char *line)
+static int	valid_instruction_checker(char *line)
 {
 	int	len;
 
@@ -86,4 +86,56 @@ int	valid_instruction_checker(char *line)
 		default:
 			return (error());
 	}
+}
+
+static int	check_if_solved(t_stack *stack)
+{
+	int	i;
+
+	if (stack->b_empty == FALSE)
+	{
+		ft_putstr("KO\n");
+		return (ERROR);
+	}
+	i = 1;
+	while (i < stack->bottom)
+	{
+		if (stack->a[i] < stack->a[i - 1])
+		{
+			ft_putstr("KO\n");
+			return (ERROR);
+		}
+		++i;
+	}
+	ft_putstr("OK\n");
+	return (0);
+}
+
+int	instruction_solve(t_stack *stack)
+{
+	int		ret;
+	char	*line;
+
+	ret = 1;
+	line = NULL;
+	while (ret == 1)
+	{
+		ret = get_next_line(0, &line);
+		if (ret == ERROR)
+		{
+			if (line)
+				free(line);
+			ft_putstr_fd("Error\n", 2);
+			return (1);
+		}
+		if (line == '\0')
+			break ;
+		if (valid_instruction_checker(line) == ERROR)
+			return (1);
+		solve_stack(stack, line);
+		free(line);
+	}
+	if (check_if_solved(stack) == ERROR)
+		return (ERROR);
+	return (0);
 }
