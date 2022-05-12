@@ -12,88 +12,83 @@
 
 #include "common.h"
 
-static int	is_stack_empty(int empty, char c)
+/*	error printing message	*/
+
+int	error(t_stack *stack)
 {
-	if (empty == FALSE)
+	if (stack->a)
+		free(stack->a);
+	if (stack->b)
+		free(stack->b);
+	free(stack);
+	ft_putstr_fd("Error\n", 2);
+	return (ERROR);
+}
+
+/*	checks if there are any duplicate digits	*/
+
+static int	duplicates_checker(t_stack *stack, int j)
+{
+	int	i;
+
+	i = 0;
+	while (i < j)
 	{
-		if (c == 'c')
-			ft_putstr("KO\n");
-		return (ERROR);
+		if (stack->a[i] == stack->a[j])
+			return (ERROR);
+		++i;
 	}
 	return (0);
 }
 
-int	check_if_solved(t_stack *stack, char c, char check)
-{
-	int	i;
+/*	initializes stacks with numbered arguments	*/
 
-	if (check == 'c')
+static int	initialize_stacks(char **argv, t_stack *stack, int i, int *j)
+{
+	int	k;
+
+	if (ft_memchr(argv[i], ' ', ft_strlen(argv[i])) != NULL)
 	{
-		if (is_stack_empty(stack->b_empty, c) == ERROR)
-			return (ERROR);
-	}
-	i = 1;
-	while (i < stack->bottom)
-	{
-		if (stack->a[i] < stack->a[i - 1])
+		k = 0;
+		while (k < (int)ft_strlen(argv[i]))
 		{
-			if (c == 'c')
-				ft_putstr("KO\n");
-			return (ERROR);
+			stack->a[*j] = ft_atoi(&argv[i][k]);
+			stack->b[*j] = 0;
+			if (duplicates_checker(stack, *j) == ERROR)
+				return (error(stack));
+			k += ft_strlen_stop(&argv[i][k], ' ') + 1;
+			++(*j);
 		}
-		++i;
 	}
-	if (c == 'c')
-		ft_putstr("OK\n");
+	else
+	{
+		stack->a[*j] = ft_atoi(argv[i]);
+		stack->b[*j] = 0;
+		if (duplicates_checker(stack, *j) == ERROR)
+			return (error(stack));
+		++(*j);
+	}
 	return (0);
 }
-/*
-static int	arg_string(char **argv, t_stack *stack)
-{
 
-	return (i);
-}
-*/
+/*	mallocs and starts creatings stack a and b	*/
 
-void	element_counter(int argc, char **argv, t_stack *stack)
-{
-	int	i;
-
-	i = 1;
-	stack->bottom = 0;
-	while (i < argc)
-	{
-		stack->bottom += ft_word_count(argv[i], ' ');
-		++i;
-	}
-}
-
-void	create_stack(int argc, char **argv, t_stack *stack)
+int	create_stack(int argc, char **argv, t_stack *stack)
 {
 	int	i;
 	int	j;
 
-	i = 1;
-	j = 0;
 	stack->a = (int *)malloc(sizeof(int) * stack->bottom);
 	stack->b = (int *)malloc(sizeof(int) * stack->bottom);
 	if (!stack->a || !stack->b)
 		exit(1);
-	//if (argv[i]) // if contains space we want to call another function
-	//	arg_string(argc, stack);
 	i = 1;
-	if (ft_memchr(argv[i], ' ', ft_strlen(argv[i])) != NULL)
+	j = 0;
+	while (i < argc)
 	{
-		while (i < argc)
-		{
-			stack->a[j] = ft_atoi(argv[i]);
-			stack->b[j] = 0;
-			++j;
-			++i;
-		}
+		if (initialize_stacks(argv, stack, i, &j) == ERROR)
+			return (ERROR);
+		++i;
 	}
-	stack->top_a = 0;
-	stack->top_b = j;
-	stack->a_empty = FALSE;
-	stack->b_empty = TRUE;
+	return (0);
 }

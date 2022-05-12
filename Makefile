@@ -24,12 +24,14 @@ SRC += $(C)instruction_check.c
 SRC += $(CO)valid_input_checker.c
 SRC += $(CO)create_stack.c
 SRC += $(CO)solve_stack.c
+SRC += $(CO)check_if_solved.c
 
 SRC2 = $(S)main.c
 SRC2 += $(S)sort_stack.c
 SRC2 += $(CO)valid_input_checker.c
 SRC2 += $(CO)create_stack.c
 SRC2 += $(CO)solve_stack.c
+SRC2 += $(CO)check_if_solved.c
 
 MAKELIB = make -C libft/ fclean && make -C libft/
 

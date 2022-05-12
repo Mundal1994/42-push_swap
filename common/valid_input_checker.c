@@ -12,15 +12,6 @@
 
 #include "common.h"
 
-/*	error printing message	*/
-
-int	error(t_stack *stack)
-{
-	free(stack);
-	ft_putstr_fd("Error\n", 2);
-	return (ERROR);
-}
-
 /*	checks if integer is bigger than an int	*/
 
 static int	bigger_than_int(char *argv, t_stack *stack, int len)
@@ -48,59 +39,6 @@ static int	bigger_than_int(char *argv, t_stack *stack, int len)
 			return (error(stack));
 		else if (argv[0] != '-' && len >= 10 && ft_strcmp(argv, "2147483647") > 0)
 			return (error(stack));
-	}
-	return (0);
-}
-
-/*	checks if there are any duplicate digits	*/
-
-static int	duplicates_checker(int argc, char **argv, t_stack *stack, int i)
-{
-	int	begin;
-	int	count;
-	int	j;
-	int	len;
-
-	begin = i;
-	len = ft_strlen_stop(argv[begin], ' ');
-	if (ft_memchr(argv[begin], ' ', ft_strlen(argv[begin])) != NULL)
-	{
-		ft_putstr("hello");
-		count = ft_word_count(argv[i], ' ');
-		j = len;
-		while (i < argc)
-		{
-			while (j < count)
-			{
-				if (len == ft_strlen_stop(&argv[begin][j], ' '))
-					if (ft_strncmp(argv[begin], argv[i], len) == 0)
-						return (error(stack));
-				++j;
-			}
-			j += ft_strlen_stop(&argv[begin][j], ' ');
-			++i;
-		}
-	}
-	else
-	{
-		while (++i < argc)
-		{
-			ft_putstr("hello11");
-			if (ft_memchr(argv[i], ' ', ft_strlen(argv[i])) != NULL)
-			{
-				count = ft_word_count(argv[i], ' ');
-				j = 0;
-				while (j < count)
-				{
-					if (len == ft_strlen_stop(argv[i], ' '))
-						if (ft_strncmp(argv[begin], argv[i], len) == 0)
-							return (error(stack));
-					++j;
-				}
-			}
-			if (ft_strcmp(argv[begin], argv[i]) == 0)
-				return (error(stack));
-		}
 	}
 	return (0);
 }
@@ -136,16 +74,20 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 	int	len;
 
 	i = 1;
+	stack->bottom = 0;
 	while (i < argc)
 	{
+		stack->bottom += ft_word_count(argv[i], ' ');
 		len = ft_strlen(argv[i]);
 		if (digit_checker(argv[i], stack, len) == ERROR)
 			return (ERROR);
 		if (bigger_than_int(argv[i], stack, len) == ERROR)
 			return (ERROR);
-		if (duplicates_checker(argc, argv, stack, i) == ERROR)
-			return (ERROR);
 		++i;
 	}
+	stack->top_a = 0;
+	stack->top_b = stack->bottom;
+	stack->a_empty = FALSE;
+	stack->b_empty = TRUE;
 	return (0);
 }

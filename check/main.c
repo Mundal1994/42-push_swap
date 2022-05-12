@@ -21,12 +21,14 @@ int main(int argc, char **argv)
 		stack = malloc(sizeof(t_stack));
 		if (!stack)
 			exit(1);
-		element_counter(argc, argv, stack);
 		if (valid_input_checker(argc, argv, stack) == ERROR)
 			return (1);
-		create_stack(argc, argv, stack);
+		if (create_stack(argc, argv, stack) == ERROR)
+			return (1);
 		if (instruction_solve(stack) == ERROR)
 			return (1);
+		free(stack->a);
+		free(stack->b);
 		free(stack);
 	}
 	else
