@@ -64,7 +64,7 @@ static int	swap_push_check(char *line, int len, char c)
 	return (ERROR);
 }
 
-static int	valid_instruction_checker(char *line)
+static int	valid_instruction_checker(char *line, t_stack *stack)
 {
 	int	len;
 
@@ -74,17 +74,17 @@ static int	valid_instruction_checker(char *line)
 		case 's':
 			if (swap_push_check(line, len, 's') == 0)
 				return (0);
-			return (error());
+			return (error(stack));
 		case 'p':
 			if (swap_push_check(line, len, 'p') == 0)
 				return (0);
-			return (error());
+			return (error(stack));
 		case 'r':
 			if (rotate_check(line, len) == 0)
 				return (0);
-			return (error());
+			return (error(stack));
 		default:
-			return (error());
+			return (error(stack));
 	}
 }
 
@@ -107,12 +107,12 @@ int	instruction_solve(t_stack *stack)
 		}
 		if (line == '\0')
 			break ;
-		if (valid_instruction_checker(line) == ERROR)
+		if (valid_instruction_checker(line, stack) == ERROR)
 			return (1);
 		solve_stack(stack, line);
 		free(line);
 	}
-	if (check_if_solved(stack, 'c') == ERROR)
+	if (check_if_solved(stack, 'c', 'c') == ERROR)
 		return (ERROR);
 	return (0);
 }

@@ -18,11 +18,12 @@ int main(int argc, char **argv)
 
 	if (argc > 1)
 	{
-		if (valid_input_checker(argc, argv) == ERROR)
-			return (1);
 		stack = malloc(sizeof(t_stack));
 		if (!stack)
 			exit(1);
+		element_counter(argc, argv, stack);
+		if (valid_input_checker(argc, argv, stack) == ERROR)
+			return (1);
 		create_stack(argc, argv, stack);
 		if (instruction_solve(stack) == ERROR)
 			return (1);

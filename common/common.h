@@ -32,10 +32,11 @@ typedef struct s_instruction
 	char		*instr;
 } t_instruction;
 
-int		valid_input_checker(int argc, char **argv);
-int		error(void);
-int		check_if_solved(t_stack *stack, char c);
+int		valid_input_checker(int argc, char **argv, t_stack *stack);
+int		error(t_stack *stack);
+int		check_if_solved(t_stack *stack, char c, char check);
 void	create_stack(int argc, char **argv, t_stack *stack);
 void	solve_stack(t_stack *stack, char *line);
+void	element_counter(int argc, char **argv, t_stack *stack);
 
 #endif

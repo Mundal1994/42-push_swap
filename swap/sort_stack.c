@@ -16,9 +16,6 @@ static void	divide_calculater(t_stack *stack, int *divider)
 	else
 		below = stack->bottom - (stack->bottom / 4);
 	i = 0;
-	/*ft_putstr("below: ");
-	ft_putnbr(below);
-	ft_putchar('\n');*/
 	while (*divider == -2147483648 && below != -2147483648 && i < stack->bottom)
 	{
 		nbr = stack->a[i];
@@ -36,25 +33,58 @@ static void	divide_calculater(t_stack *stack, int *divider)
 	}
 }
 
+//function that lets me know if the element belov is either heigher or lower
+// than current number. 
+// function that return 1 if the number below is the number closests to current number because if it is we don't want to put in to stack b
+
+static int	ordered(int *a, int *b, int top, int bottom)
+{
+	int	nbr;
+	int	orig;
+
+	orig = a[0];
+	nbr = a[1];
+	top += 2;
+	if (orig > nbr)
+	{
+		while (top < bottom)
+		{/*
+			ft_putstr("orig: ");
+	ft_putnbr(orig);
+			ft_putchar('\n');
+			ft_putstr("nbr: ");
+			ft_putnbr(nbr);
+			ft_putchar('\n');
+			ft_putnbr(b[top]);
+			ft_putchar('\n');*/
+			if (b[top] > nbr && b[top] < orig)
+				return (FALSE);
+			++top;
+		}
+	}
+	else
+	{
+		while (top < bottom)
+		{
+			if (b[top] < nbr && b[top] > orig)
+				return (FALSE);
+			++top;
+		}
+	}
+	return (TRUE);
+}
+
 void	sort_stack(t_stack *stack)
 {
 	int	divider;
-	int	div;
 
 	divider = -2147483648;
 	divide_calculater(stack, &divider);
-	ft_putnbr(divider);
-	ft_putchar('\n');
-	while (check_if_solved(stack, 'p') == ERROR)
+	while (check_if_solved(stack, 'p', 'c') == ERROR)
 	{
 		//make a check for if b is in order
-		if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider)
-		{
-			// if a is in order we need to stop this one and start pushing from b to a
-			solve_stack(stack, "pa");
-			ft_putstr("pa");
-		}
-		else if (stack->a_empty == FALSE && stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+		
+		if (stack->a_empty == FALSE && stack->a[stack->top_a] > stack->a[stack->top_a + 1])
 		{
 			if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 			{
@@ -72,14 +102,24 @@ void	sort_stack(t_stack *stack)
 			solve_stack(stack, "sb");
 			ft_putstr("sb");
 		}
+		else if (stack->b_empty == FALSE && ordered(&stack->b[stack->top_b], stack->a, stack->top_a - 2, stack->bottom) == TRUE && check_if_solved(stack, 'p', 'p') == 0)
+		{
+			solve_stack(stack, "pa");
+			ft_putstr("pa");
+		}
+		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE && check_if_solved(stack, 'p', 'p') == ERROR)
+		{
+			// if a is in order we need to stop this one and start pushing from b to a
+			solve_stack(stack, "pb");
+			ft_putstr("pb");
+		}
 		ft_putchar('\n');
 	}
-	ft_putnbr(stack->a[0]);
-	ft_putnbr(stack->a[1]);
-	ft_putnbr(stack->a[2]);
 }
 
 /*
+
+rust is a good language to learn
 
 i = 1;
 	j = 0;

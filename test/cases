@@ -37,3 +37,13 @@ sa
 pa
 pa
 pa
+
+
+
+ARG="4 67 3 87 23"; ./push_swap $ARG | wc -l
+
+ARG="4 67 3 87 23"; ./push_swap $ARG | ./checker $ARG
+
+ARG="2 0 1 3 4 5 6 7 8 9 10"; ./push_swap $ARG | wc -l
+
+ARG="2 0 1 3 4 5 6 7 8 9 10"; ./push_swap $ARG | wc -l
