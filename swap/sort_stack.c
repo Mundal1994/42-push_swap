@@ -36,7 +36,7 @@ static void	divide_calculater(t_stack *stack, int *divider)
 //function that lets me know if the element belov is either heigher or lower
 // than current number. 
 // function that return 1 if the number below is the number closests to current number because if it is we don't want to put in to stack b
-
+/*
 static int	ordered(int *a, int *b, int top, int bottom)
 {
 	int	nbr;
@@ -48,15 +48,7 @@ static int	ordered(int *a, int *b, int top, int bottom)
 	if (orig > nbr)
 	{
 		while (top < bottom)
-		{/*
-			ft_putstr("orig: ");
-	ft_putnbr(orig);
-			ft_putchar('\n');
-			ft_putstr("nbr: ");
-			ft_putnbr(nbr);
-			ft_putchar('\n');
-			ft_putnbr(b[top]);
-			ft_putchar('\n');*/
+		{
 			if (b[top] > nbr && b[top] < orig)
 				return (FALSE);
 			++top;
@@ -73,7 +65,7 @@ static int	ordered(int *a, int *b, int top, int bottom)
 	}
 	return (TRUE);
 }
-
+*/
 void	sort_stack(t_stack *stack)
 {
 	int	divider;
@@ -83,10 +75,14 @@ void	sort_stack(t_stack *stack)
 	while (check_if_solved(stack, 'c') == ERROR)
 	{
 		//make a check for if b is in order
-		
-		if (stack->a_empty == FALSE && stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+		if (stack->b_empty == FALSE && check_if_solved(stack, 'p') == 0)//ordered(&stack->b[stack->top_b], stack->a, stack->top_a - 2, stack->bottom) == TRUE
 		{
-			if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
+			solve_stack(stack, "pa");
+			ft_putstr("pa");
+		}
+		else if (stack->a_empty == FALSE && stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+		{
+			if (stack->b_empty == FALSE && stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 			{
 				solve_stack(stack, "ss");
 				ft_putstr("ss");
@@ -97,17 +93,12 @@ void	sort_stack(t_stack *stack)
 				ft_putstr("sa");
 			}
 		}
-		else if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
+		else if (stack->b_empty == FALSE && stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 		{
 			solve_stack(stack, "sb");
 			ft_putstr("sb");
 		}
-		else if (stack->b_empty == FALSE && ordered(&stack->b[stack->top_b], stack->a, stack->top_a - 2, stack->bottom) == TRUE && check_if_solved(stack, 'p') == 0)
-		{
-			solve_stack(stack, "pa");
-			ft_putstr("pa");
-		}
-		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE && check_if_solved(stack, 'p') == ERROR)
+		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && check_if_solved(stack, 'p') == ERROR)//ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE
 		{
 			// if a is in order we need to stop this one and start pushing from b to a
 			solve_stack(stack, "pb");

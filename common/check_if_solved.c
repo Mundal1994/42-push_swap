@@ -37,7 +37,7 @@ int	check_if_solved(t_stack *stack, char check)
 
 	if (check == 'c')
 	{
-		if (stack->b_empty == ERROR)
+		if (stack->b_empty == FALSE)
 			return (ERROR);
 	}
 	i = 1;

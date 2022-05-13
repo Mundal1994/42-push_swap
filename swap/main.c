@@ -26,7 +26,12 @@ int	main(int argc, char **argv)
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
 		sort_stack(stack);
-
+		if (stack->a)
+			free(stack->a);
+		if (stack->b)
+			free(stack->b);
+		if (stack)
+			free(stack);
 		/*
 			maybe sort into two stacks... i move everything from one stack to the other wait.... i can only move top element...
 			would be nice if i could get all the lower numbers to stack b and then sort them in opposet of ascending order that way it is easy to add them to stack a
@@ -46,9 +51,6 @@ int	main(int argc, char **argv)
 
 			when both are sorted we move everything from b to a
 		*/
-		free(stack->a);
-		free(stack->b);
-		free(stack);
 	}
 	else
 		ft_putstr_fd("Usage: ./push_swap nbr1 nbr2 ...\n", 1);
