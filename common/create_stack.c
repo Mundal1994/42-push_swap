@@ -12,20 +12,6 @@
 
 #include "common.h"
 
-/*	error printing message	*/
-
-int	error(t_stack *stack, int i)
-{
-	if (i == 1)
-	{
-		free(stack->a);
-		free(stack->b);
-	}
-	free(stack);
-	ft_putstr_fd("Error\n", 2);
-	return (ERROR);
-}
-
 /*	checks if there are any duplicate digits	*/
 
 static int	duplicates_checker(t_stack *stack, int j)

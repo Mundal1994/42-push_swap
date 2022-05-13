@@ -12,6 +12,25 @@
 
 #include "common.h"
 
+/*	error printing message	*/
+
+int	error(t_stack *stack, int i)
+{
+	if (i == 1)
+	{
+		free(stack->a);
+		free(stack->b);
+	}
+	free(stack);
+	ft_putstr_fd("Error\n", 2);
+	return (ERROR);
+}
+
+/*
+**	checks if stack a has been solved and depending on when the check occurs
+**	stack b will be checked if it is empty or not as well
+*/
+
 int	check_if_solved(t_stack *stack, char check)
 {
 	int	i;

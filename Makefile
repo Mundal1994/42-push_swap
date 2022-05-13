@@ -20,7 +20,7 @@ S = swap/
 CO = common/
 
 SRC = $(C)main.c
-SRC += $(C)instruction_check.c
+SRC += $(C)instruction_solve.c
 SRC += $(CO)valid_input_checker.c
 SRC += $(CO)create_stack.c
 SRC += $(CO)solve_stack.c
