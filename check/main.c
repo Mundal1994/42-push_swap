@@ -15,6 +15,7 @@
 int main(int argc, char **argv)
 {
 	t_stack	*stack;
+	int		ret;
 
 	if (argc > 1)
 	{
@@ -25,11 +26,19 @@ int main(int argc, char **argv)
 			return (1);
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
-		if (instruction_solve(stack) == ERROR)
+		ret = instruction_solve(stack);
+		if (ret == ERROR)
 			return (1);
-		free(stack->a);
-		free(stack->b);
-		free(stack);
+		else if (ret == 1)
+			ft_putstr("KO\n");
+		else
+			ft_putstr("OK\n");
+		if (stack->a)
+			free(stack->a);
+		if (stack->b)
+			free(stack->b);
+		if (stack)
+			free(stack);
 	}
 	else
 		ft_putstr_fd("Usage: ./checker nbr1 nbr2 ...\n", 1);

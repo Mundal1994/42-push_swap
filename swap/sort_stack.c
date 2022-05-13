@@ -80,7 +80,7 @@ void	sort_stack(t_stack *stack)
 
 	divider = -2147483648;
 	divide_calculater(stack, &divider);
-	while (check_if_solved(stack, 'p', 'c') == ERROR)
+	while (check_if_solved(stack, 'c') == ERROR)
 	{
 		//make a check for if b is in order
 		
@@ -102,12 +102,12 @@ void	sort_stack(t_stack *stack)
 			solve_stack(stack, "sb");
 			ft_putstr("sb");
 		}
-		else if (stack->b_empty == FALSE && ordered(&stack->b[stack->top_b], stack->a, stack->top_a - 2, stack->bottom) == TRUE && check_if_solved(stack, 'p', 'p') == 0)
+		else if (stack->b_empty == FALSE && ordered(&stack->b[stack->top_b], stack->a, stack->top_a - 2, stack->bottom) == TRUE && check_if_solved(stack, 'p') == 0)
 		{
 			solve_stack(stack, "pa");
 			ft_putstr("pa");
 		}
-		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE && check_if_solved(stack, 'p', 'p') == ERROR)
+		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE && check_if_solved(stack, 'p') == ERROR)
 		{
 			// if a is in order we need to stop this one and start pushing from b to a
 			solve_stack(stack, "pb");

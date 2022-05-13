@@ -34,18 +34,18 @@ int	main(int argc, char **argv)
 		*/
 
 
-	/*
-		check what number has argc / 2 amount of numbers below it
-		we then keep either switching the two things in the beginning of the string
-		OR
-		if it is below that number we located in the beginning we move it to stack b
+		/*
+			check what number has argc / 2 amount of numbers below it
+			we then keep either switching the two things in the beginning of the string
+			OR
+			if it is below that number we located in the beginning we move it to stack b
 
-		as stack b will get filled up it will go through same process as stack a.
-		keep rotating what is on top and keep switching position of numbers until everything is sorted in ascending order in stack a
-		stack be will be sorted in descending order.
+			as stack b will get filled up it will go through same process as stack a.
+			keep rotating what is on top and keep switching position of numbers until everything is sorted in ascending order in stack a
+			stack be will be sorted in descending order.
 
-		when both are sorted we move everything from b to a
-	*/
+			when both are sorted we move everything from b to a
+		*/
 		free(stack->a);
 		free(stack->b);
 		free(stack);

@@ -14,12 +14,13 @@
 
 /*	error printing message	*/
 
-int	error(t_stack *stack)
+int	error(t_stack *stack, int i)
 {
-	if (stack->a)
+	if (i == 1)
+	{
 		free(stack->a);
-	if (stack->b)
 		free(stack->b);
+	}
 	free(stack);
 	ft_putstr_fd("Error\n", 2);
 	return (ERROR);
@@ -55,7 +56,7 @@ static int	initialize_stacks(char **argv, t_stack *stack, int i, int *j)
 			stack->a[*j] = ft_atoi(&argv[i][k]);
 			stack->b[*j] = 0;
 			if (duplicates_checker(stack, *j) == ERROR)
-				return (error(stack));
+				return (ERROR);
 			k += ft_strlen_stop(&argv[i][k], ' ') + 1;
 			++(*j);
 		}
@@ -65,7 +66,7 @@ static int	initialize_stacks(char **argv, t_stack *stack, int i, int *j)
 		stack->a[*j] = ft_atoi(argv[i]);
 		stack->b[*j] = 0;
 		if (duplicates_checker(stack, *j) == ERROR)
-			return (error(stack));
+			return (ERROR);
 		++(*j);
 	}
 	return (0);
@@ -87,7 +88,7 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 	while (i < argc)
 	{
 		if (initialize_stacks(argv, stack, i, &j) == ERROR)
-			return (ERROR);
+			return (error(stack, 1));
 		++i;
 	}
 	return (0);

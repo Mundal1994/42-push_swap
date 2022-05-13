@@ -14,7 +14,7 @@
 
 /*	checks if integer is bigger than an int	*/
 
-static int	bigger_than_int(char *argv, t_stack *stack, int len)
+static int	bigger_than_int(char *argv, int len)
 {
 	int	nbr_len;
 	int	i;
@@ -26,9 +26,9 @@ static int	bigger_than_int(char *argv, t_stack *stack, int len)
 		while (i < len)
 		{
 			if (argv[i] == '-' && nbr_len >= 11 && ft_strncmp(&argv[i], "-2147483648", nbr_len) > 0)
-				return (error(stack));
+				return (ERROR);
 			else if (argv[i] != '-' && nbr_len >= 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) > 0)
-				return (error(stack));
+				return (ERROR);
 			i += nbr_len + 1;
 			nbr_len = ft_strlen_stop(&argv[i], ' ');
 		}
@@ -36,16 +36,16 @@ static int	bigger_than_int(char *argv, t_stack *stack, int len)
 	else
 	{
 		if (argv[0] == '-' && len >= 11 && ft_strcmp(argv, "-2147483648") > 0)
-			return (error(stack));
+			return (ERROR);
 		else if (argv[0] != '-' && len >= 10 && ft_strcmp(argv, "2147483647") > 0)
-			return (error(stack));
+			return (ERROR);
 	}
 	return (0);
 }
 
 /*	checks if it is only digits	*/
 
-static int	digit_checker(char *argv, t_stack *stack, int len)
+static int	digit_checker(char *argv, int len)
 {
 	int	j;
 
@@ -61,7 +61,7 @@ static int	digit_checker(char *argv, t_stack *stack, int len)
 		else if (argv[j] == '-' && ft_isdigit(argv[j + 1]) == 1)
 			++j;
 		else
-			return (error(stack));
+			return (ERROR);
 	}
 	return (0);
 }
@@ -77,12 +77,13 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 	stack->bottom = 0;
 	while (i < argc)
 	{
-		stack->bottom += ft_word_count(argv[i], ' ');
+		if (argc)
+			stack->bottom += ft_word_count(argv[i], ' ');
 		len = ft_strlen(argv[i]);
-		if (digit_checker(argv[i], stack, len) == ERROR)
-			return (ERROR);
-		if (bigger_than_int(argv[i], stack, len) == ERROR)
-			return (ERROR);
+		if (digit_checker(argv[i], len) == ERROR)
+			return (error(stack, 0));
+		if (bigger_than_int(argv[i], len) == ERROR)
+			return (error(stack, 0));
 		++i;
 	}
 	stack->top_a = 0;
