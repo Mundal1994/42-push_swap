@@ -72,39 +72,73 @@ void	sort_stack(t_stack *stack)
 
 	divider = -2147483648;
 	divide_calculater(stack, &divider);
-	while (check_if_solved(stack, 'c') == ERROR)
+	int i = 0;
+	while (i++ < 10 && check_if_solved(stack, 'c') == ERROR)
 	{
 		//make a check for if b is in order
 		if (stack->b_empty == FALSE && check_if_solved(stack, 'p') == 0)//ordered(&stack->b[stack->top_b], stack->a, stack->top_a - 2, stack->bottom) == TRUE
 		{
 			solve_stack(stack, "pa");
-			ft_putstr("pa");
+			ft_putstr("pa\n");
+		}
+		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && check_if_solved(stack, 'p') == ERROR)//ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE
+		{
+			// if a is in order we need to stop this one and start pushing from b to a
+			solve_stack(stack, "pb");
+			ft_putstr("pb\n");
+			if (stack->a_empty == FALSE && stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+			{
+				if (stack->b_empty == FALSE && stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
+				{
+					solve_stack(stack, "ss");
+					ft_putstr("ss\n");
+				}
+				else
+				{
+					solve_stack(stack, "sa");
+					ft_putstr("sa\n");
+				}
+			}
+			else if (stack->b_empty == FALSE && stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
+			{
+				solve_stack(stack, "sb");
+				ft_putstr("sb\n");
+			}
+			//check if stack->b new top element is smaller than the stack->b bottom element
+			// if (!(stack->b[stack->top_b < stack->b[stack->bottom - 1] && stack->a[top_a] > stack->b[stacl->top_b] && stack->a[top_a] < stack->b[stack->bottom - 1]))
+			//	{
+/*
+					if (stack->b[stack->top_b < stack->b[stack->bottom - 1] && stack->a[top_a] < stack->a[stack->bottom - 1])
+						solve_stack(stack, "rr");
+						ft_putstr("rr\n");
+					else if (stack->b[stack->top_b < stack->b[stack->bottom - 1])
+						solve_stack(stack, "rb");
+						ft_putstr("rb\n");
+					else if (stack->a[top_a] < stack->a[stack->bottom - 1])
+						solve_stack(stack, "ra");
+						ft_putstr("ra\n");
+*/
+			//}
+			
 		}
 		else if (stack->a_empty == FALSE && stack->a[stack->top_a] > stack->a[stack->top_a + 1])
 		{
 			if (stack->b_empty == FALSE && stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 			{
 				solve_stack(stack, "ss");
-				ft_putstr("ss");
+				ft_putstr("ss\n");
 			}
 			else
 			{
 				solve_stack(stack, "sa");
-				ft_putstr("sa");
+				ft_putstr("sa\n");
 			}
 		}
 		else if (stack->b_empty == FALSE && stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 		{
 			solve_stack(stack, "sb");
-			ft_putstr("sb");
+			ft_putstr("sb\n");
 		}
-		else if (stack->a_empty == FALSE && stack->a[stack->top_a] < divider && check_if_solved(stack, 'p') == ERROR)//ordered(&stack->a[stack->top_a], stack->a, stack->top_a, stack->bottom) == FALSE
-		{
-			// if a is in order we need to stop this one and start pushing from b to a
-			solve_stack(stack, "pb");
-			ft_putstr("pb");
-		}
-		ft_putchar('\n');
 	}
 }
 
@@ -136,5 +170,70 @@ while loop
 4. switch top if wrong order (do with both stacks)
 5. rotate one way depending on where the next closest to middle number is (check is stack b also should rotate)
 6. 
+
+*/
+
+
+
+
+/*
+
+	identify the lowest number location and try to get that to the bottom
+	in the process of that move stuff in right order and move stuff to stack b
+	weather the computer chooses to use rra or ra depends on which way is closest for it to get there in least amount of moves
+	on the way the computer will check if any number is not in right order and will switch their position
+	depending on which way we rotate the way we will switch will also change
+
+	when lowest number is at the bottom 
+
+	ex if putting top element in the bottom
+		if (stack->a[top_a] < stack->a[top_a + 1])
+			if (stack->a[stack->top_a + 1] > stack->a[stack->bottom - 1])
+				switch(maybe also here with b_stack if possible)
+		if (stack->a[top_a] > stack->a[stack->bottom - 1])
+			reverse to bottom
+		else
+			push to b
+				//make sure b is in order and if moves make sense to do on both stacks it will be done here
+		to know weather to put current number to the bottom you check if the top number is bigger than the bottom number
+		
+	if puttting bottom to top
+		if (nbr < nbr + 1)
+			switch
+		else
+			keep position
+
+	when stack a bottom is correct slowly move stuff to stack b until stack is down to two ordered stacks
+	depending on which is longer we will do either rra or ra we rotate until the bottom ordered stack is on top and we will move stuff from stack b
+	if the other sorted stack isn't the end we will move when stack->b top is smaller than the stack-a[bottom];
+
+
+ALWAYS keep stack b in order as much as possible
+
+	5
+	3
+	6
+	4
+	2
+	0
+	1
+
+//rotate logic	
+	ra
+	pb
+	ra
+	pb
+	pb
+	rr
+	ra
+	pa
+	pa
+	pa
+	rra
+	rra
+
+
+
+
 
 */

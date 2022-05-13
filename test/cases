@@ -72,6 +72,24 @@ ARG="2 -50 1 5 6 7 8 9 10 11 12 13"; ./push_swap $ARG | wc -l
 ARG="2 0 1 5 3 4 6 9 10 11 12 13"; ./push_swap $ARG | ./checker $ARG
 OK
 ARG="2 0 1 5 3 4 6 9 10 11 12 13"; ./push_swap $ARG | wc -l
-      12
+      11
 
-	  
+ARG="2 0 1 5 3 4 6 9 10 11 12 13"; ./push_swap $ARG | ./checker $ARG
+
+ARG="2 0 1 5 3 4 6 9 10 11 12 13"; ./push_swap $ARG | wc -l
+
+
+./checker 5 3 6 4 2 0 1
+ra
+pb
+ra
+pb
+pb
+rr
+ra
+pa
+pa
+pa
+rra
+rra
+OK
