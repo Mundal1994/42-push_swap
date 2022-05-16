@@ -284,6 +284,9 @@ static void order_stack_b(t_stack *stack)
 	{
 		switch_stacks(stack, 'b');
 	}
+	// can make if statements to check if possible to push anythign to stack a
+	//ex if I'm either at the top of b or bottom and that is bigger than bottom of a stack og smaller than top of a stack
+	// that way i can keep shifting while trying to sort stack b
 }
 
 static void	stage_two_sorting(t_stack *stack)
