@@ -19,6 +19,15 @@ static int	duplicates_checker(t_stack *stack, int j)
 	int	i;
 
 	i = 0;
+	if (stack->a_small > stack->a_big)
+	{
+		stack->a_small = stack->a[0];
+		stack->a_big = stack->a[0];
+	}
+	else if (stack->a[j] < stack->a_small)
+		stack->a_small = stack->a[j];
+	else if (stack->a[j] > stack->a_big)
+		stack->a_big = stack->a[j];
 	while (i < j)
 	{
 		if (stack->a[i] == stack->a[j])
@@ -71,11 +80,17 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 		exit(1);
 	i = 1;
 	j = 0;
+	stack->a_small = 1;
+	stack->a_big = -1;
 	while (i < argc)
 	{
 		if (initialize_stacks(argv, stack, i, &j) == ERROR)
 			return (error(stack, 1));
 		++i;
 	}
+	stack->b_small = 1;
+	stack->b_smallB = 1;
+	stack->b_big = -1;
+	stack->b_bigB = -1;
 	return (0);
 }
