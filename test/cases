@@ -93,3 +93,78 @@ pa
 rra
 rra
 OK
+
+
+./push_swap 1 3 2 4 5
+rra
+pb
+pb
+ss
+pa
+ra
+pa
+
+7
+
+
+
+./checker -5 8 -6 9 -9 10 2 3 1 4 0 -4 5 -8
+rra
+pb
+pb
+rra
+rra
+pb
+rra
+pb
+rra
+rra
+pb
+rra
+rra
+rra
+pb
+rra
+pb
+rb
+rra
+rra
+sa
+ra
+pa
+ra
+ra
+pa
+pa
+pa
+pa
+rra
+pa
+pa
+
+32
+
+
+
+./checker 5 2 3 1 4
+
+
+
+
+
+./push_swap 1 4 2 3 6 5
+
+
+
+./push_swap 1 4 2 6 3 5
+
+
+./push_swap 1 4 2 6 3 5
+ARG="1 4 2 6 3 5"; ./push_swap $ARG | ./checker $ARG
+9
+
+
+ARG="2 1 3 5 4 8 10 9 7 -50 -20 6"; ./push_swap $ARG | ./checker $ARG
+
+
+remember to send skesuma the info about dhcp setup and also the package update thingy

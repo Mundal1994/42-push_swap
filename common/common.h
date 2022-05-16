@@ -43,5 +43,6 @@ int		error(t_stack *stack, int i);
 int		check_if_solved(t_stack *stack, char check);
 int		create_stack(int argc, char **argv, t_stack *stack);
 void	solve_stack(t_stack *stack, char *line);
+int		is_stack_solved(int *a, int i, int len);
 
 #endif
