@@ -166,5 +166,4 @@ ARG="1 4 2 6 3 5"; ./push_swap $ARG | ./checker $ARG
 
 ARG="2 1 3 5 4 8 10 9 7 -50 -20 6"; ./push_swap $ARG | ./checker $ARG
 
-
-remember to send skesuma the info about dhcp setup and also the package update thingy
+ARG="30 20 4 10 -9 3 -7 50 22 100"; ./push_swap $ARG | ./checker $ARG
