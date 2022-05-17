@@ -64,8 +64,6 @@ int	check_if_solved(t_stack *stack, char check)
 			{
 				stack->median = temp_median;
 				stack->median_nbr = stack->a[stack->top_a + stack->median - 1];
-				ft_putnbr(stack->median);
-	ft_putchar('\n');
 			}
 			return (ERROR);
 		}

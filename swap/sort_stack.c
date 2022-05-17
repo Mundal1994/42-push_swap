@@ -464,7 +464,7 @@ void	sort_stack(t_stack *stack)
 			++stage;
 		if (stage == 1)
 		{
-			ft_putstr("stage1\n");
+			//ft_putstr("stage1\n");
 			stage_one_sorting(stack);
 	// 		ft_putstr("\n");
 	// 		ft_putnbr(stack->a[0]);
@@ -481,7 +481,7 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[stack->bottom - 3]);
 	// ft_putnbr(stack->a[stack->bottom - 2]);
 	// ft_putnbr(stack->a[stack->bottom - 1]);
-			ft_putstr("stage2\n");
+			//ft_putstr("stage2\n");
 			stage_two_sorting(stack);
 		}
 	}
