@@ -92,5 +92,7 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 	stack->b_smallB = 1;
 	stack->b_big = -1;
 	stack->b_bigB = -1;
+	stack->median = 0;
+	stack->median_nbr = 0;
 	return (0);
 }

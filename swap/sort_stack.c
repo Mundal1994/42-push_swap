@@ -149,6 +149,11 @@ static void	switch_stacks(t_stack *stack, char c)
 		{
 			solve_stack(stack, "sa");
 			ft_putstr("sa\n");
+			if (stack->b[stack->top_b] < stack->b[stack->bottom - 1])
+			{
+				solve_stack(stack, "rb");
+				ft_putstr("rb\n");
+			}
 		}
 	}
 	else
@@ -188,7 +193,7 @@ static void	rotate_stacks(t_stack *stack, char c)
 	}
 }
 
-static int	rotate_b_to_pos(t_stack *stack)
+static int	rotate_b_to_pos(t_stack *stack, int nbr)
 {
 	int	offset_d;
 	int	offset_r;
@@ -199,9 +204,9 @@ static int	rotate_b_to_pos(t_stack *stack)
 	offset_r = 0;
 	while (i < stack->bottom)
 	{
-		if (stack->a[stack->top_a] < stack->b[i])
+		if (nbr < stack->b[i])
 			++offset_r;
-		if (stack->a[stack->top_a] > stack->b[i])
+		if (nbr > stack->b[i])
 			++offset_d;
 		++i;
 	}
@@ -213,13 +218,13 @@ static int	rotate_b_to_pos(t_stack *stack)
 		return (offset_d *= -1);
 }
 
-static int	check_stack_b(t_stack *stack)
+static int	check_stack_b(t_stack *stack, int nbr)
 {
 	int	offset;
 	int	d;
 
 	d = ERROR;
-	offset = rotate_b_to_pos(stack);
+	offset = rotate_b_to_pos(stack, nbr);
 	if (offset < 0)
 	{
 		offset *= -1;
@@ -278,7 +283,29 @@ static void	stage_one_sorting(t_stack *stack)
 	*/
 	int	d;
 
-	if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
+// go from bottom / still need to figure out it i want to rotate stack b or not
+	if (stack->median > ((stack->bottom - stack->top_a) / 2))
+	{
+		if (stack->a[stack->bottom - 1] == stack->median_nbr)
+		{
+			rotate_stacks(stack, 'r');
+		}
+		else
+		{
+			rotate_stacks(stack, 'd');
+			if (stack->a[stack->top_a] != stack->a_big)
+			{
+				d = check_stack_b(stack, stack->a[stack->top_a]);
+				push_and_update(stack, 'b');
+				// need to cheeck if this is correct
+				if (!(stack->a[stack->bottom - 1] < stack->b[stack->bottom - 1] && stack->a[stack->bottom - 1] > stack->b[stack->top_b]))
+					rotate_stack_b_orig(stack, d);
+			}
+		}
+		
+		//stack->a[stack->top_a + stack->median]
+	}
+	else if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
 	{
 		push_and_update(stack, 'a');
 	}
@@ -297,7 +324,7 @@ static void	stage_one_sorting(t_stack *stack)
 	}
 	else if (stack->a[stack->top_a] < stack->b_small && stack->bottom - stack->top_a > 4 && stack->b_empty == FALSE)
 	{
-		d = check_stack_b(stack);
+		d = check_stack_b(stack, stack->a[stack->top_a]);
 		push_and_update(stack, 'b');
 		// check if same can be done for stack a
 		if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
@@ -319,7 +346,7 @@ static void	stage_one_sorting(t_stack *stack)
 		}
 		else
 		{
-			d = check_stack_b(stack);
+			d = check_stack_b(stack, stack->a[stack->top_a]);
 			push_and_update(stack, 'b');
 			//if same can be done for stack b do rrr else
 			rotate_stacks(stack, 'd');
@@ -337,7 +364,7 @@ static void	stage_one_sorting(t_stack *stack)
 			if stack->b[top_a] != stack->b_heigh
 				rrb or rb
 			*/
-			d = check_stack_b(stack);
+			d = check_stack_b(stack, stack->a[stack->top_a]);
 			push_and_update(stack, 'b');
 			rotate_stack_b_orig(stack, d);
 		/*}
@@ -370,6 +397,7 @@ static void order_stack_b(t_stack *stack)
 	{
 		switch_stacks(stack, 'b');
 	}
+	
 	// can make if statements to check if possible to push anythign to stack a
 	//ex if I'm either at the top of b or bottom and that is bigger than bottom of a stack og smaller than top of a stack
 	// that way i can keep shifting while trying to sort stack b
@@ -436,21 +464,32 @@ void	sort_stack(t_stack *stack)
 			++stage;
 		if (stage == 1)
 		{
-			stage_one_sorting(stack);
-			//solve_stack(stack, "sb");
 			ft_putstr("stage1\n");
+			stage_one_sorting(stack);
+	// 		ft_putstr("\n");
+	// 		ft_putnbr(stack->a[0]);
+	// ft_putnbr(stack->a[stack->top_a]);
+	// ft_putnbr(stack->a[stack->top_a + 1]);
+	// ft_putnbr(stack->a[stack->bottom - 2]);
+	// ft_putnbr(stack->a[stack->bottom - 1]);
 		}
 		else if (stage == 2)
 		{
-			stage_two_sorting(stack);
+	// 		ft_putstr("\n");
+	// 		ft_putnbr(stack->a[0]);
+	// ft_putnbr(stack->a[stack->bottom - 4]);
+	// ft_putnbr(stack->a[stack->bottom - 3]);
+	// ft_putnbr(stack->a[stack->bottom - 2]);
+	// ft_putnbr(stack->a[stack->bottom - 1]);
 			ft_putstr("stage2\n");
+			stage_two_sorting(stack);
 		}
 	}
-	ft_putnbr(stack->a[0]);
+	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);
 	ft_putnbr(stack->a[2]);
 	ft_putnbr(stack->a[3]);
-	ft_putnbr(stack->a[4]);
+	ft_putnbr(stack->a[4]);*/
 }
 
 /*
