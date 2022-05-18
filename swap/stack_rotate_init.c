@@ -12,24 +12,25 @@
 
 #include "push_swap.h"
 
-/*	calculates quickest way to get a specific number to be at the bottom	*/
+/*
+**	calculates quickest way to get a specific number to be at the bottom
+**	or find index where a number from one stack would fit into another
+*/
 
 int	calc_rr_or_rrr(t_stack *stack, int *a, int nbr, int top_a)
 {
 	int	i;
-	int	found;
 	int	save;
 
-	found = FALSE;
 	i = top_a;
+	save = stack->bottom;
 	while (i < stack->bottom)
 	{
-		if (a[i] > nbr && a[i + 1] < nbr)
-			save = i;
+		if (i != top_a && i < stack->bottom - 1 && a[i] > nbr && a[i + 1] < nbr)
+			save = i - top_a;//not sure this has to be minus top_a
 		if (a[i] == nbr)
 		{
-			save += i + 1;
-			found = TRUE;
+			save = i - top_a;
 			break ;
 		}
 		++i;
@@ -113,7 +114,6 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 		else if (d == TRUE)
 			while (a[stack->bottom - 1] < a[stack->top_a])
 				stack_rotate_push(stack, c, 'd');
-		//we have stack a as the focus
 	}
 	else
 	{
@@ -124,6 +124,5 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 		else if (d == TRUE)
 			while (a[stack->bottom - 1] > a[stack->top_b])
 				stack_rotate_push(stack, c, 'd');
-		//we have stack b as the focus
 	}
 }

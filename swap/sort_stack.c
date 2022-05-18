@@ -30,6 +30,8 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	(c[i] != stack->b_small && c_char == 'b')))
 		++i;
 	++i;
+	if (c_char == 'b')
+		++i;
 	while (i < stack->bottom)
 	{
 		if (checks_order(c, i, c_char) == ERROR)
@@ -38,7 +40,7 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	}
 	i = top_c + 1;
 	while ((c[i] != stack->a_small && c_char == 'a') || \
-	(c[i] != stack->b_small && c_char == 'b'))
+	(c[i - 1] != stack->b_small && c_char == 'b'))
 	{
 		if (checks_order(c, i, c_char) == ERROR)
 			return (ERROR);
@@ -69,7 +71,9 @@ static void update_variables(t_stack *stack)
 static void	stage_two_median(t_stack *stack)
 {
 	if (stack->a[stack->bottom - 1] == stack->median_nbr)
+	{
 		stack_rotate_init(stack, stack->a, stack->a_bigB, 'a');
+	}
 	else
 	{
 		rotate_stacks(stack, 'd', 'a');
@@ -84,31 +88,16 @@ static void	stage_two_median(t_stack *stack)
 	}
 }
 
-static void order_stack_b(t_stack *stack)
-{
-	// make it in order but if at any point it makes sense to push to stack a then do it
-	
-	//maybe first check if everything is in order but just need to be rotated to correct position
-	if (check_if_ordered(stack, stack->b, stack->top_b, 'b') == 1)
-		stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-	else if (stack->b[stack->top_b + 1] > stack->b[stack->top_b])
-	{
-		switch_stacks(stack, 'b');
-	}
-	//stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-	// can make if statements to check if possible to push anythign to stack a
-	//ex if I'm either at the top of b or bottom and that is bigger than bottom of a stack og smaller than top of a stack
-	// that way i can keep shifting while trying to sort stack b
-}
-
-static void	stage_three_merge(t_stack *stack)
+static void	stage_three_sort_b(t_stack *stack)
 {
 	int	count;
 
 	count = 1;
-	while (stack->b_empty == FALSE && is_stack_solved(stack->b, stack->top_b + 1, stack->bottom) == ERROR)
-		order_stack_b(stack);
-	if (stack->b_empty == FALSE)
+	if (stack->b_empty == FALSE && check_if_ordered(stack, stack->b, stack->top_b, 'b') == 1)
+	{
+		stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+	}
+	else if (stack->b_empty == FALSE)
 	{
 		if (stack->a[stack->bottom - 1] > stack->b[stack->top_b] && stack->a[stack->bottom - 2] < stack->b[stack->top_b])
 		{
@@ -156,7 +145,45 @@ make a function that checks if everyhting is in order but just wrongly rotated
 if so call the function that i created that will rotate it to correct position
 */
 
+static void	stage_four_merge(t_stack *stack)
+{
+	int	d;
 
+	if (stack->b[stack->top_b] > stack->a[stack->bottom - 1])
+	{
+		push_and_update(stack, 'a');
+		solve_and_print(stack, "ra");
+	}
+	else if (stack->b[stack->top_b] < stack->a[stack->top_a])
+	{
+		push_and_update(stack, 'a');
+	}
+	else
+	{
+		if (stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a])
+		{
+			solve_and_print(stack, "ra");
+			while (stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
+				push_and_update(stack, 'a');
+			solve_and_print(stack, "rra");
+		}
+		else
+		{
+			// this below doesnt work
+			d = calc_rr_or_rrr(stack, stack->a, stack->b[stack->top_b], stack->top_a);
+			if (d == FALSE)
+				while (!(stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a]))
+					solve_and_print(stack, "ra");
+			else if (d == TRUE)
+				while (!(stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a]))
+					solve_and_print(stack, "rra");
+			while (stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
+				push_and_update(stack, 'a');
+			//rotate stack a to fit whatever you push from stack b
+			//when that is finished we rotate stack a to original position
+		}
+	}
+}
 
 void	sort_stack(t_stack *stack)
 {
@@ -172,20 +199,26 @@ void	sort_stack(t_stack *stack)
 		ft_putnbr(stack->a[stack->bottom - 3]);
 		ft_putnbr(stack->a[stack->bottom - 2]);
 		ft_putnbr(stack->a[stack->bottom - 1]);*/
-		if (check_if_ordered(stack, stack->a, stack->top_a, 'a') == 1)
+		check_if_solved(stack, 'p');
+		if (check_if_ordered(stack, stack->a, stack->top_a, 'a') == 1 && \
+		check_if_ordered(stack, stack->b, stack->top_b, 'b') == 1)
+		{
+			stage = 4;
+		}
+		else if (check_if_ordered(stack, stack->a, stack->top_a, 'a') == 1)
 		{
 			if (stack->b_empty == FALSE)
 				stage = 3;
 			else
 				stage = 4;
 		}
-		if (check_if_solved(stack, 'p') != ERROR)
+		/*if (check_if_solved(stack, 'p') != ERROR)
 		{
 			if (stack->b_empty == FALSE)
 				stage = 3;
 			else
 				stage = 4;
-		}
+		}*/
 		if (stage == 1 && stack->median > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2)))
 			++stage;
 		if (stage == 1)
@@ -207,17 +240,25 @@ void	sort_stack(t_stack *stack)
 		}
 		else if (stage == 3)
 		{
-	// 		ft_putstr("\n");
-	// 		ft_putnbr(stack->a[0]);
-	// ft_putnbr(stack->a[stack->bottom - 4]);
-	// ft_putnbr(stack->a[stack->bottom - 3]);
-	// ft_putnbr(stack->a[stack->bottom - 2]);
-	// ft_putnbr(stack->a[stack->bottom - 1]);
 			//ft_putstr("stage3\n");
-			stage_three_merge(stack);
+			stage_three_sort_b(stack);
 		}
 		else if (stage == 4)
-			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+		{
+			//ft_putstr("stage4\n");
+			// is it important to rotate stack a? maybe yes
+			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+			stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+			stage_four_merge(stack);
+			if (stack->b_empty == TRUE)
+				stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+			//ft_putstr("\n");
+	// ft_putnbr(stack->b[stack->bottom - 4]);
+	// ft_putnbr(stack->b[stack->bottom - 3]);
+	// ft_putnbr(stack->b[stack->bottom - 2]);
+	// ft_putnbr(stack->b[stack->bottom - 1]);
+	// exit(0);
+		}
 	}
 	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);
