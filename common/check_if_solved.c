@@ -60,7 +60,7 @@ int	check_if_solved(t_stack *stack, char check)
 	{
 		if (stack->a[i] < stack->a[i - 1])
 		{
-			if (temp_median > stack->median)
+			if (temp_median > stack->median && temp_median > 3)
 			{
 				stack->median = temp_median;
 				stack->median_nbr = stack->a[stack->top_a + stack->median - 1];

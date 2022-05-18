@@ -1,409 +1,107 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_stack.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: molesen <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/18 10:23:32 by molesen           #+#    #+#             */
+/*   Updated: 2022/05/18 10:23:34 by molesen          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "push_swap.h"
-/*
-static void	divide_calculater(t_stack *stack, int *divider)
-{
-	int	below;
-	int	nbr;
-	int	i;
-	int	j;
-	int	count;
 
-	if (stack->bottom < 4)
-		below = -2147483648;
-	else if (stack->bottom < 50)
-		below = stack->bottom - (stack->bottom / 3);
-	else
-		below = stack->bottom - (stack->bottom / 4);
-	i = 0;
-	while (*divider == -2147483648 && below != -2147483648 && i < stack->bottom)
+static int	checks_order(int *c, int i, char c_char)
+{
+	if (c[i] < c[i - 1] && c_char == 'a')
+		return (ERROR);
+	if (c[i] > c[i - 1] && c_char == 'b')
+		return (ERROR);
+	return (TRUE);
+}
+
+static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
+{
+	int	i;
+
+	i = top_c;
+	while (i < stack->bottom && ((c[i] != stack->a_small && c_char == 'a') || \
+	(c[i] != stack->b_small && c_char == 'b')))
+		++i;
+	++i;
+	while (i < stack->bottom)
 	{
-		nbr = stack->a[i];
-		j = 0;
-		count = 0;
-		while (j < stack->bottom && nbr != -2147483648)
-		{
-			if (stack->a[j] < nbr)
-				++count;
-			++j;
-		}
-		if (count >= below && count <= stack->bottom)
-			*divider = nbr;
+		if (checks_order(c, i, c_char) == ERROR)
+			return (ERROR);
 		++i;
 	}
-}*/
-
-//function that lets me know if the element belov is either heigher or lower
-// than current number. 
-// function that return 1 if the number below is the number closests to current number because if it is we don't want to put in to stack b
-/*
-static int	ordered(int *a, int *b, int top, int bottom)
-{
-	int	nbr;
-	int	orig;
-
-	orig = a[0];
-	nbr = a[1];
-	top += 2;
-	if (orig > nbr)
+	i = top_c + 1;
+	while ((c[i] != stack->a_small && c_char == 'a') || \
+	(c[i] != stack->b_small && c_char == 'b'))
 	{
-		while (top < bottom)
-		{
-			if (b[top] > nbr && b[top] < orig)
-				return (FALSE);
-			++top;
-		}
-	}
-	else
-	{
-		while (top < bottom)
-		{
-			if (b[top] < nbr && b[top] > orig)
-				return (FALSE);
-			++top;
-		}
+		if (checks_order(c, i, c_char) == ERROR)
+			return (ERROR);
+		++i;
 	}
 	return (TRUE);
 }
-*/
 
-static void	smallest_number(int *a, int small, int len)
+static void update_variables(t_stack *stack)
 {
-	int	i;
-
-	i = 0;
-	small = a[0];
-	while (i++ < len)
+	if (stack->a_smallB > stack->a_bigB)
 	{
-		if (a[i] < small)
-			small = a[i];
+		stack->a_smallB = stack->a[stack->top_a];
+		stack->a_bigB = stack->a[stack->top_a];
+	}
+	else if (stack->a[stack->top_a + 1] > stack->a[stack->top_a])
+	{
+		stack->a_smallB = stack->a[stack->top_a];
+	}
+	else if (stack->a[stack->top_a + 1] < stack->a[stack->top_a])
+	{
+		stack->a_smallB = stack->a[stack->top_a + 1];
+		stack->a_bigB = stack->a[stack->top_a];
+		// maybe make a function that switch their position evt below function
 	}
 }
 
-static void	biggest_number(int *a, int big, int len)
+static void	stage_two_median(t_stack *stack)
 {
-	int	i;
-
-	i = 0;
-	big = a[0];
-	while (i++ < len)
-	{
-		if (a[i] > big)
-			big = a[i];
-	}
-}
-
-static void	update_big_small(int *a, int small, int big)
-{
-	if (a[0] > big)
-		big = a[0];
-	else if (a[0] < small)
-		small = a[0];
-}
-
-static void	push_and_update(t_stack *stack, char c)
-{
-	if (c == 'a')
-	{
-		if (stack->b_small == stack->b_big)//means one element left
-		{
-			stack->b_small = 1;
-			stack->b_big = -1;
-		}
-		solve_stack(stack, "pa");
-		ft_putstr("pa\n");
-		update_big_small(&stack->a[stack->top_a], stack->a_small, stack->a_big);
-		if (stack->a[stack->top_a] == stack->b_big)
-			biggest_number(stack->b, stack->b_big, stack->bottom - stack->top_b);
-		else if (stack->a[stack->top_a] == stack->b_small)
-			smallest_number(stack->b, stack->b_small, stack->bottom - stack->top_b);
-	}
+	if (stack->a[stack->bottom - 1] == stack->median_nbr)
+		stack_rotate_init(stack, stack->a, stack->a_bigB, 'a');
 	else
 	{
-		solve_stack(stack, "pb");
-		ft_putstr("pb\n");
-		if (stack->b_small > stack->b_big)//means stack is empty
+		rotate_stacks(stack, 'd', 'a');
+		if (stack->a[stack->top_a] < stack->median_nbr)
+			push_and_update(stack, 'b');
+		else if (stack->a[stack->top_a] > stack->median_nbr)
 		{
-			stack->b_small = stack->b[stack->bottom - 1];
-			stack->b_big = stack->b[stack->top_b];
-		}
-		update_big_small(&stack->b[stack->top_b], stack->b_small, stack->b_big);
-		if (stack->b[stack->top_b] == stack->a_big)
-			biggest_number(stack->a, stack->a_big, stack->bottom - stack->top_a);
-		else if (stack->b[stack->top_b] == stack->a_small)
-			smallest_number(stack->a, stack->a_small, stack->bottom - stack->top_a);
-	}
-	// maybe makes most sense here to check if stack b is sorted or not?? or maybe after moving stuff?
-}
-
-static void	switch_stacks(t_stack *stack, char c)
-{
-	if (c == 'a')
-	{
-		if (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] > stack->b[stack->top_b + 2])
-		{
-			solve_stack(stack, "ss");
-			ft_putstr("ss\n");
-		}
-		else
-		{
-			solve_stack(stack, "sa");
-			ft_putstr("sa\n");
-			if (stack->b[stack->top_b] < stack->b[stack->bottom - 1])
-			{
-				solve_stack(stack, "rb");
-				ft_putstr("rb\n");
-			}
-		}
-	}
-	else
-	{
-		solve_stack(stack, "sb");
-		ft_putstr("sb\n");
-	}
-}
-
-static void	rotate_stacks(t_stack *stack, char c)
-{
-	if (c == 'r')
-	{
-		if (stack->b[stack->bottom - 1] > stack->b[stack->top_b])
-		{
-			solve_stack(stack, "rr");
-			ft_putstr("rr\n");
-		}
-		else
-		{
-			solve_stack(stack, "ra");
-			ft_putstr("ra\n");
-		}
-	}
-	else
-	{
-		if (stack->b[stack->bottom - 1] > stack->b[stack->top_b])
-		{
-			solve_stack(stack, "rrr");
-			ft_putstr("rrr\n");
-		}
-		else
-		{
-			solve_stack(stack, "rra");
-			ft_putstr("rra\n");
-		}
-	}
-}
-
-static int	rotate_b_to_pos(t_stack *stack, int nbr)
-{
-	int	offset_d;
-	int	offset_r;
-	int	i;
-
-	i = stack->top_b;
-	offset_d = 0;
-	offset_r = 0;
-	while (i < stack->bottom)
-	{
-		if (nbr < stack->b[i])
-			++offset_r;
-		if (nbr > stack->b[i])
-			++offset_d;
-		++i;
-	}
-	if (offset_r == offset_d)
-		return (0);
-	if (offset_r < offset_d + 1)
-		return (offset_r);
-	else
-		return (offset_d *= -1);
-}
-
-static int	check_stack_b(t_stack *stack, int nbr)
-{
-	int	offset;
-	int	d;
-
-	d = ERROR;
-	offset = rotate_b_to_pos(stack, nbr);
-	if (offset < 0)
-	{
-		offset *= -1;
-		d = TRUE;
-	}
-	if (d == FALSE)
-	{
-		while (offset-- > 1)
-		{
-			solve_stack(stack, "rb");
-			ft_putstr("rb\n");
-		}
-	}
-	else if (d == TRUE)
-	{
-		while (offset-- > 0)
-		{
-			solve_stack(stack, "rrb");
-			ft_putstr("rrb\n");
-		}
-	}
-	return (d);
-	/*if (stack->a[stack->top_a] > stack->b[stack->bottom - 1] && stack->a[stack->top_a] < stack->b[stack->bottom - 2] && stack->bottom - stack->top_b > 2)
-	{
-		solve_stack(stack, "rrb");
-		ft_putstr("rrb\n");
-	}*/
-}
-
-static void rotate_stack_b_orig(t_stack *stack, int d)
-{
-	if (d == FALSE)
-	{
-		while (stack->b[stack->bottom - 1] > stack->b[stack->top_b])
-		{
-			solve_stack(stack, "rrb");
-			ft_putstr("rrb\n");
-		}
-	}
-	else if (d == TRUE)
-	{
-		while (stack->b[stack->bottom - 1] > stack->b[stack->top_b])
-		{
-			solve_stack(stack, "rb");
-			ft_putstr("rb\n");
-		}
-	}
-}
-
-static void	stage_one_sorting(t_stack *stack)
-{
-	/*
-	ft_putstr("bigger than 3: ");
-	ft_putnbr(stack->bottom - stack->top_a);
-	ft_putchar('\n');
-	*/
-	int	d;
-
-// go from bottom / still need to figure out it i want to rotate stack b or not
-	if (stack->median > ((stack->bottom - stack->top_a) / 2))
-	{
-		if (stack->a[stack->bottom - 1] == stack->median_nbr)
-		{
-			rotate_stacks(stack, 'r');
-		}
-		else
-		{
-			rotate_stacks(stack, 'd');
-			if (stack->a[stack->top_a] != stack->a_big)
-			{
-				d = check_stack_b(stack, stack->a[stack->top_a]);
-				push_and_update(stack, 'b');
-				// need to cheeck if this is correct
-				if (!(stack->a[stack->bottom - 1] < stack->b[stack->bottom - 1] && stack->a[stack->bottom - 1] > stack->b[stack->top_b]))
-					rotate_stack_b_orig(stack, d);
-			}
+			update_variables(stack);
+			//stage_one_split(stack);
 		}
 		
-		//stack->a[stack->top_a + stack->median]
 	}
-	else if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
-	{
-		push_and_update(stack, 'a');
-	}
-	/*else if (stack->a[stack->top_a + 3] < stack->a[stack->bottom - 1] && stack->a[stack->top_a + 2] > stack->a[stack->top_a + 3] && stack->bottom - stack->top_a > 5)
-	{
-		ft_putstr("hello");
-		push_and_update(stack, 'b');
-	}*/
-	else if (stack->a[stack->bottom - 2] == stack->a_small && stack->a[stack->bottom - 1] == stack->a_big && stack->bottom - stack->top_a > 4)
-	{
-		// make function to check if this also needs to be done for stack->b
-		rotate_stacks(stack, 'd');
-		rotate_stacks(stack, 'd');
-		switch_stacks(stack, 'a');
-		rotate_stacks(stack, 'r');
-	}
-	else if (stack->a[stack->top_a] < stack->b_small && stack->bottom - stack->top_a > 4 && stack->b_empty == FALSE)
-	{
-		d = check_stack_b(stack, stack->a[stack->top_a]);
-		push_and_update(stack, 'b');
-		// check if same can be done for stack a
-		if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
-		{
-			switch_stacks(stack, 'a');
-		}
-		rotate_stack_b_orig(stack, d);
-	}
-	else if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
-	{
-		switch_stacks(stack, 'a');
-	}
-	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])
-	{
-		if (stack->bottom - stack->top_a < 4)
-		{
-			rotate_stacks(stack, 'd');
-			switch_stacks(stack, 'a');
-		}
-		else
-		{
-			d = check_stack_b(stack, stack->a[stack->top_a]);
-			push_and_update(stack, 'b');
-			//if same can be done for stack b do rrr else
-			rotate_stacks(stack, 'd');
-			rotate_stack_b_orig(stack, d);
-		}
-	}
-	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a])
-	{
-		//if stack[bottom - 1] is heigher than any of them move it other side
-		//if (stack->a[stack->bottom - 1] > stack->a[stack->top_a + 3])
-		//{
-			//if same can be done for stack b do rrr else
-			//rotate_stacks(stack, 'd');
-			/*
-			if stack->b[top_a] != stack->b_heigh
-				rrb or rb
-			*/
-			d = check_stack_b(stack, stack->a[stack->top_a]);
-			push_and_update(stack, 'b');
-			rotate_stack_b_orig(stack, d);
-		/*}
-		else if (stack->bottom - stack->top_a < 6)
-		{
-			push_and_update(stack, 'b');
-		}
-		else
-		{*/
-			//push_and_update(stack, 'b');
-			//push_and_update(stack, 'b');
-			//if same can be done for stack b do rrr else
-			//rotate_stacks(stack, 'd');
-		//}
-	}
-	else if (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
-	{
-		//if same can be done for stack b do rrr else
-		rotate_stacks(stack, 'd');
-	}
-	//solve_stack(stack, "sb");
-	//ft_putstr("sb\n");
 }
 
 static void order_stack_b(t_stack *stack)
 {
 	// make it in order but if at any point it makes sense to push to stack a then do it
 	
-	if (stack->b[stack->top_b + 1] > stack->b[stack->top_b])
+	//maybe first check if everything is in order but just need to be rotated to correct position
+	if (check_if_ordered(stack, stack->b, stack->top_b, 'b') == 1)
+		stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+	else if (stack->b[stack->top_b + 1] > stack->b[stack->top_b])
 	{
 		switch_stacks(stack, 'b');
 	}
-	
+	//stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 	// can make if statements to check if possible to push anythign to stack a
 	//ex if I'm either at the top of b or bottom and that is bigger than bottom of a stack og smaller than top of a stack
 	// that way i can keep shifting while trying to sort stack b
 }
 
-static void	stage_two_sorting(t_stack *stack)
+static void	stage_three_merge(t_stack *stack)
 {
 	int	count;
 
@@ -414,7 +112,7 @@ static void	stage_two_sorting(t_stack *stack)
 	{
 		if (stack->a[stack->bottom - 1] > stack->b[stack->top_b] && stack->a[stack->bottom - 2] < stack->b[stack->top_b])
 		{
-			rotate_stacks(stack, 'd');
+			rotate_stacks(stack, 'd', 'a');
 			while (stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b])
 			{
 				push_and_update(stack, 'a');
@@ -422,20 +120,20 @@ static void	stage_two_sorting(t_stack *stack)
 			}
 			while (count-- > 0)
 			{
-				rotate_stacks(stack, 'r');
+				rotate_stacks(stack, 'r', 'a');
 			}
 		}
 		else if (stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a + 1])
 		{
-			rotate_stacks(stack, 'r');
+			rotate_stacks(stack, 'r', 'a');
 			while (stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b])
 				push_and_update(stack, 'a');
-			rotate_stacks(stack, 'd');
+			rotate_stacks(stack, 'd', 'a');
 		}
 		else if (stack->b[stack->top_b] > stack->a[stack->bottom - 1])
 		{
 			push_and_update(stack, 'a');
-			rotate_stacks(stack, 'r');
+			rotate_stacks(stack, 'r', 'a');
 		}
 		else if (stack->b[stack->top_b] < stack->a[stack->top_a])
 		{
@@ -452,20 +150,48 @@ static void	stage_two_sorting(t_stack *stack)
 
 }
 
+
+/*
+make a function that checks if everyhting is in order but just wrongly rotated
+if so call the function that i created that will rotate it to correct position
+*/
+
+
+
 void	sort_stack(t_stack *stack)
 {
 	int	stage;
 
 	//int i = 0;
 	stage = 1;
+	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
 	{
-		if (stage == 1 && check_if_solved(stack, 'p') != ERROR)
+		/*ft_putnbr(stack->a[stack->bottom - 5]);
+		ft_putnbr(stack->a[stack->bottom - 4]);
+		ft_putnbr(stack->a[stack->bottom - 3]);
+		ft_putnbr(stack->a[stack->bottom - 2]);
+		ft_putnbr(stack->a[stack->bottom - 1]);*/
+		if (check_if_ordered(stack, stack->a, stack->top_a, 'a') == 1)
+		{
+			if (stack->b_empty == FALSE)
+				stage = 3;
+			else
+				stage = 4;
+		}
+		if (check_if_solved(stack, 'p') != ERROR)
+		{
+			if (stack->b_empty == FALSE)
+				stage = 3;
+			else
+				stage = 4;
+		}
+		if (stage == 1 && stack->median > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2)))
 			++stage;
 		if (stage == 1)
 		{
 			//ft_putstr("stage1\n");
-			stage_one_sorting(stack);
+			stage_one_split(stack);
 	// 		ft_putstr("\n");
 	// 		ft_putnbr(stack->a[0]);
 	// ft_putnbr(stack->a[stack->top_a]);
@@ -475,15 +201,23 @@ void	sort_stack(t_stack *stack)
 		}
 		else if (stage == 2)
 		{
+			//ft_putstr("stage2\n");
+			stage_two_median(stack);
+			
+		}
+		else if (stage == 3)
+		{
 	// 		ft_putstr("\n");
 	// 		ft_putnbr(stack->a[0]);
 	// ft_putnbr(stack->a[stack->bottom - 4]);
 	// ft_putnbr(stack->a[stack->bottom - 3]);
 	// ft_putnbr(stack->a[stack->bottom - 2]);
 	// ft_putnbr(stack->a[stack->bottom - 1]);
-			//ft_putstr("stage2\n");
-			stage_two_sorting(stack);
+			//ft_putstr("stage3\n");
+			stage_three_merge(stack);
 		}
+		else if (stage == 4)
+			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 	}
 	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);

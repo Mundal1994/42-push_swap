@@ -27,10 +27,10 @@ typedef struct s_stack
 	int			b_empty;
 	int			a_small;
 	int			a_big;
+	int			a_smallB;
+	int			a_bigB;
 	int			b_small;
 	int			b_big;
-	int			b_smallB;
-	int			b_bigB;
 	int			median;
 	int			median_nbr;
 } t_stack;
