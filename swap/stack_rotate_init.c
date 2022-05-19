@@ -37,7 +37,7 @@ int	calc_rr_or_rrr(t_stack *stack, int *a, int nbr, int top_a)
 	}
 	if (save == stack->bottom)
 		return (ERROR);
-	if (save > (((stack->bottom - top_a) / 2) + ((stack->bottom - top_a) % 2)))
+	if (save + 1 >= (((stack->bottom - top_a) / 2) + ((stack->bottom - top_a) % 2)))
 		return (TRUE);
 	return (FALSE);
 }

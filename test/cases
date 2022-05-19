@@ -147,17 +147,17 @@ pa
 
 
 ./checker 5 2 3 1 4
-
+ARG="5 2 3 1 4"; ./push_swap $ARG | ./checker $ARG
 
 
 
 
 ./push_swap 1 4 2 3 6 5
-
+ARG="1 4 2 3 6 5"; ./push_swap $ARG | ./checker $ARG
 
 
 ./push_swap 1 4 2 6 3 5
-
+ARG="1 4 2 6 3 5"; ./push_swap $ARG | ./checker $ARG
 
 ./push_swap 1 4 2 6 3 5
 ARG="1 4 2 6 3 5"; ./push_swap $ARG | ./checker $ARG
@@ -172,30 +172,3 @@ ARG="30 20 4 10 -9 3 -7 50 22 100"; ./push_swap $ARG | ./checker $ARG
 ARG="30 20 4 10 -10 11 12 31 50 3 100 5"; ./push_swap $ARG
 
 ARG="7 6 1 3 -3 4 5 8 9 -2 10 2"; ./push_swap $ARG
-
--10 -3
-3   -2
-4   1
-5   2
-10  3
-11  4
-12  5
-20  6
-30  7
-31  8
-50  9
-100 10
-
-
-30   7
-20   6
-4    1
-10   3
--10  -3
-11   4
-12   5
-31   8
-50   9
-3    -2
-100  10
-5    2

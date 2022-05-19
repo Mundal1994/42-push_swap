@@ -78,8 +78,10 @@ void	stage_one_split(t_stack *stack)
 	{
 		switch_stacks(stack, 'a');
 	}
-	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])
+	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1] && stack->bottom - stack->top_a < 4)
+	{
 		bottom_replace_top(stack);
+	}
 	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a])
 	{
 		//exit(0);

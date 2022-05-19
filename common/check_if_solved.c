@@ -47,27 +47,17 @@ int	is_stack_solved(int *a, int i, int len)
 int	check_if_solved(t_stack *stack, char check)
 {
 	int	i;
-	int	temp_median;
 
 	if (check == 'c')
 	{
 		if (stack->b_empty == FALSE)
 			return (ERROR);
 	}
-	temp_median = 1;
 	i = stack->top_a + 1;
 	while (i < stack->bottom)
 	{
 		if (stack->a[i] < stack->a[i - 1])
-		{
-			if (temp_median > stack->median && temp_median > 3)
-			{
-				stack->median = temp_median;
-				stack->median_nbr = stack->a[stack->top_a + stack->median - 1];
-			}
 			return (ERROR);
-		}
-		++temp_median;
 		++i;
 	}
 	return (0);

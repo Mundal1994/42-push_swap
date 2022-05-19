@@ -12,38 +12,46 @@
 
 #include "push_swap.h"
 
-static void	smallest_number(int *a, int *small, int len)
+static void	smallest_number(int *c, int *small, int len, int top_c)
 {
 	int	i;
 
-	i = 0;
-	*small = a[0];
+	i = top_c;
+	*small = c[top_c];
 	while (i++ < len)
 	{
-		if (a[i] < *small)
-			*small = a[i];
+		if (c[i] < *small)
+			*small = c[i];
 	}
 }
 
-static void	biggest_number(int *a, int *big, int len)
+static void	biggest_number(int *c, int *big, int len, int top_c)
 {
 	int	i;
 
-	i = 0;
-	*big = a[0];
-	while (i++ < len)
+	i = top_c + 1;
+	*big = c[top_c];
+	ft_printf("biggestmimber\ntop_c: %d, big: %d, c[top_c]: %d\n", top_c, *big, c[top_c]);
+	
+	while (i < len)
 	{
-		if (a[i] > *big)
-			*big = a[i];
+		if (c[i] > *big)
+			*big = c[i];
+		++i;
 	}
 }
 
-static void	update_big_small(int *a, int *small, int *big)
+static void	update_big_small(int *c, int *small, int *big, int top_c)
 {
-	if (a[0] > *big)
-		*big = a[0];
-	else if (a[0] < *small)
-		*small = a[0];
+	ft_putstr("heflke");
+	ft_printf("biggestmimber\ntop_c: %d, big: %d, c[top_c]: %d\n", top_c, *big, c[top_c]);
+	
+	if (c[top_c] > *big)
+		*big = c[top_c];
+	if (c[top_c] < *small)
+		*small = c[top_c];
+	ft_printf("biggestmimber\ntop_c: %d, big: %d, small: %d, c[top_c]: %d\n", top_c, *big, *small, c[top_c]);
+	
 }
 
 static void	push_and_update_helper(t_stack *stack, char c, int d)
@@ -80,20 +88,20 @@ void	push_and_update(t_stack *stack, char c)
 	if (c == 'a')
 	{
 		push_and_update_helper(stack, c, 0);
-		update_big_small(&stack->a[stack->top_a], &stack->a_small, &stack->a_big);
+		update_big_small(&stack->a[stack->top_a], &stack->a_small, &stack->a_big, stack->top_a);
 		if (stack->a[stack->top_a] == stack->b_big)
-			biggest_number(stack->b, &stack->b_big, stack->bottom - stack->top_b);
+			biggest_number(stack->b, &stack->b_big, stack->bottom - stack->top_b, stack->top_b);
 		else if (stack->a[stack->top_a] == stack->b_small)
-			smallest_number(stack->b, &stack->b_small, stack->bottom - stack->top_b);
+			smallest_number(stack->b, &stack->b_small, stack->bottom - stack->top_b, stack->top_b);
 	}
 	else
 	{
 		push_and_update_helper(stack, c, 0);
-		update_big_small(&stack->b[stack->top_b], &stack->b_small, &stack->b_big);
+		update_big_small(&stack->b[stack->top_b], &stack->b_small, &stack->b_big, stack->top_b);
 		if (stack->b[stack->top_b] == stack->a_big)
-			biggest_number(stack->a, &stack->a_big, stack->bottom - stack->top_a);
+			biggest_number(stack->a, &stack->a_big, stack->bottom - stack->top_a, stack->top_a);
 		else if (stack->b[stack->top_b] == stack->a_small)
-			smallest_number(stack->a, &stack->a_small, stack->bottom - stack->top_a);
+			smallest_number(stack->a, &stack->a_small, stack->bottom - stack->top_a, stack->top_a);
 	}
 	// maybe makes most sense here to check if stack b is sorted or not?? or maybe after moving stuff?
 }
