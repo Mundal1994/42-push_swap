@@ -46,16 +46,16 @@ static void	smaller_than_stack_b(t_stack *stack)
 
 static void	bottom_replace_top(t_stack *stack)
 {
-	if (stack->bottom - stack->top_a < 4)
+	if (stack->bottom - stack->top_a < 5)
 	{
 		rotate_stacks(stack, 'd', 'a');
-		switch_stacks(stack, 'a');
+		//switch_stacks(stack, 'a');
 	}
 	else
 	{
 		push_and_update(stack, 'b');
 		//if same can be done for stack b do rrr else
-		rotate_stacks(stack, 'd', 'a');
+		//rotate_stacks(stack, 'd', 'a');
 	}
 }
 
@@ -78,7 +78,7 @@ void	stage_one_split(t_stack *stack)
 	{
 		switch_stacks(stack, 'a');
 	}
-	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1] && stack->bottom - stack->top_a < 4)
+	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])// && stack->bottom - stack->top_a < 5)
 	{
 		bottom_replace_top(stack);
 	}

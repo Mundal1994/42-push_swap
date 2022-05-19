@@ -17,27 +17,39 @@
 **	or find index where a number from one stack would fit into another
 */
 
-int	calc_rr_or_rrr(t_stack *stack, int *a, int nbr, int top_a)
+int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
 {
 	int	i;
 	int	save;
 
-	i = top_a;
+	i = top_c;
 	save = stack->bottom;
+	/*
+	if (stack->a[i] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
+		save = i - top_c;
+	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
+		save = i - top_c;*/
 	while (i < stack->bottom)
 	{
-		if (i != top_a && i < stack->bottom - 1 && a[i] > nbr && a[i + 1] < nbr)
-			save = i - top_a;//not sure this has to be minus top_a
-		if (a[i] == nbr)
+		if (stack->a[stack->top_a] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
+			save = i - top_c;
+		else if (stack->b[stack->top_b] > nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
+			save = i - top_c;
+		else if (c == 'b' && stack->b[i] > nbr && stack->b[i + 1] < nbr)
+			save = i - top_c;//not sure this has to be minus top_c
+		else if (c == 'a' && stack->a[i] < nbr && stack->a[i + 1] > nbr)
+			save = i - top_c;
+		if (stack->a[i] == nbr)
 		{
-			save = i - top_a;
+			save = i - top_c;
 			break ;
 		}
 		++i;
 	}
+	//ft_printf("save: %d, median: %d, median_nbr: %d\n", save, stack->median, stack->median_nbr);
 	if (save == stack->bottom)
 		return (ERROR);
-	if (save + 1 >= (((stack->bottom - top_a) / 2) + ((stack->bottom - top_a) % 2)))
+	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
 		return (TRUE);
 	return (FALSE);
 }
@@ -107,7 +119,7 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 	int	d;
 	if (c == 'a')
 	{
-		d = calc_rr_or_rrr(stack, a, nbr, stack->top_a);
+		d = calc_rr_or_rrr(stack, nbr, stack->top_a, 'a');
 		if (d == FALSE)
 			while (a[stack->bottom - 1] < a[stack->top_a])
 				stack_rotate_push(stack, c, 'r');
@@ -117,7 +129,7 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 	}
 	else
 	{
-		d = calc_rr_or_rrr(stack, a, nbr, stack->top_b);
+		d = calc_rr_or_rrr(stack, nbr, stack->top_b, 'b');
 		if (d == FALSE)
 			while (a[stack->bottom - 1] > a[stack->top_b])
 				stack_rotate_push(stack, c, 'r');

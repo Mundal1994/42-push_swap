@@ -18,7 +18,7 @@ static int	checks_order(t_stack *stack, int i, char c_char, int end)
 	{
 		if (stack->a[i] < stack->a[i - 1] && c_char == 'a')
 		{
-			if (i > stack->median && (i > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2))) && stack->bottom - stack->top_a > 4)
+			if (i > stack->median && (i > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2))) && stack->bottom - stack->top_a > 5)
 			{
 				
 				stack->median = i - stack->top_a;
@@ -49,11 +49,9 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	while (i < stack->bottom && ((c[i] != stack->a_small && c_char == 'a') || \
 	(c[i] != stack->b_big && c_char == 'b')))
 		++i;
-	ft_printf("top_c: %d, i: %d, c[i]: %d, stack->big: [%d]\n", top_c, i, c[i], stack->b_big);
-	if (top_c != i && checks_order(stack, i, c_char, TRUE) == ERROR)
+	if (checks_order(stack, i, c_char, TRUE) == ERROR)
 		return (ERROR);
 	++i;
-	ft_putstr("ordered");
 	if (c_char == 'b')
 		++i;
 	while (i < stack->bottom)
@@ -62,7 +60,6 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 			return (ERROR);
 		++i;
 	}
-	ft_putstr("ordered");
 	if ((c[top_c] != stack->a_small && c_char == 'a') || (c[top_c] != stack->b_big && c_char == 'b'))
 	{
 		i = top_c + 1;
@@ -74,7 +71,6 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 			++i;
 		}
 	}
-	ft_putstr("ordered");
 	return (TRUE);
 }
 
@@ -116,18 +112,19 @@ static void	stage_two_median(t_stack *stack)
 		
 	}
 }
-
+/*
 static void	stage_three_sort_b(t_stack *stack)
 {
-	if (stack->b_empty == FALSE && check_if_ordered(stack, stack->b, stack->top_b, 'b') == 1)
+	if (stack->b_empty == FALSE && check_if_ordered(stack, stack->b, stack->top_b, 'b') == ERROR && stack->b_big != stack->b_small)
 	{
 		stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 	}
 	else if (stack->b_empty == FALSE)
 	{
+		push_and_update(stack, 'a');
+		*//*()
 		if (stack->a[stack->bottom - 1] > stack->b[stack->top_b] && stack->a[stack->bottom - 2] < stack->b[stack->top_b])
 		{
-			ft_putstr("here");
 			rotate_stacks(stack, 'd', 'a');
 			while (stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b])
 				push_and_update(stack, 'a');
@@ -149,8 +146,8 @@ static void	stage_three_sort_b(t_stack *stack)
 			//make a check for if stack b is at either b_big or b_bigB
 			// if not loop to nearest
 			push_and_update(stack, 'a');
-		}
-	}
+		}*/
+	/*}
 	else
 	{
 		ft_putstr("error");
@@ -158,7 +155,7 @@ static void	stage_three_sort_b(t_stack *stack)
 	}
 
 }
-
+*/
 
 /*
 make a function that checks if everyhting is in order but just wrongly rotated
@@ -167,12 +164,12 @@ if so call the function that i created that will rotate it to correct position
 
 static void	stage_four_merge(t_stack *stack)
 {
-	int	d;
+//	int	d;
 
 	if (stack->b[stack->top_b] > stack->a[stack->bottom - 1])
 	{
 		push_and_update(stack, 'a');
-		solve_and_print(stack, "ra");
+		//solve_and_print(stack, "ra");
 	}
 	else if (stack->b[stack->top_b] < stack->a[stack->top_a])
 	{
@@ -182,15 +179,15 @@ static void	stage_four_merge(t_stack *stack)
 	{
 		if (stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a])
 		{
-			solve_and_print(stack, "ra");
+			//solve_and_print(stack, "ra");
 			while (stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
 				push_and_update(stack, 'a');
-			solve_and_print(stack, "rra");
+			//solve_and_print(stack, "rra");
 		}
-		else
+		/*else
 		{
 			// this below doesnt work
-			d = calc_rr_or_rrr(stack, stack->a, stack->b[stack->top_b], stack->top_a);
+			d = calc_rr_or_rrr(stack, stack->b[stack->top_b], stack->top_a, 'a');
 			if (d == FALSE)
 				while (!(stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a]))
 					solve_and_print(stack, "ra");
@@ -201,7 +198,7 @@ static void	stage_four_merge(t_stack *stack)
 				push_and_update(stack, 'a');
 			//rotate stack a to fit whatever you push from stack b
 			//when that is finished we rotate stack a to original position
-		}
+		}*/
 	}
 }
 
@@ -223,17 +220,9 @@ void	sort_stack(t_stack *stack)
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
 	{
-		ft_putnbr(stack->a[stack->bottom - 5]);
-		ft_putnbr(stack->a[stack->bottom - 4]);
-		ft_putnbr(stack->a[stack->bottom - 3]);
-		ft_putnbr(stack->a[stack->bottom - 2]);
-		ft_putnbr(stack->a[stack->bottom - 1]);
 		a_ordered = check_if_ordered(stack, stack->a, stack->top_a, 'a');
 		if (stack->b_small < stack->b_big)
-		{
-			ft_putstr("b check order: ");
 			b_ordered = check_if_ordered(stack, stack->b, stack->top_b, 'b');
-		}
 		if (a_ordered == TRUE && (b_ordered == TRUE || stack->b_empty == TRUE))
 		{
 			if (stack->b_empty == TRUE)
@@ -243,16 +232,16 @@ void	sort_stack(t_stack *stack)
 		}
 		else if (a_ordered == TRUE)
 		{
-			if (stack->b_empty == FALSE)
-				stage = 3;
-			else
+			//if (stack->b_empty == FALSE)
+			//	stage = 3;
+			//else
 				stage = 4;
 		}
 		else if (stage == 1 && stack->median > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2)))
 			++stage;
 		if (stage == 1)
 		{
-			ft_putstr("stage1\n");
+			//ft_putstr("stage1\n");
 			stage_one_split(stack);
 	// 		ft_putstr("\n");
 	// 		ft_putnbr(stack->a[0]);
@@ -260,45 +249,69 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[stack->top_a + 1]);
 	// ft_putnbr(stack->a[stack->bottom - 2]);
 	// ft_putnbr(stack->a[stack->bottom - 1]);
-		ft_putstr("\n");
-	ft_putnbr(stack->b[stack->bottom - 4]);
-	ft_putnbr(stack->b[stack->bottom - 3]);
-	ft_putnbr(stack->b[stack->bottom - 2]);
-	ft_putnbr(stack->b[stack->bottom - 1]);
+	// 	ft_putstr("\n");
+	// ft_putnbr(stack->b[stack->bottom - 4]);
+	// ft_putnbr(stack->b[stack->bottom - 3]);
+	// ft_putnbr(stack->b[stack->bottom - 2]);
+	// ft_putnbr(stack->b[stack->bottom - 1]);
 		}
 		else if (stage == 2)
 		{
-			ft_putstr("stage2\n");
-			ft_putnbr(stack->median);
-			ft_putchar('\n');
-			ft_putnbr(stack->median_nbr);
-			ft_putchar('\n');
-			exit(0);
+			// is this stage stupid?? creates more problems than they solve???
+			//ft_putstr("stage2\n");
+			// ft_putnbr(stack->median);
+			// ft_putchar('\n');
+			// ft_putnbr(stack->median_nbr);
+			// ft_putchar('\n');
+			//exit(0);
 			stage_two_median(stack);
 			
 		}
 		else if (stage == 3)
 		{
-			ft_putstr("stage3\n");
-			exit(0);
+		/*	ft_putstr("stage3\n"); SHOULD THIS STAGE BE DELETED???
+		//	exit(0);
 			stage_three_sort_b(stack);
+		  ft_putnbr(stack->a[stack->bottom - 6]);
+			ft_putnbr(stack->a[stack->bottom - 5]);
+		  ft_putnbr(stack->a[stack->bottom - 4]);
+		  ft_putnbr(stack->a[stack->bottom - 3]);
+		  ft_putnbr(stack->a[stack->bottom - 2]);
+		  ft_putnbr(stack->a[stack->bottom - 1]);
+			//exit(0);*/
 		}
 		else if (stage == 4)
 		{
-			ft_putstr("stage4\n");
+			//ft_putstr("stage4\n");
 			// is it important to rotate stack a? maybe yes
 			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 			if (stack->b_empty == FALSE)
+			{
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-			stage_four_merge(stack);
+				stage_four_merge(stack);
+			}
 			if (stack->b_empty == TRUE)
 				stack_rotate_init(stack, stack->a, stack->a_big, 'a');
-			exit(0);
+	//  		ft_putstr("\n");
+	//  ft_putnbr(stack->b[stack->bottom - 4]);
+	//  ft_putnbr(stack->b[stack->bottom - 3]);
+	//  ft_putnbr(stack->b[stack->bottom - 2]);
+	//  ft_putnbr(stack->b[stack->bottom - 1]);
+	//  ft_printf("\nbig: %d, small: %d\nstack->a", stack->b_big, stack->b_small);
+	//  ft_putchar('\n');
+	//  ft_putnbr(stack->a[0]);
+	// ft_putnbr(stack->a[1]);
+	// ft_putnbr(stack->a[2]);
+	// ft_putnbr(stack->a[3]);
+	// ft_putnbr(stack->a[4]);
+	// ft_putnbr(stack->a[5]);
+	// 		if (stack->b_empty == TRUE)
+	// 		 exit(0);
 			
 		}
 		else
 		{
-			ft_putstr("stage5\n");
+			//ft_putstr("stage5\n");
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		}
 	}
