@@ -207,9 +207,8 @@ static void	stage_four_merge(t_stack *stack)
 }
 
 
-// error in the collecting the biggest and smallest number
-// make some kind of reset if stack-b becomes empty... i don't know why it says stack b biggest number is 49??
-
+// still takes to many moves. move stuff to left side in chunks like other people has said?
+// make sure sorting works. now sorting to b side works but still trouble getting it to the left
 
 
 void	sort_stack(t_stack *stack)
@@ -221,6 +220,7 @@ void	sort_stack(t_stack *stack)
 	//int i = 0;
 	stage = 1;
 	b_ordered = FALSE;
+	int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
 	{
@@ -255,6 +255,15 @@ void	sort_stack(t_stack *stack)
 		{
 			//ft_putstr("stage1\n");
 			stage_one_split(stack);
+			int i = 0;
+			while (i < stack->bottom)
+			{
+				ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
+				i++;
+			}
+			if (stop++ > 10)
+				exit(0);
+
 	// 		ft_putstr("\n");
 	// ft_putnbr(stack->a[stack->bottom - 4]);
 	// ft_putnbr(stack->a[stack->bottom - 3]);
@@ -292,12 +301,12 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[4]);
 	// ft_putnbr(stack->a[5]);
 			if (stack->b_empty == TRUE)
-			{	int i = 0;
+			{	/*int i = 0;
 				while (i < stack->bottom)
 				{
 					ft_printf("a[%d]: %d\n", i, stack->a[i]);
 					i++;
-				}
+				}*/
 				exit(0);
 			}
 

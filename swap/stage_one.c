@@ -81,6 +81,11 @@ void	stage_one_split(t_stack *stack)
 		//ft_putstr("nbr 3\n");
 		switch_stacks(stack, 'a');
 	}
+	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] > stack->a[stack->top_a + 1])
+	{
+		rotate_stacks(stack, 'd', 'a');
+		push_and_update(stack, 'b');
+	}
 	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])// && stack->bottom - stack->top_a < 5)
 	{
 		//ft_putstr("nbr 4\n");
