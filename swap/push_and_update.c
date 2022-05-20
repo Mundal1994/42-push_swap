@@ -17,11 +17,12 @@ static void	smallest_number(int *c, int *small, int len, int top_c)
 	int	i;
 
 	i = top_c;
-	*small = c[top_c];
-	while (i++ < len)
+	*small = c[top_c];	
+	while (i < len)
 	{
 		if (c[i] < *small)
 			*small = c[i];
+		++i;
 	}
 }
 
@@ -73,13 +74,19 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 	}
 	else
 	{
-		d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
-		if (d == FALSE && stack->b_empty == FALSE && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-			while (stack->b[stack->top_b] > stack->a[stack->top_a])
-				solve_and_print(stack, "rb");
-		else if (d == TRUE && stack->b_empty == FALSE && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-			while (stack->b[stack->bottom - 1] < stack->a[stack->top_a])
-				solve_and_print(stack, "rrb");
+		if (stack->b_small > stack->a[stack->top_a] || \
+		stack->b_big < stack->a[stack->top_a])
+			stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+		else
+		{
+			d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
+			if (d == FALSE && stack->b_empty == FALSE && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
+				while (stack->b[stack->top_b] > stack->a[stack->top_a])
+					solve_and_print(stack, "rb");
+			else if (d == TRUE && stack->b_empty == FALSE && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
+				while (stack->b[stack->bottom - 1] < stack->a[stack->top_a])
+					solve_and_print(stack, "rrb");
+		}
 		solve_and_print(stack, "pb");
 		if (stack->b_small > stack->b_big)//means stack is empty
 		{
@@ -97,18 +104,18 @@ void	push_and_update(t_stack *stack, char c)
 		push_and_update_helper(stack, c, 0);
 		update_big_small(&stack->a[stack->top_a], &stack->a_small, &stack->a_big);
 		if (stack->a[stack->top_a] == stack->b_big)
-			biggest_number(stack->b, &stack->b_big, stack->bottom - stack->top_b, stack->top_b);
+			biggest_number(stack->b, &stack->b_big, stack->bottom, stack->top_b);
 		else if (stack->a[stack->top_a] == stack->b_small)
-			smallest_number(stack->b, &stack->b_small, stack->bottom - stack->top_b, stack->top_b);
+			smallest_number(stack->b, &stack->b_small, stack->bottom, stack->top_b);
 	}
 	else
 	{
 		push_and_update_helper(stack, c, 0);
 		update_big_small(&stack->b[stack->top_b], &stack->b_small, &stack->b_big);
 		if (stack->b[stack->top_b] == stack->a_big)
-			biggest_number(stack->a, &stack->a_big, stack->bottom - stack->top_a, stack->top_a);
+			biggest_number(stack->a, &stack->a_big, stack->bottom, stack->top_a);
 		else if (stack->b[stack->top_b] == stack->a_small)
-			smallest_number(stack->a, &stack->a_small, stack->bottom - stack->top_a, stack->top_a);
+			smallest_number(stack->a, &stack->a_small, stack->bottom, stack->top_a);
 	}
 	// maybe makes most sense here to check if stack b is sorted or not?? or maybe after moving stuff?
 }

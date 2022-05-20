@@ -61,34 +61,40 @@ static void	bottom_replace_top(t_stack *stack)
 
 void	stage_one_split(t_stack *stack)
 {	
-	if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
-		push_and_update(stack, 'a');
-	else if (stack->a[stack->bottom - 2] == stack->a_small && stack->a[stack->bottom - 1] == stack->a_big && stack->bottom - stack->top_a > 4)
+	//if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
+	//	push_and_update(stack, 'a');
+	//else 
+	if (stack->a[stack->bottom - 2] == stack->a_small && stack->a[stack->bottom - 1] == stack->a_big && stack->bottom - stack->top_a > 4)
 	{
+		//ft_putstr("nbr 1\n");
 		// might not be nescessary here but in median
 		switch_two_bottom_nbr(stack);
 	}
 	else if (stack->a[stack->top_a] < stack->b_small && stack->bottom - stack->top_a > 4 && stack->b_empty == FALSE)
 	{
 		//added smaller than biggest number also
-
+//ft_putstr("nbr 2\n");
 		smaller_than_stack_b(stack);
 	}
 	else if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
 	{
+		//ft_putstr("nbr 3\n");
 		switch_stacks(stack, 'a');
 	}
 	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])// && stack->bottom - stack->top_a < 5)
 	{
+		//ft_putstr("nbr 4\n");
 		bottom_replace_top(stack);
 	}
 	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a])
 	{
 		//exit(0);
+		//ft_putstr("nbr 5\n");
 		push_and_update(stack, 'b');
 	}
 	else if (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
 	{
+		//ft_putstr("nbr 6\n");
 		//if same can be done for stack b do rrr else
 		rotate_stacks(stack, 'd', 'a');
 	}

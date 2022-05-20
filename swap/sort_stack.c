@@ -49,6 +49,10 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	while (i < stack->bottom && ((c[i] != stack->a_small && c_char == 'a') || \
 	(c[i] != stack->b_big && c_char == 'b')))
 		++i;
+	// ft_printf("error\nasmall: %d, i: %d, top_c: %d\n", stack->a_small, i, top_c);
+	// ft_printf("error\nbsmall: %d, i: %d, top_c: %d\n", stack->b_small, i, top_c);
+	// ft_printf("error\nabig: %d, i: %d, top_c: %d\n", stack->a_big, i, top_c);
+	// ft_printf("error\nbbig: %d, i: %d, top_c: %d\n", stack->b_big, i, top_c);
 	if (top_c != i && checks_order(stack, i, c_char, TRUE) == ERROR)
 		return (ERROR);
 	++i;
@@ -220,6 +224,11 @@ void	sort_stack(t_stack *stack)
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
 	{
+		// ft_putstr("\n");
+		// ft_putnbr(stack->a[stack->bottom - 4]);
+		// ft_putnbr(stack->a[stack->bottom - 3]);
+		// ft_putnbr(stack->a[stack->bottom - 2]);
+		// ft_putnbr(stack->a[stack->bottom - 1]);
 		a_ordered = check_if_ordered(stack, stack->a, stack->top_a, 'a');
 		if (stack->b_small < stack->b_big)
 			b_ordered = check_if_ordered(stack, stack->b, stack->top_b, 'b');
@@ -235,6 +244,9 @@ void	sort_stack(t_stack *stack)
 			//if (stack->b_empty == FALSE)
 			//	stage = 3;
 			//else
+			if (stack->b_empty == TRUE)
+				stage = 5;
+			else
 				stage = 4;
 		}
 		//else if (stage == 1 && stack->median > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2)))
@@ -279,18 +291,28 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[3]);
 	// ft_putnbr(stack->a[4]);
 	// ft_putnbr(stack->a[5]);
-			//exit(0);
+			if (stack->b_empty == TRUE)
+			{	int i = 0;
+				while (i < stack->bottom)
+				{
+					ft_printf("a[%d]: %d\n", i, stack->a[i]);
+					i++;
+				}
+				exit(0);
+			}
+
 			
 		}
 		else if (stage == 5)
 		{
 			//ft_putstr("stage5\n");
+			exit(0);
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		}
 		else if (stage == 2)
 		{
 			// is this stage stupid?? creates more problems than they solve???
-			ft_putstr("stage2\n");
+			//ft_putstr("stage2\n");
 			// ft_putnbr(stack->median);
 			// ft_putchar('\n');
 			// ft_putnbr(stack->median_nbr);

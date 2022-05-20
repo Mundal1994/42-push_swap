@@ -21,7 +21,7 @@ void	switch_stacks(t_stack *stack, char c)
 		else
 		{
 			solve_and_print(stack, "sa");
-			if (stack->b[stack->top_b] < stack->b[stack->bottom - 1])
+			if (stack->b[stack->top_b] < stack->b[stack->bottom - 1] && stack->b[stack->top_b] == stack->b_small)
 				solve_and_print(stack, "rb");
 		}
 	}

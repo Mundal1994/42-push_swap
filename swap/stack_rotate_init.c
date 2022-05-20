@@ -23,31 +23,35 @@ int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
 	int	save;
 
 	i = top_c;
-	save = stack->bottom;
+	save = stack->bottom + 1;
 	/*
 	if (stack->a[i] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
 		save = i - top_c;
 	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
 		save = i - top_c;*/
+	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
+	
 	while (i < stack->bottom)
 	{
 		if (stack->a[stack->top_a] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
 			save = 0;
-		else if (stack->b[stack->top_b] > nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
+		else if (stack->b[stack->top_b] > nbr && stack->b[stack->bottom - 1] < nbr && c == 'b')
 			save = 0;
-		else if (c == 'b' && stack->b[i] > nbr && stack->b[i + 1] < nbr)
+		else if (c == 'b' && ((stack->b[i] > nbr && stack->b[i + 1] < nbr) || \
+		(nbr > stack->b_big && stack->b[i] == stack->b_big)))// might remove this >> (nbr > stack->b_big && stack->b[i] == stack->b_big)
 			save = i - top_c;//not sure this has to be minus top_c
-		else if (c == 'a' && stack->a[i] < nbr && stack->a[i + 1] > nbr)
+		else if (c == 'a' && ((stack->a[i] < nbr && stack->a[i + 1] > nbr) || \
+		(nbr > stack->a_big && stack->a[i] == stack->a_big)))// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
 			save = i - top_c;
-		if (stack->a[i] == nbr)
+		if ((stack->a[i] == nbr && c == 'a') || (stack->b[i] == nbr && c == 'b'))
 		{
 			save = i - top_c;
 			break ;
 		}
 		++i;
 	}
-	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
-	if (save == stack->bottom)
+	//ft_printf("\nsave: %d, median: %d, median_nbr: %d, bottom median: %d, nbr: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
+	if (save == stack->bottom + 1)
 		return (ERROR);
 	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
 		return (TRUE);
