@@ -32,9 +32,9 @@ int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
 	while (i < stack->bottom)
 	{
 		if (stack->a[stack->top_a] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
-			save = i - top_c;
+			save = 0;
 		else if (stack->b[stack->top_b] > nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
-			save = i - top_c;
+			save = 0;
 		else if (c == 'b' && stack->b[i] > nbr && stack->b[i + 1] < nbr)
 			save = i - top_c;//not sure this has to be minus top_c
 		else if (c == 'a' && stack->a[i] < nbr && stack->a[i + 1] > nbr)
@@ -46,7 +46,7 @@ int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
 		}
 		++i;
 	}
-	//ft_printf("save: %d, median: %d, median_nbr: %d\n", save, stack->median, stack->median_nbr);
+	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
 	if (save == stack->bottom)
 		return (ERROR);
 	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
