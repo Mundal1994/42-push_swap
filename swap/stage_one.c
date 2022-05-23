@@ -76,6 +76,11 @@ void	stage_one_split(t_stack *stack)
 ft_putstr("nbr 2\n");
 		smaller_than_stack_b(stack);
 	}*/
+	/*else if (stack->a[stack->bottom - 1] > stack->median)
+	{
+		rotate_stacks(stack, 'd', 'a');
+		push_and_update(stack, 'b');
+	}*/
 	else if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
 	{
 		//ft_putstr("nbr 3\n");

@@ -18,14 +18,14 @@ static int	checks_order(t_stack *stack, int i, char c_char, int end)
 	{
 		if (stack->a[i] < stack->a[i - 1] && c_char == 'a')
 		{
-			if (i > stack->median && (i > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2))) && stack->bottom - stack->top_a > 5)
+			/*if (i > stack->median && (i > (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2))) && stack->bottom - stack->top_a > 5)
 			{
 				
 				stack->median = i - stack->top_a;
 				stack->median_nbr = stack->a[stack->top_a + stack->median - 1];
 				// ft_printf("i: %d\n", i - stack->top_a - 1);
 				// ft_printf("medan: %d, median_nbr: %d\n", stack->median, stack->median_nbr);
-			}
+			}*/
 			return (ERROR);
 		}
 		else if (stack->b[i] > stack->b[i - 1] && c_char == 'b')
@@ -210,6 +210,17 @@ static void	stage_four_merge(t_stack *stack)
 // still takes to many moves. move stuff to left side in chunks like other people has said?
 // make sure sorting works. now sorting to b side works but still trouble getting it to the left
 
+static void	median_calc(t_stack *stack)
+{
+	if (stack->a[0] > stack->a[1] && stack->a[0] > stack->a[stack->bottom - 1])//&& stack->a[0] > stack->a[2]
+		stack->median = stack->a[0];
+	else if (stack->a[1] > stack->a[0] && stack->a[1] > stack->a[stack->bottom - 1])//&& stack->a[1] > stack->a[2]
+		stack->median = stack->a[1];
+	else if (stack->a[stack->bottom - 1] > stack->a[0] && stack->a[stack->bottom - 1] > stack->a[1])//&& stack->a[stack->bottom - 1] > stack->a[2]
+		stack->median = stack->a[stack->bottom - 1];
+	//else
+	//	stack->median = stack->a[2];
+}
 
 void	sort_stack(t_stack *stack)
 {
@@ -220,6 +231,7 @@ void	sort_stack(t_stack *stack)
 	//int i = 0;
 	stage = 1;
 	b_ordered = FALSE;
+	median_calc(stack);
 	//int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
@@ -277,6 +289,7 @@ void	sort_stack(t_stack *stack)
 		}
 		else if (stage == 4)
 		{
+			//exit(0);
 			//ft_putstr("stage4\n");
 			// is it important to rotate stack a? maybe yes
 			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
@@ -348,6 +361,7 @@ void	sort_stack(t_stack *stack)
 		{
 			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 			i++;
+		
 		}*/
 	}
 	/*ft_putnbr(stack->a[0]);
