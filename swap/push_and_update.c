@@ -52,7 +52,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 {
 	if (c == 'a')
 	{
-		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
+		if (stack->a_small >  stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		else
 		{
@@ -61,7 +61,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				while (stack->a[stack->top_a] < stack->b[stack->top_b])
 					solve_and_print(stack, "ra");
 			else if (d == TRUE && stack->b[stack->top_b] < stack->a_big)
-				while (!((stack->a[stack->bottom - 1] > stack->b[stack->top_b] || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
+				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
 					solve_and_print(stack, "rra");
 		}
 		solve_and_print(stack, "pa");

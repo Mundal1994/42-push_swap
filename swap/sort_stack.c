@@ -220,7 +220,7 @@ void	sort_stack(t_stack *stack)
 	//int i = 0;
 	stage = 1;
 	b_ordered = FALSE;
-	int stop = 0;
+	//int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
 	{
@@ -254,7 +254,7 @@ void	sort_stack(t_stack *stack)
 		if (stage == 1)
 		{
 			//ft_putstr("stage1\n");
-			stage_one_split(stack);
+			stage_one_split(stack);/*
 			int i = 0;
 			while (i < stack->bottom)
 			{
@@ -263,7 +263,7 @@ void	sort_stack(t_stack *stack)
 			}
 			if (stop++ > 10)
 				exit(0);
-
+*/
 	// 		ft_putstr("\n");
 	// ft_putnbr(stack->a[stack->bottom - 4]);
 	// ft_putnbr(stack->a[stack->bottom - 3]);
@@ -300,22 +300,22 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[3]);
 	// ft_putnbr(stack->a[4]);
 	// ft_putnbr(stack->a[5]);
-			if (stack->b_empty == TRUE)
-			{	/*int i = 0;
+			/*if (stack->b_empty == TRUE)
+			{	
+				int i = 0;
 				while (i < stack->bottom)
 				{
 					ft_printf("a[%d]: %d\n", i, stack->a[i]);
 					i++;
-				}*/
+				}
 				exit(0);
-			}
-
+			}*/
 			
 		}
 		else if (stage == 5)
 		{
 			//ft_putstr("stage5\n");
-			exit(0);
+			//exit(0);
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		}
 		else if (stage == 2)
