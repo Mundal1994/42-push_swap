@@ -161,50 +161,6 @@ static void	stage_three_sort_b(t_stack *stack)
 }
 */
 
-/*
-make a function that checks if everyhting is in order but just wrongly rotated
-if so call the function that i created that will rotate it to correct position
-*/
-
-static void	stage_four_merge(t_stack *stack)
-{
-//	int	d;
-	push_and_update(stack, 'a');
-	/*if (stack->b[stack->top_b] > stack->a[stack->bottom - 1])
-	{
-		push_and_update(stack, 'a');
-		//solve_and_print(stack, "ra");
-	}
-	else if (stack->b[stack->top_b] < stack->a[stack->top_a])
-	{
-		push_and_update(stack, 'a');
-	}
-	else
-	{
-		if (stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a])
-		{
-			//solve_and_print(stack, "ra");
-			while (stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
-				push_and_update(stack, 'a');
-			//solve_and_print(stack, "rra");
-		}*/
-		/*else
-		{
-			// this below doesnt work
-			d = calc_rr_or_rrr(stack, stack->b[stack->top_b], stack->top_a, 'a');
-			if (d == FALSE)
-				while (!(stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a]))
-					solve_and_print(stack, "ra");
-			else if (d == TRUE)
-				while (!(stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->b[stack->top_b] > stack->a[stack->top_a]))
-					solve_and_print(stack, "rra");
-			while (stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
-				push_and_update(stack, 'a');
-			//rotate stack a to fit whatever you push from stack b
-			//when that is finished we rotate stack a to original position
-		}*/
-	//}
-}
 
 
 // still takes to many moves. move stuff to left side in chunks like other people has said?
@@ -298,14 +254,31 @@ void	sort_stack(t_stack *stack)
 			//exit(0);
 			//ft_putstr("stage4\n");
 			// is it important to rotate stack a? maybe yes
-			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 			if (stack->b_empty == FALSE)
 			{
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-				stage_four_merge(stack);
+				while (stack->b_empty == FALSE)
+				{
+					push_and_update(stack, 'a');
+				/*	++j;
+					int i = 0;
+		while (i < stack->bottom)
+		{
+			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
+			i++;
+		
+		}
+			if (j > 0)
+				exit(0);*/
+				}
 			}
 			if (stack->b_empty == TRUE)
+			{
 				stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+				//exit(0);
+			}
+
 	//  		ft_putstr("\n");
 	//  ft_putnbr(stack->b[stack->bottom - 4]);
 	//  ft_putnbr(stack->b[stack->bottom - 3]);
@@ -319,16 +292,17 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[3]);
 	// ft_putnbr(stack->a[4]);
 	// ft_putnbr(stack->a[5]);
-			if (stack->b_empty == TRUE)
-			{	/*
+		//	if (stack->b_empty == TRUE)
+		//	{
+				/*
 				int i = 0;
 				while (i < stack->bottom)
 				{
 					ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 					i++;
 				}*/
-				exit(0);
-			}
+			//	exit(0);
+			//}
 			//++j;
 			//if (j > 10)
 			//	exit(0);
@@ -366,16 +340,13 @@ void	sort_stack(t_stack *stack)
 		  ft_putnbr(stack->a[stack->bottom - 1]);
 			//exit(0);*/
 		}
-		/*int i = 0;
+	/*	int i = 0;
 		while (i < stack->bottom)
 		{
 			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 			i++;
 		
 		}*/
-		//++j;
-		//if (j > 10)
-		//	exit(0);
 	}
 	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);

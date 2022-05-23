@@ -52,7 +52,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 {
 	if (c == 'a')
 	{
-		if (stack->a_small >  stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
+		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		else
 		{

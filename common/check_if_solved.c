@@ -57,7 +57,10 @@ int	check_if_solved(t_stack *stack, char check)
 	while (i < stack->bottom)
 	{
 		if (stack->a[i] < stack->a[i - 1])
-			return (ERROR);
+		{
+			//ft_printf("i: %d, stack->a[i]: %d\n", i, stack->a[i]);
+				return (ERROR);
+		}
 		++i;
 	}
 	return (0);
