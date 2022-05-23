@@ -65,7 +65,17 @@ void	stage_one_split(t_stack *stack)
 	//if (stack->b_empty == FALSE && stack->b[stack->top_b] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->bottom - 1])
 	//	push_and_update(stack, 'a');
 	//else 
-	if (stack->a[stack->bottom - 2] == stack->a_small && stack->a[stack->bottom - 1] == stack->a_big && stack->bottom - stack->top_a > 4)
+	/*if (stack->bottom - stack->top_b > 500) THIS HAD NO DIFFERENCE!!!
+	{
+		stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+		while (stack->b_empty == FALSE)
+		{
+			push_and_update(stack, 'a');
+		}
+		rotate_stacks(stack, 'd', 'a');
+		rotate_stacks(stack, 'd', 'a');
+	}
+	else */if (stack->a[stack->bottom - 2] == stack->a_small && stack->a[stack->bottom - 1] == stack->a_big && stack->bottom - stack->top_a > 4)
 	{
 		//ft_putstr("nbr 1\n");
 		// might not be nescessary here but in median

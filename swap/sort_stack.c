@@ -179,8 +179,11 @@ static void	median_calc(t_stack *stack)
 }
 
 
-
-// maybe make conditions for pushing tto stack b without rotating because i know i will push it back quickly?
+// find the biggest sequence of already ordered numbers. push them to stack b
+// locate next sorted sequence.
+// sort as you make your way there
+// as you find the next biggest sequence merge it with stack b
+// only when last bit has been sorted will we push from stack b to a and merge the last bit
 
 
 void	sort_stack(t_stack *stack)
@@ -340,7 +343,7 @@ void	sort_stack(t_stack *stack)
 		  ft_putnbr(stack->a[stack->bottom - 1]);
 			//exit(0);*/
 		}
-	/*	int i = 0;
+		/*int i = 0;
 		while (i < stack->bottom)
 		{
 			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
