@@ -305,7 +305,7 @@ void	sort_stack(t_stack *stack)
 				int i = 0;
 				while (i < stack->bottom)
 				{
-					ft_printf("a[%d]: %d\n", i, stack->a[i]);
+					ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 					i++;
 				}
 				exit(0);
@@ -343,7 +343,12 @@ void	sort_stack(t_stack *stack)
 		  ft_putnbr(stack->a[stack->bottom - 1]);
 			//exit(0);*/
 		}
-		
+		/*int i = 0;
+		while (i < stack->bottom)
+		{
+			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
+			i++;
+		}*/
 	}
 	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);

@@ -34,7 +34,7 @@ static void	switch_two_bottom_nbr(t_stack *stack)
 		solve_and_print(stack, "ra");
 	}
 }
-
+/*
 static void	smaller_than_stack_b(t_stack *stack)
 {
 	push_and_update(stack, 'b');
@@ -43,7 +43,7 @@ static void	smaller_than_stack_b(t_stack *stack)
 	else
 		switch_stacks(stack, 'b');
 }
-
+*/
 static void	bottom_replace_top(t_stack *stack)
 {
 	if (stack->bottom - stack->top_a < 5)
@@ -70,21 +70,27 @@ void	stage_one_split(t_stack *stack)
 		// might not be nescessary here but in median
 		switch_two_bottom_nbr(stack);
 	}
-	else if (stack->a[stack->top_a] < stack->b_small && stack->bottom - stack->top_a > 4 && stack->b_empty == FALSE)
+	/*else if (stack->a[stack->top_a] < stack->b_small && stack->bottom - stack->top_a > 4 && stack->b_empty == FALSE)
 	{
 		//added smaller than biggest number also
-//ft_putstr("nbr 2\n");
+ft_putstr("nbr 2\n");
 		smaller_than_stack_b(stack);
-	}
+	}*/
 	else if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
 	{
 		//ft_putstr("nbr 3\n");
 		switch_stacks(stack, 'a');
 	}
-	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] > stack->a[stack->top_a + 1])
+	else if (stack->a[stack->top_a] != stack->a_big && stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] > stack->a[stack->top_a + 1])
 	{
-		rotate_stacks(stack, 'd', 'a');
 		push_and_update(stack, 'b');
+		rotate_stacks(stack, 'd', 'a');
+		switch_stacks(stack, 'a');
+		//push_and_update(stack, 'b');
+	}
+	else if (stack->b_empty == FALSE && ((stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]) || (stack->b[stack->top_b] > stack->a[stack->bottom - 1] && stack->b[stack->top_b] < stack->a[stack->top_a])))
+	{
+		push_and_update(stack, 'a');
 	}
 	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])// && stack->bottom - stack->top_a < 5)
 	{

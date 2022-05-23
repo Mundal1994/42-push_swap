@@ -207,3 +207,54 @@ ARG="253 31 277 141 44 76 110 281 109 60 289 238 280 117 269 275 175 245 69 47 8
 
 
 
+ARG="6 5 8 7 1 9 4 2 3 10"; ./push_swap $ARG
+
+
+new method
+22
+
+
+ARG="9 8 2 7 10 3 4 5 6 1"; ./push_swap $ARG
+22
+
+
+
+biggest of the two top numbers becomes the number we sort around
+everything bigger than that number will be pushed to the right unless bottom number is bigger
+
+
+
+
+ARG="2 3 1 7 9 8 4 10 6 5"; ./push_swap $ARG
+
+29
+
+25
+
+
+34
+
+28
+
+
+21
+
+
+
+
+
+
+
+ARG="8 7 3 10 5 2 6 1 4 9"; ./push_swap $ARG
+
+
+find middle and split in half - anything below the number goes to other stack
+25
+
+
+
+choose number - sort around it
+24
+
+
+old method
