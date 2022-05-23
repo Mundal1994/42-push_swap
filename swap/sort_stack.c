@@ -222,6 +222,11 @@ static void	median_calc(t_stack *stack)
 	//	stack->median = stack->a[2];
 }
 
+
+
+// maybe make conditions for pushing tto stack b without rotating because i know i will push it back quickly?
+
+
 void	sort_stack(t_stack *stack)
 {
 	int	stage;
@@ -232,6 +237,7 @@ void	sort_stack(t_stack *stack)
 	stage = 1;
 	b_ordered = FALSE;
 	median_calc(stack);
+	//int j = 0;
 	//int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
@@ -313,16 +319,20 @@ void	sort_stack(t_stack *stack)
 	// ft_putnbr(stack->a[3]);
 	// ft_putnbr(stack->a[4]);
 	// ft_putnbr(stack->a[5]);
-			/*if (stack->b_empty == TRUE)
-			{	
+			if (stack->b_empty == TRUE)
+			{	/*
 				int i = 0;
 				while (i < stack->bottom)
 				{
 					ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 					i++;
-				}
+				}*/
 				exit(0);
-			}*/
+			}
+			//++j;
+			//if (j > 10)
+			//	exit(0);
+			
 			
 		}
 		else if (stage == 5)
@@ -363,6 +373,9 @@ void	sort_stack(t_stack *stack)
 			i++;
 		
 		}*/
+		//++j;
+		//if (j > 10)
+		//	exit(0);
 	}
 	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);

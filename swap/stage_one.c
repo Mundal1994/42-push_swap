@@ -54,6 +54,7 @@ static void	bottom_replace_top(t_stack *stack)
 	else
 	{
 		push_and_update(stack, 'b');
+		//rotate_stacks(stack, 'd', 'a'); THIS MADE IT SO MUCH WORSE
 		//if same can be done for stack b do rrr else
 		//rotate_stacks(stack, 'd', 'a');
 	}
