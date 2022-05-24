@@ -31,6 +31,7 @@ typedef struct s_stack
 	int			a_bigB;
 	int			b_small;
 	int			b_big;
+	int			start_nbr;
 	int			median;
 	int			median_nbr;
 } t_stack;

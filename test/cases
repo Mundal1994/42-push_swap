@@ -264,3 +264,45 @@ old method
 
 
 ARG="11 112 56 289 249 5 95 219 180 288 32 159 18 222 155 3 189 88 212 49 23 13 6 15 242 92 205 133 244 67 29 28 102 97 229 162 85 267 45 210 278 277 250 146 172 169 203 218 76 103 293 128 208 173 225 253 87 127 254 195 104 224 197 99 271 186 188 198 167 191 57 89 80 16 234 279 136 48 290 265 143 248 247 163 200 129 226 154 168 60 19 257 58 252 141 204 176 156 164 196"; ./push_swap $ARG
+
+
+
+ARG="5 8 1 6 3 2 7 9 4 10"; ./push_swap $ARG
+
+new method
+31
+
+
+old method
+21
+
+
+23
+
+
+quicksortish
+21
+
+
+
+ARG="1 10 3 7 9 5 4 6 8 2"; ./push_swap $ARG
+
+
+new
+24
+
+old method
+28
+
+
+ARG="-2 -6 3 7 5 -7 4 1 -1 -4 10 0 -8 2 -5 8 9 -3 6"; ./push_swap $ARG
+
+new
+(check at top or bottom thingy if can switch) everything but ordered stuff gets either switched and pushed to the bottom
+(maybe if the top is smaller than the closest ordered part) we will order it so the closest ordered part will get longer?
+74
+62
+
+
+old
+66-76... lost count

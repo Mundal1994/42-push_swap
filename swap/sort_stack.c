@@ -41,6 +41,15 @@ static int	checks_order(t_stack *stack, int i, char c_char, int end)
 	return (TRUE);
 }
 
+static int	error_start_nbr(t_stack *stack, int i, char c)
+{
+	stack->start_nbr = i;
+	if (c == 'e')
+		return (ERROR);
+	else
+		return (TRUE);
+}
+
 static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 {
 	int	i;
@@ -54,14 +63,14 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	// ft_printf("error\nabig: %d, i: %d, top_c: %d\n", stack->a_big, i, top_c);
 	// ft_printf("error\nbbig: %d, i: %d, top_c: %d\n", stack->b_big, i, top_c);
 	if (top_c != i && checks_order(stack, i, c_char, TRUE) == ERROR)
-		return (ERROR);
+		return (error_start_nbr(stack, i, 'e'));
 	++i;
 	if (c_char == 'b')
 		++i;
 	while (i < stack->bottom)
 	{
 		if (checks_order(stack, i, c_char, FALSE) == ERROR)
-			return (ERROR);
+			return (error_start_nbr(stack, i, 'e'));
 		++i;
 	}
 	if ((c[top_c] != stack->a_small && c_char == 'a') || (c[top_c] != stack->b_big && c_char == 'b'))
@@ -71,11 +80,11 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 		(c[i - 1] != stack->b_big && c_char == 'b'))
 		{
 			if (checks_order(stack, i, c_char, FALSE) == ERROR)
-				return (ERROR);
+				return (error_start_nbr(stack, i, 'e'));
 			++i;
 		}
 	}
-	return (TRUE);
+	return (error_start_nbr(stack, i, 't'));
 }
 
 static void update_variables(t_stack *stack)
@@ -166,16 +175,34 @@ static void	stage_three_sort_b(t_stack *stack)
 // still takes to many moves. move stuff to left side in chunks like other people has said?
 // make sure sorting works. now sorting to b side works but still trouble getting it to the left
 
-static void	median_calc(t_stack *stack)
+static void	already_sorted(t_stack *stack)
 {
-	if (stack->a[0] > stack->a[1] && stack->a[0] > stack->a[stack->bottom - 1])//&& stack->a[0] > stack->a[2]
-		stack->median = stack->a[0];
-	else if (stack->a[1] > stack->a[0] && stack->a[1] > stack->a[stack->bottom - 1])//&& stack->a[1] > stack->a[2]
-		stack->median = stack->a[1];
-	else if (stack->a[stack->bottom - 1] > stack->a[0] && stack->a[stack->bottom - 1] > stack->a[1])//&& stack->a[stack->bottom - 1] > stack->a[2]
-		stack->median = stack->a[stack->bottom - 1];
-	//else
-	//	stack->median = stack->a[2];
+	int	i;
+	int	index;
+	int	nbr;
+	int	len;
+	int	small;
+
+	i = 0;
+	len = 0;
+	small = stack->a_small;
+	while (i < stack->bottom)
+	{
+		stack->a_small = stack->a[i];
+		check_if_ordered(stack, stack->a, i, 'a');
+		if (stack->start_nbr - i >= 3)
+		{
+			len = stack->start_nbr - i;
+			index = i;
+			nbr = stack->a[index];
+			i = stack->start_nbr - 1;
+			ft_printf("len: %d	, index: %d	, nbr: %d, end nbr: %d\n", len, index, nbr, stack->a[stack->start_nbr - 1]);
+		}
+		++i;
+	}
+	stack->start_nbr = nbr;
+	stack->a_small = small;
+	ft_printf("len: %d	, index: %d	", len, index);
 }
 
 
@@ -195,7 +222,9 @@ void	sort_stack(t_stack *stack)
 	//int i = 0;
 	stage = 1;
 	b_ordered = FALSE;
-	median_calc(stack);
+	already_sorted(stack);
+	ft_printf("nbr: %d, \n", stack->start_nbr);
+	exit(0);
 	//int j = 0;
 	//int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
@@ -351,6 +380,7 @@ void	sort_stack(t_stack *stack)
 		
 		}*/
 	}
+
 	/*ft_putnbr(stack->a[0]);
 	ft_putnbr(stack->a[1]);
 	ft_putnbr(stack->a[2]);
