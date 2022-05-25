@@ -196,13 +196,13 @@ static void	already_sorted(t_stack *stack)
 			index = i;
 			nbr = stack->a[index];
 			i = stack->start_nbr - 1;
-			ft_printf("len: %d	, index: %d	, nbr: %d, end nbr: %d\n", len, index, nbr, stack->a[stack->start_nbr - 1]);
+			//ft_printf("len: %d	, index: %d	, nbr: %d, end nbr: %d\n", len, index, nbr, stack->a[stack->start_nbr - 1]);
 		}
 		++i;
 	}
 	stack->start_nbr = nbr;
 	stack->a_small = small;
-	ft_printf("len: %d	, index: %d	", len, index);
+	//ft_printf("len: %d	, index: %d	", len, index);
 }
 
 
@@ -223,8 +223,8 @@ void	sort_stack(t_stack *stack)
 	stage = 1;
 	b_ordered = FALSE;
 	already_sorted(stack);
-	ft_printf("nbr: %d, \n", stack->start_nbr);
-	exit(0);
+	//ft_printf("nbr: %d, \n", stack->start_nbr);
+	//exit(0);
 	//int j = 0;
 	//int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...

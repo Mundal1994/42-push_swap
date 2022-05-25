@@ -114,10 +114,10 @@ ft_putstr("nbr 2\n");
 		switch_stacks(stack, 'a');
 		//push_and_update(stack, 'b');
 	}
-	else if (stack->b_empty == FALSE && ((stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]) || (stack->b[stack->top_b] > stack->a[stack->bottom - 1] && stack->b[stack->top_b] < stack->a[stack->top_a])))
+	/*else if (stack->b_empty == FALSE && ((stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a + 1] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]) || (stack->b[stack->top_b] > stack->a[stack->bottom - 1] && stack->b[stack->top_b] < stack->a[stack->top_a])))
 	{
 		push_and_update(stack, 'a');
-	}
+	}*/
 	else if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && stack->a[stack->bottom - 1] < stack->a[stack->top_a + 1])// && stack->bottom - stack->top_a < 5)
 	{
 		//ft_putstr("nbr 4\n");
