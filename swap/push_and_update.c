@@ -52,19 +52,27 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 {
 	if (c == 'a')
 	{
-		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
-			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+		if (stack->a[stack->top_a] < stack->b[stack->top_b] && stack->a[stack->top_a + 1] > stack->b[stack->top_b])
+		{
+			solve_and_print(stack, "pa");
+			switch_stacks(stack, 'a');
+		}
 		else
 		{
-			d = calc_rr_or_rrr(stack, stack->b[stack->top_b], stack->top_a, 'a');
-			if (d == FALSE && stack->b[stack->top_b] < stack->a_big)
-				while (stack->a[stack->top_a] < stack->b[stack->top_b])
-					solve_and_print(stack, "ra");
-			else if (d == TRUE && stack->b[stack->top_b] < stack->a_big)
-				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
-					solve_and_print(stack, "rra");
+			if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
+				stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+			else
+			{
+				d = calc_rr_or_rrr(stack, stack->b[stack->top_b], stack->top_a, 'a');
+				if (d == FALSE && stack->b[stack->top_b] < stack->a_big)
+					while (stack->a[stack->top_a] < stack->b[stack->top_b])
+						solve_and_print(stack, "ra");
+				else if (d == TRUE && stack->b[stack->top_b] < stack->a_big)
+					while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
+						solve_and_print(stack, "rra");
+			}
+			solve_and_print(stack, "pa");
 		}
-		solve_and_print(stack, "pa");
 		if (stack->b_small == stack->b_big)//means one element left
 		{
 			stack->b_empty = TRUE;
@@ -74,26 +82,34 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 	}
 	else
 	{
-		if (stack->b_small > stack->a[stack->top_a] || \
-		stack->b_big < stack->a[stack->top_a])
-			stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-		else
+		if (stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->top_b + 1] < stack->a[stack->top_a])
 		{
-			d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
-			//ft_printf("d = %d\n", d);
-			if (d == FALSE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-				while (stack->b[stack->top_b] > stack->a[stack->top_a])
-					solve_and_print(stack, "rb");
-			else if (d == TRUE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-			{
-				//ft_printf("inside d true\nstack[bottom]: %d, stack->a[top]: %d", stack->b[stack->bottom - 1], stack->a[stack->top_a]);
-				while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
-				{
-					//ft_printf("inside loop\n");
-					solve_and_print(stack, "rrb");}
-			}
+			solve_and_print(stack, "pb");
+			switch_stacks(stack, 'b');
 		}
-		solve_and_print(stack, "pb");
+		else 
+		{
+			if (stack->b_small > stack->a[stack->top_a] || \
+			stack->b_big < stack->a[stack->top_a])
+				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+			else
+			{
+				d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
+				//ft_printf("d = %d\n", d);
+				if (d == FALSE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
+					while (stack->b[stack->top_b] > stack->a[stack->top_a])
+						solve_and_print(stack, "rb");
+				else if (d == TRUE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
+				{
+					//ft_printf("inside d true\nstack[bottom]: %d, stack->a[top]: %d", stack->b[stack->bottom - 1], stack->a[stack->top_a]);
+					while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
+					{
+						//ft_printf("inside loop\n");
+						solve_and_print(stack, "rrb");}
+				}
+			}
+			solve_and_print(stack, "pb");
+		}
 		if (stack->b_small > stack->b_big)//means stack is empty
 		{
 			stack->b_empty = FALSE;

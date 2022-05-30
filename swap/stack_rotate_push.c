@@ -26,7 +26,11 @@ void	switch_stacks(t_stack *stack, char c)
 		}
 	}
 	else
+	{
+		if (stack->a[stack->top_a] > stack->a[stack->top_a + 1] && stack->a[stack->top_a] < stack->a[stack->top_a + 2])
+			solve_and_print(stack, "ss");
 		solve_and_print(stack, "sb");
+	}
 }
 
 void	stack_rotate_push(t_stack *stack, char c, char d)

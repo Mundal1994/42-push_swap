@@ -260,7 +260,15 @@ void	sort_stack(t_stack *stack)
 		if (stage == 1)
 		{
 			//ft_putstr("stage1\n");
-			stage_one_split(stack);/*
+			if (stack->bottom - stack->top_b > 20)
+			{
+				while (stack->b_empty == FALSE)
+					push_and_update(stack, 'a');
+			}
+			else
+				push_and_update(stack, 'b');
+			//stage_one_split(stack);
+			/*
 			int i = 0;
 			while (i < stack->bottom)
 			{
