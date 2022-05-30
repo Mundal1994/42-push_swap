@@ -22,9 +22,15 @@ int	main(int argc, char **argv)
 		if (!stack)
 			exit(1);
 		if (valid_input_checker(argc, argv, stack) == ERROR)
+		{
+			ft_putstr("HERE3");
 			return (1);
+		}
 		if (create_stack(argc, argv, stack) == ERROR)
+		{
+			ft_putstr("HERE4");
 			return (1);
+		}
 		sort_stack(stack);
 		if (stack->a)
 			free(stack->a);

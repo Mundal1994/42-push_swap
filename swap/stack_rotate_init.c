@@ -79,9 +79,9 @@ static void	solve_based_on_stack(t_stack *stack, int *b, int top_b, char a)
 	}
 	else
 	{
-		if (b[stack->bottom - 1] < b[top_b])
-			solve_and_print(stack, "rr");
-		else
+		//if (b[stack->bottom - 1] < b[top_b])
+		//	solve_and_print(stack, "rr");
+		//else
 			solve_and_print(stack, "rb");
 	}
 }

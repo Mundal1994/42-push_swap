@@ -87,44 +87,6 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	return (error_start_nbr(stack, i, 't'));
 }
 
-static void update_variables(t_stack *stack)
-{
-	if (stack->a_smallB > stack->a_bigB)
-	{
-		stack->a_smallB = stack->a[stack->top_a];
-		stack->a_bigB = stack->a[stack->top_a];
-	}
-	else if (stack->a[stack->top_a + 1] > stack->a[stack->top_a])
-	{
-		stack->a_smallB = stack->a[stack->top_a];
-	}
-	else if (stack->a[stack->top_a + 1] < stack->a[stack->top_a])
-	{
-		stack->a_smallB = stack->a[stack->top_a + 1];
-		stack->a_bigB = stack->a[stack->top_a];
-		// maybe make a function that switch their position evt below function
-	}
-}
-
-static void	stage_two_median(t_stack *stack)
-{
-	if (stack->a[stack->bottom - 1] == stack->median_nbr)
-	{
-		stack_rotate_init(stack, stack->a, stack->a_bigB, 'a');
-	}
-	else
-	{
-		rotate_stacks(stack, 'd', 'a');
-		if (stack->a[stack->top_a] < stack->median_nbr)
-			push_and_update(stack, 'b');
-		else if (stack->a[stack->top_a] > stack->median_nbr)
-		{
-			update_variables(stack);
-			//stage_one_split(stack);
-		}
-		
-	}
-}
 /*
 static void	stage_three_sort_b(t_stack *stack)
 {
@@ -169,8 +131,6 @@ static void	stage_three_sort_b(t_stack *stack)
 
 }
 */
-
-
 
 // still takes to many moves. move stuff to left side in chunks like other people has said?
 // make sure sorting works. now sorting to b side works but still trouble getting it to the left
@@ -260,13 +220,56 @@ void	sort_stack(t_stack *stack)
 		if (stage == 1)
 		{
 			//ft_putstr("stage1\n");
-			if (stack->bottom - stack->top_b > 20)
+			//ft_printf("a_ordered 1 = true: %d\n", a_ordered);
+			if (stack->bottom - stack->top_b > 10 && b_ordered == TRUE)
 			{
+				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+				if (stack->ordered_small > stack->ordered_big)//means stack is empty
+				{
+					stack->ordered_small = stack->b[stack->bottom - 1];
+					stack->ordered_big = stack->b[stack->top_b];
+				}
+				else
+				{
+					if (stack->ordered_small > stack->b[stack->bottom - 1])
+						stack->ordered_small = stack->b[stack->bottom - 1];
+					if (stack->ordered_big > stack->b[stack->top_b])
+						stack->ordered_big = stack->b[stack->top_b];
+				}
 				while (stack->b_empty == FALSE)
 					push_and_update(stack, 'a');
 			}
 			else
-				push_and_update(stack, 'b');
+			{
+				if (stack->ordered_small > stack->ordered_big)
+					push_and_update(stack, 'b');
+				else
+				{
+					solve_and_print(stack, "rra");
+					if (stack->ordered_small > stack->ordered_big && stack->a[stack->top_a + 1] == stack->ordered_small && stack->a[stack->top_a] < stack->ordered_small)
+					{
+						stack->ordered_small = stack->a[stack->top_a];
+					}
+					else if (stack->ordered_small > stack->ordered_big && stack->a[stack->top_a] > stack->a[stack->top_a + 1] && stack->a[stack->top_a] < stack->a[stack->top_a + 2])
+					{
+						switch_stacks(stack, 'a');
+					}
+					else
+						push_and_update(stack, 'b');
+				}
+			}
+			/*
+			int i = 0;
+			while (i < stack->bottom)
+			{
+				ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
+				i++;
+			
+			}
+			++j;
+			if (j > 50 || stack->b[stack->top_b] == 7)
+				exit(0);
+				*/
 			//stage_one_split(stack);
 			/*
 			int i = 0;
@@ -294,24 +297,27 @@ void	sort_stack(t_stack *stack)
 			//exit(0);
 			//ft_putstr("stage4\n");
 			// is it important to rotate stack a? maybe yes
-			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 			if (stack->b_empty == FALSE)
 			{
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 				while (stack->b_empty == FALSE)
 				{
+		//			ft_printf("%d\n", stack->b_empty);
 					push_and_update(stack, 'a');
-				/*	++j;
+						ft_printf("%d\n", stack->b_empty);
 					int i = 0;
 		while (i < stack->bottom)
 		{
 			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 			i++;
 		
-		}
-			if (j > 0)
+		}/*
+		++j;
+			if (j > 5)
 				exit(0);*/
 				}
+				
 			}
 			if (stack->b_empty == TRUE)
 			{
@@ -319,14 +325,14 @@ void	sort_stack(t_stack *stack)
 				//exit(0);
 			}
 
-	//  		ft_putstr("\n");
-	//  ft_putnbr(stack->b[stack->bottom - 4]);
-	//  ft_putnbr(stack->b[stack->bottom - 3]);
-	//  ft_putnbr(stack->b[stack->bottom - 2]);
-	//  ft_putnbr(stack->b[stack->bottom - 1]);
-	//  ft_printf("\nbig: %d, small: %d\nstack->a", stack->b_big, stack->b_small);
-	//  ft_putchar('\n');
-	//  ft_putnbr(stack->a[0]);
+	// ft_putstr("\n");
+	// ft_putnbr(stack->b[stack->bottom - 4]);
+	// ft_putnbr(stack->b[stack->bottom - 3]);
+	// ft_putnbr(stack->b[stack->bottom - 2]);
+	// ft_putnbr(stack->b[stack->bottom - 1]);
+	// ft_printf("\nbig: %d, small: %d\nstack->a", stack->b_big, stack->b_small);
+	// ft_putchar('\n');
+	// ft_putnbr(stack->a[0]);
 	// ft_putnbr(stack->a[1]);
 	// ft_putnbr(stack->a[2]);
 	// ft_putnbr(stack->a[3]);
@@ -354,18 +360,6 @@ void	sort_stack(t_stack *stack)
 			//ft_putstr("stage5\n");
 			//exit(0);
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
-		}
-		else if (stage == 2)
-		{
-			// is this stage stupid?? creates more problems than they solve???
-			//ft_putstr("stage2\n");
-			// ft_putnbr(stack->median);
-			// ft_putchar('\n');
-			// ft_putnbr(stack->median_nbr);
-			// ft_putchar('\n');
-			//exit(0);
-			stage_two_median(stack);
-			
 		}
 		else if (stage == 3)
 		{

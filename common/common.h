@@ -27,8 +27,8 @@ typedef struct s_stack
 	int			b_empty;
 	int			a_small;
 	int			a_big;
-	int			a_smallB;
-	int			a_bigB;
+	int			ordered_small;
+	int			ordered_big;
 	int			b_small;
 	int			b_big;
 	int			start_nbr;
