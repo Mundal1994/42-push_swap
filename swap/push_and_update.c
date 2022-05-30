@@ -48,6 +48,46 @@ static void	update_big_small(int *c, int *small, int *big)
 		*small = c[0];
 }
 
+/*	finds the index where a number from one stack would fit into another	*/
+
+static int	finds_index_nbr_would_fit(t_stack *stack, int nbr, int top_c, char c)
+{
+	int	i;
+	int	save;
+
+	i = top_c;
+	save = stack->bottom + 1;
+	/*
+	if (stack->a[i] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
+		save = i - top_c;
+	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
+		save = i - top_c;*/
+	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
+	if (c == 'a' && stack->a[top_c] < nbr && stack->a[stack->bottom - 1] > nbr)
+		save = top_c;
+	else if (c == 'b' && stack->b[top_c] > nbr && stack->b[stack->bottom - 1] < nbr)
+		save = top_c;
+	else
+	{
+		while (i < stack->bottom)
+		{
+			if (c == 'b' && ((stack->b[i] > nbr && stack->b[i + 1] < nbr) || \
+			(nbr > stack->b_big && stack->b[i] == stack->b_big)))// might remove this >> (nbr > stack->b_big && stack->b[i] == stack->b_big)
+				save = i - top_c;//not sure this has to be minus top_c
+			else if (c == 'a' && ((stack->a[i] < nbr && stack->a[i + 1] > nbr) || \
+			(nbr > stack->a_big && stack->a[i] == stack->a_big)))// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
+				save = i - top_c;
+			++i;
+		}
+	}
+	//ft_printf("\nsave: %d, median: %d, median_nbr: %d, bottom median: %d, nbr: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
+	if (save == stack->bottom + 1)
+		return (ERROR);
+	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
+		return (TRUE);
+	return (FALSE);
+}
+
 static void	push_and_update_helper(t_stack *stack, char c, int d)
 {
 	if (c == 'a')
@@ -56,7 +96,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		else
 		{
-			d = calc_rr_or_rrr(stack, stack->b[stack->top_b], stack->top_a, 'a');
+			d = finds_index_nbr_would_fit(stack, stack->b[stack->top_b], stack->top_a, 'a');
 			if (d == FALSE && stack->b[stack->top_b] < stack->a_big)
 				while (stack->a[stack->top_a] < stack->b[stack->top_b])
 					solve_and_print(stack, "ra");
@@ -79,7 +119,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 		else
 		{
-			d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
+			d = finds_index_nbr_would_fit(stack, stack->a[stack->top_a], stack->top_b, 'b');
 			//ft_printf("d = %d\n", d);
 			if (d == FALSE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
 				while (stack->b[stack->top_b] > stack->a[stack->top_a])

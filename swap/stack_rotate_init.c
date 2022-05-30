@@ -12,12 +12,9 @@
 
 #include "push_swap.h"
 
-/*
-**	calculates quickest way to get a specific number to be at the bottom
-**	or find index where a number from one stack would fit into another
-*/
+/*	calculates quickest way to get a specific number to be at the bottom	*/
 
-int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
+static int	calc_rotation_based_on_nbr(t_stack *stack, int nbr, int top_c, char c)
 {
 	int	i;
 	int	save;
@@ -30,19 +27,8 @@ int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
 	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
 		save = i - top_c;*/
 	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
-	
 	while (i < stack->bottom)
 	{
-		if (stack->a[stack->top_a] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')
-			save = 0;
-		else if (stack->b[stack->top_b] > nbr && stack->b[stack->bottom - 1] < nbr && c == 'b')
-			save = 0;
-		else if (c == 'b' && ((stack->b[i] > nbr && stack->b[i + 1] < nbr) || \
-		(nbr > stack->b_big && stack->b[i] == stack->b_big)))// might remove this >> (nbr > stack->b_big && stack->b[i] == stack->b_big)
-			save = i - top_c;//not sure this has to be minus top_c
-		else if (c == 'a' && ((stack->a[i] < nbr && stack->a[i + 1] > nbr) || \
-		(nbr > stack->a_big && stack->a[i] == stack->a_big)))// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
-			save = i - top_c;
 		if ((stack->a[i] == nbr && c == 'a') || (stack->b[i] == nbr && c == 'b'))
 		{
 			save = i - top_c;
@@ -123,7 +109,8 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 	int	d;
 	if (c == 'a')
 	{
-		d = calc_rr_or_rrr(stack, nbr, stack->top_a, 'a');
+		d = calc_rotation_based_on_nbr(stack, nbr, stack->top_a, 'a');
+		ft_printf("stack %c	rotate r = 0: d = %d\n", c, d);
 		if (d == FALSE)
 			while (a[stack->bottom - 1] < a[stack->top_a])
 				stack_rotate_push(stack, c, 'r');
@@ -133,7 +120,8 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 	}
 	else
 	{
-		d = calc_rr_or_rrr(stack, nbr, stack->top_b, 'b');
+		d = calc_rotation_based_on_nbr(stack, nbr, stack->top_b, 'b');
+		ft_printf("stack %c	rotate r = 0: d = %d\n", c, d);
 		if (d == FALSE)
 			while (a[stack->bottom - 1] > a[stack->top_b])
 				stack_rotate_push(stack, c, 'r');

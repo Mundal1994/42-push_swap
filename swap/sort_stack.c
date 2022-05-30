@@ -206,12 +206,21 @@ static void	already_sorted(t_stack *stack)
 }
 
 
-// find the biggest sequence of already ordered numbers. push them to stack b
-// locate next sorted sequence.
-// sort as you make your way there
-// as you find the next biggest sequence merge it with stack b
-// only when last bit has been sorted will we push from stack b to a and merge the last bit
+/* optimize and make sure it rotates the correct way when it push from one side to another / it doesn't always choose the most optimal rotation
 
+another way to make it better would be to push to stack a in sections...
+
+maybe start over and make it go
+
+- sort it like before but as we push to stack b. stack b can't be bigger than 20 or something.
+OR sort it like not at all and just push directly to stack b
+
+- after it has hit 20 we move it to stack a.
+	we keep track of heighest and lowest number of was just pushed - ordered heighest and lowest number.
+- if any of the ordered heighest and lowest number in stack a is in stack b we will push it to the correct position in stack a (don't know if push imidiately or wait until there is 20 or something again ordered numbers)
+- we sort like always but now we take into consideration the heighest and lowest number of the ordered list i stack a and we push any number that is heigher than ordered minimum to stack b to be sorted
+
+*/
 
 void	sort_stack(t_stack *stack)
 {
