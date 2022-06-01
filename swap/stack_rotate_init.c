@@ -70,16 +70,18 @@ void	solve_and_print(t_stack *stack, char *str)
 
 static void	solve_based_on_stack(t_stack *stack, int *b, int top_b, char a)
 {
+	int i;
 	if (a == 'a')
 	{
-		if (stack->b_empty == FALSE && b[stack->bottom - 1] > b[top_b])
-			solve_and_print(stack, "rr");
-		else
+		// if (stack->b_empty == FALSE && b[stack->bottom - 1] > b[top_b])
+		// 	solve_and_print(stack, "rr");
+		// else
 			solve_and_print(stack, "ra");
 	}
 	else
 	{
-		//if (b[stack->bottom - 1] < b[top_b])
+		if (b[stack->bottom - 1] < b[top_b])
+			i = 0;
 		//	solve_and_print(stack, "rr");
 		//else
 			solve_and_print(stack, "rb");
@@ -101,17 +103,17 @@ void	rotate_stacks(t_stack *stack, char c, char a)
 	{
 		if (a == 'a')
 		{
-			if (stack->b_empty == FALSE && stack->b[stack->bottom - 1] > stack->b[stack->top_b])
-				solve_and_print(stack, "rrr");
-			else
+			// if (stack->b_empty == FALSE && stack->b[stack->bottom - 1] > stack->b[stack->top_b])
+			// 	solve_and_print(stack, "rrr");
+			// else
 				solve_and_print(stack, "rra");
 		}
 		else
 		{
-			if (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
-				solve_and_print(stack, "rrr");
-			else
-				solve_and_print(stack, "rrb");
+			// if (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
+			// 	solve_and_print(stack, "rrr");
+			// else
+			solve_and_print(stack, "rrb");
 		}
 	}
 }
