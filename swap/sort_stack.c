@@ -65,6 +65,7 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 	if (top_c != i && checks_order(stack, i, c_char, TRUE) == ERROR)
 		return (error_start_nbr(stack, i, 'e'));
 	++i;
+	//ft_printf("after first error check passed\n");
 	if (c_char == 'b')
 		++i;
 	while (i < stack->bottom)
@@ -73,17 +74,20 @@ static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
 			return (error_start_nbr(stack, i, 'e'));
 		++i;
 	}
+	//ft_printf("after second error check passed\n");
 	if ((c[top_c] != stack->a_small && c_char == 'a') || (c[top_c] != stack->b_big && c_char == 'b'))
 	{
 		i = top_c + 1;
+		//ft_printf("c[i]: %d\n", c[i]);
 		while ((c[i] != stack->a_small && c_char == 'a') || \
-		(c[i - 1] != stack->b_big && c_char == 'b'))
+		(c[i] != stack->b_big && c_char == 'b'))
 		{
 			if (checks_order(stack, i, c_char, FALSE) == ERROR)
 				return (error_start_nbr(stack, i, 'e'));
 			++i;
 		}
 	}
+	//ft_printf("shouldn't return error\n");
 	return (error_start_nbr(stack, i, 't'));
 }
 
@@ -173,10 +177,15 @@ static void	already_sorted(t_stack *stack)
 // only when last bit has been sorted will we push from stack b to a and merge the last bit
 
 
+/*
+
+ARG="-46 -5 -47 5 6 42 -35 35 -25 -31 43 36 44 21 -33 29 -13 45 -11 -10 22 50 -17 1 25 -3 -8 17 -44 -38 -22 31 -6 0 7 3 48 -20 -37 8 32 -28 15 41 19 -30 13 27 23 28 47 10 37 4 2 24 49 -18 12 -49 20 -40 14 -2 -4 -1 38 -16 16 -50 -32 -14 -7 -21 -29 18 -43 -9 11 -36 46 -15 -34 -24 -26 -27 40 -39 26 30 -19 9 -42 -48 39 -12 -45 33 34 -41 -23"; ./push_swap $ARG
+
+*/
+
 void	sort_stack(t_stack *stack)
 {
 	int	stage;
-	int	a_ordered;
 	int	b_ordered;
 
 	//int i = 0;
@@ -185,7 +194,7 @@ void	sort_stack(t_stack *stack)
 	already_sorted(stack);
 	//ft_printf("nbr: %d, \n", stack->start_nbr);
 	//exit(0);
-//	int j = 0;
+	//int j = 0;
 	//int stop = 0;
 	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
@@ -195,17 +204,17 @@ void	sort_stack(t_stack *stack)
 		// ft_putnbr(stack->a[stack->bottom - 3]);
 		// ft_putnbr(stack->a[stack->bottom - 2]);
 		// ft_putnbr(stack->a[stack->bottom - 1]);
-		a_ordered = check_if_ordered(stack, stack->a, stack->top_a, 'a');
+		stack->a_ordered = check_if_ordered(stack, stack->a, stack->top_a, 'a');
 		if (stack->b_small < stack->b_big)
 			b_ordered = check_if_ordered(stack, stack->b, stack->top_b, 'b');
-		if (a_ordered == TRUE && (b_ordered == TRUE || stack->b_empty == TRUE))
+		if (stack->a_ordered == TRUE && (b_ordered == TRUE || stack->b_empty == TRUE))
 		{
 			if (stack->b_empty == TRUE)
 				stage = 5;
 			else
 				stage = 4;
 		}
-		else if (a_ordered == TRUE)
+		else if (stack->a_ordered == TRUE)
 		{
 			//if (stack->b_empty == FALSE)
 			//	stage = 3;
@@ -219,22 +228,36 @@ void	sort_stack(t_stack *stack)
 		//	++stage;
 		if (stage == 1)
 		{
-			int k = 0;
-			while (k < stack->bottom)
-			{
-				ft_printf("a[%d]: %d	b[%d]: %d\n", k, stack->a[k], k, stack->b[k]);
-				k++;
-			}
+			// int k = 0;
+			// while (k < stack->bottom)
+			// {
+			// 	ft_printf("a[%d]: %d	b[%d]: %d\n", k, stack->a[k], k, stack->b[k]);
+			// 	k++;
+			// }
 			//ft_putstr("stage1\n");
-			//ft_printf("a_ordered 1 = true: %d\n", a_ordered);
+			//ft_printf("stack->a_ordered 1 = true: %d\n", stack->a_ordered);
 			if ((stack->a[stack->bottom - 1] == stack->ordered_big || stack->bottom - stack->top_b > 10) && b_ordered == TRUE)
 			{
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+				int i = 0;
+			while (i < stack->bottom)
+			{
+				ft_printf("beforestack->ordered_big: %d, beforea[%d]: %d	b[%d]: %d\n", stack->ordered_big, i, stack->a[i], i, stack->b[i]);
+				i++;
+			
+			}
 				while (stack->b_empty == FALSE)
 					push_and_update(stack, 'a');
+				i = 0;
+			while (i < stack->bottom)
+			{
+				ft_printf("afterstack->ordered_big: %d, beforea[%d]: %d	b[%d]: %d\n", stack->ordered_big, i, stack->a[i], i, stack->b[i]);
+				i++;
+			
+			}
 				int nbr = 0;
 				int index = stack->top_a;
-				if (stack->a[index] == stack->ordered_big)
+				if (stack->a[index] == stack->ordered_big)// && i + 1 != stack->bottom && stack->a_ordered == TRUE)
 					nbr = stack->a[index + 1];
 				else
 				{
@@ -252,6 +275,10 @@ void	sort_stack(t_stack *stack)
 					}
 				}
 				//ft_printf("nbr: %d\n", nbr);
+				stack->first_small = FALSE;
+				ft_printf("nbr: %d\n", nbr);
+				if (nbr == 50)
+					exit(0);
 				stack_rotate_init(stack, stack->a, nbr, 'a');
 				
 			}
@@ -273,29 +300,16 @@ void	sort_stack(t_stack *stack)
 					push_and_update(stack, 'b');
 				}
 			}
-			/*
-			int i = 0;
-			while (i < stack->bottom)
-			{
-				ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
-				i++;
 			
-			}
-			++j;
-			if (j > 50 || stack->b[stack->top_b] == 7)
-				exit(0);
-				*/
+			// int i = 0;
+			// while (i < stack->bottom)
+			// {
+			// 	ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
+			// 	i++;
+			
+			// }
+				
 			//stage_one_split(stack);
-			/*
-			int i = 0;
-			while (i < stack->bottom)
-			{
-				ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
-				i++;
-			}
-			if (stop++ > 10)
-				exit(0);
-*/
 	// 		ft_putstr("\n");
 	// ft_putnbr(stack->a[stack->bottom - 4]);
 	// ft_putnbr(stack->a[stack->bottom - 3]);
@@ -324,8 +338,6 @@ ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -4
 */
 
 
-
-
 			// is it important to rotate stack a? maybe yes
 			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 			// int k = 0;
@@ -334,6 +346,7 @@ ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -4
 			// 	ft_printf("a[%d]: %d	b[%d]: %d\n", k, stack->a[k], k, stack->b[k]);
 			// 	k++;
 			// }
+			// exit(0);
 			if (stack->b_empty == FALSE)
 			{
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
@@ -347,10 +360,12 @@ ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -4
 		// {
 		// 	ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
 		// 	i++;
-		
+
 		// }
+		// j++;
+		// 	if (j > 42)
+		// 		exit(0);
 		}	}
-			
 			if (stack->b_empty == TRUE)
 			{
 				stack_rotate_init(stack, stack->a, stack->a_big, 'a');

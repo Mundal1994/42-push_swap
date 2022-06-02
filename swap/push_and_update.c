@@ -91,7 +91,6 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 	int	i;
 	int	save;
 	static int first = TRUE;
-	static int first_small = TRUE;
 	static int temp_big_numb = FALSE;
 
 	i = top_c;
@@ -111,7 +110,8 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 	//	save = 0;
 	//else if (stack->a[stack->top_a] < nbr && c == 'a' && (stack->a[stack->top_a] == stack->ordered_small || (stack->a[stack->top_a] == stack->a_small && stack->ordered_small > stack->ordered_big)))
 	//	save = 0;
-	if (first == TRUE || first_small == TRUE)
+	ft_printf("stack->first_small: %d\n", stack->first_small);
+	if (first == TRUE || stack->first_small == TRUE)
 	{
 		if (first == TRUE)
 			temp_big_numb = nbr;
@@ -125,34 +125,40 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 		{
 			if (stack->a[i] > nbr && i == top_c && stack->a[i] == stack->ordered_small)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
 			{
-				save = i - top_c;
-			}
-			else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
-			{
+				ft_printf("H1");
+		
 				save = i - top_c;
 			}
 			else if (stack->a[i] < nbr && stack->a[i] == temp_big_numb && i + 1 != stack->bottom)
-			{
+			{ft_printf("H3");
+		
 				save = i - top_c;
 				break ;
 			}
 			else if (stack->a[i] == temp_big_numb && i + 1 != stack->bottom)
 			{
-				while (stack->a[i] != stack->ordered_small)
+				ft_printf("H4");
+				while (stack->a[i] != stack->ordered_small && i < stack->bottom)
 				{
 					++i;
 					//ft_printf("stack: %d, ordered_small: %d\n", stack->a[i], stack->ordered_small);
 				}
 				--i;
 			}
+			else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
+			{
+				ft_printf("H2");
+		
+				save = i - top_c;
+			}
 			++i;
 		}
 	}
-	if (stack->bottom - 1 == stack->top_b)
-	{	
-		first_small = FALSE;
-	}
-	ft_printf("\nsave: %d, bottom: %d, divided: %d, nbr: %d\n", save, stack->bottom + 1, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
+	// if (stack->bottom - 1 == stack->top_b)
+	// {	
+	// 	first_small = FALSE;
+	// }
+	//ft_printf("\nsave: %d, bottom: %d, divided: %d, nbr: %d\n", save, stack->bottom + 1, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
 	if (save == stack->bottom + 1)
 		return (ERROR);
 	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
@@ -203,23 +209,36 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				}
 				else
 				{*/
+				ft_printf("d == FALSE\n");
 					if (stack->ordered_big < stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
 					{
+						ft_printf("place 1\n");
 						while (stack->a[stack->top_a] != stack->ordered_big)
 						{
 							solve_and_print(stack, "ra");
 						}
 					}
+					else if (stack->a_ordered == TRUE && stack->b[stack->top_b] != stack->ordered_small && stack->b[stack->top_b] != stack->ordered_big)
+					{
+						ft_printf("place 2\n");
+						while (!(stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]))
+							solve_and_print(stack, "ra");
+					}
 					else
 					{
-						while (stack->a[stack->top_a] < stack->b[stack->top_b])
+						ft_printf("place 3\n");
+						while (!(stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]))
+						{	
+							ft_printf("111111");
 							solve_and_print(stack, "ra");
+						}
 					}
 					solve_and_print(stack, "pa");
 				//}
 			}
 			else if (d == TRUE)
 			{
+				ft_printf("d== TRUE");
 				/*while (stack->a[stack->bottom - 1] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->a[stack->top_a] && stack->a[stack->bottom - 1] != stack->ordered_big)
 				{
 					ft_printf("stack->a[stack->bottom - 1]: %d, stack->b[stack->top_b]: %d, stack->ordered_big: %d\n", stack->a[stack->bottom - 1], stack->b[stack->top_b], stack->ordered_big);
@@ -230,14 +249,22 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				//	stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 				//else
 				//{
-					if (stack->a[stack->top_a] == stack->ordered_small)
-						while (stack->a[stack->bottom - 1] != stack->ordered_big)
+					if (stack->a[stack->top_a] == stack->ordered_big)
+						while (stack->a[stack->bottom - 1] != stack->ordered_small)
 							solve_and_print(stack, "rra");
 					while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
 					{
 						//ft_printf("stack->a[stack->bottom - 1]: %d, stack->b[stack->top_b]: %d\n", stack->a[stack->bottom - 1], stack->b[stack->top_b]);
 						solve_and_print(stack, "rra");
-						//exit(0);
+						ft_printf("222222");
+						int i = 0;
+			while (i < stack->bottom)
+			{
+				ft_printf("beforea[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
+				i++;
+			
+			}
+			// 			exit(0);
 					}
 				//}
 				solve_and_print(stack, "pa");
@@ -289,19 +316,30 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			if (stack->b_small > stack->a[stack->top_a] || \
 			stack->b_big < stack->a[stack->top_a])
 			{
+				ft_printf("rotates\n");
+				
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-
 			}
 			else
 			{
 				d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
+				ft_printf("d = 1 is true: %d\n", d);
 				if (d == FALSE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-					while (stack->b[stack->top_b] > stack->a[stack->top_a])
+				{	//while (stack->b[stack->top_b] > stack->a[stack->top_a])
+					while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a])))//!((stack->b[stack->bottom - 1] > stack->a[stack->top_a])))// || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
 						solve_and_print(stack, "rb");
-				else if (d == TRUE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
+				}else if (d == TRUE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
 				{
-					while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
-						solve_and_print(stack, "rrb");
+					while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a])))//!((stack->b[stack->bottom - 1] > stack->a[stack->top_a])))// || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
+					{
+						int k = 0;
+			while (k < stack->bottom)
+			{
+				ft_printf("stack->ordered_big: %d, a[%d]: %d	b[%d]: %d\n", stack->ordered_big, k, stack->a[k], k, stack->b[k]);
+				k++;
+			}
+			solve_and_print(stack, "rrb");
+					}
 				}
 			}
 			solve_and_print(stack, "pb");
@@ -312,6 +350,16 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			stack->b_small = stack->b[stack->bottom - 1];
 			stack->b_big = stack->b[stack->top_b];
 		}
+	}
+	if (stack->b[stack->top_b] == -45)
+	{
+		int k = 0;
+		while (k < stack->bottom)
+		{
+			ft_printf("stack->ordered_big: %d, a[%d]: %d	b[%d]: %d\n", stack->ordered_big, k, stack->a[k], k, stack->b[k]);
+			k++;
+		}
+		//exit(0);
 	}
 }
 
