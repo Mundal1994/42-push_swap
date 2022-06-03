@@ -144,6 +144,6 @@ ft_putstr("nbr 2\n");
 		//if same can be done for stack b do rrr else
 		rotate_stacks(stack, 'd', 'a');
 	}
-	else
-		exit(0);
+	//else
+		//exit(0);
 }

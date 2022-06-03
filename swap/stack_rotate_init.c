@@ -68,9 +68,9 @@ void	solve_and_print(t_stack *stack, char *str)
 
 /*	rotates based on stack	*/
 
-static void	solve_based_on_stack(t_stack *stack, int *b, int top_b, char a)
+static void	solve_based_on_stack(t_stack *stack, char a)
 {
-	int i;
+//	int i;
 	if (a == 'a')
 	{
 		// if (stack->b_empty == FALSE && b[stack->bottom - 1] > b[top_b])
@@ -80,8 +80,8 @@ static void	solve_based_on_stack(t_stack *stack, int *b, int top_b, char a)
 	}
 	else
 	{
-		if (b[stack->bottom - 1] < b[top_b])
-			i = 0;
+		// if (b[stack->bottom - 1] < b[top_b])
+		// 	i = 0;
 		//	solve_and_print(stack, "rr");
 		//else
 			solve_and_print(stack, "rb");
@@ -95,9 +95,9 @@ void	rotate_stacks(t_stack *stack, char c, char a)
 	if (c == 'r')
 	{
 		if (a == 'a')
-			solve_based_on_stack(stack, stack->b, stack->top_b, a);
+			solve_based_on_stack(stack, a);
 		else
-			solve_based_on_stack(stack, stack->a, stack->top_a, a);
+			solve_based_on_stack(stack, a);
 	}
 	else
 	{

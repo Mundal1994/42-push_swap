@@ -273,7 +273,6 @@ static void	old_sorting_algo(t_stack *stack)
 				//	exit(0);
 				ft_printf("stack->ordered_big: %d\n", stack->ordered_big);
 				stack_rotate_init(stack, stack->a, 50, 'a');
-				exit(0);
 			}
 			else
 			{
@@ -323,6 +322,20 @@ ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -4
 	}
 }
 
+static int	islist(t_stack *stack, int nbr)
+{
+	int	i;
+
+	i = 0;
+	while (i < stack->len)
+	{
+		if (nbr == stack->list[i])
+			return (i);
+		++i;
+	}
+	return (-1);
+}
+
 void	sort_stack(t_stack *stack, int longest_list)
 {
 	int	stage;
@@ -332,8 +345,14 @@ void	sort_stack(t_stack *stack, int longest_list)
 	stage = 1;
 	b_ordered = FALSE;
 	already_sorted(stack);
+	int i = 0;
+	while (i < stack->len)
+	{
+		ft_printf("stack->list[%d]: %d\n", i, stack->list[i]);
+		++i;
+	}
 	if (longest_list == 0)
-		exit(0);//do one sort of calculation
+		old_sorting_algo(stack);
 	else
 	{
 		while (check_if_solved(stack, 'c') == ERROR)
@@ -357,7 +376,7 @@ void	sort_stack(t_stack *stack, int longest_list)
 			}
 			if (stage == 1)
 			{
-				if ((stack->a[stack->bottom - 1] == stack->ordered_big || stack->bottom - stack->top_b > 10) && b_ordered == TRUE)
+				/*if ((stack->a[stack->bottom - 1] == stack->ordered_big || stack->bottom - stack->top_b > 10) && b_ordered == TRUE)
 				{
 					stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 					while (stack->b_empty == FALSE)
@@ -366,23 +385,27 @@ void	sort_stack(t_stack *stack, int longest_list)
 					stack_rotate_init(stack, stack->a, stack->ordered_big, 'a');
 				}
 				else
-				{
-					if (stack->ordered_small > stack->ordered_big)
-					{
-						push_and_update(stack, 'b');
-						if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
-							switch_stacks(stack, 'a');
-					}
-					else
-					{
-						push_and_update(stack, 'b');
-					}
-				}
+				{*/
+					// if (stack->ordered_small > stack->ordered_big)
+					// {
+					// 	push_and_update(stack, 'b');
+					// 	if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+					// 		switch_stacks(stack, 'a');
+					// }
+					// else
+					// {
+						int index = islist(stack, stack->a[stack->top_a]);
+						if (index > -1)
+							solve_and_print(stack, "rra");
+						else
+							push_and_update(stack, 'b');
+						ft_printf("index: %d\n", index);
+					//}
+				//}
 			}
 			else if (stage == 4)
 			{
 				ft_putstr("stage4\n");
-
 
 	/*
 
@@ -417,583 +440,5 @@ void	sort_stack(t_stack *stack, int longest_list)
 /*
 
 rust is a good language to learn
-
-i = 1;
-	j = 0;
-	int nbr;
-	nbr = argc / 2;
-	if (argc % 2 > 0)
-		nbr += 1;
-	 need to use this number to create malloc for stack b
-
-stack sorting logic
-
-collect middle number aka argc / 2
-
-while loop
-
-1. check if stack a is sorted
-	if sorted check if b is empty
-2. check if stack b is sorted
-3. check first two elements of stack a
-	if below middle number(try with 1/4) or equal to then move to stack b if following conditions are meet
-		the next number in the stack isn't the closest above number with the one we are comparing to
-		(ex if we look at 2 but the one below it is 3 then it is sorted correctly - so dont move to stack b if a is sorted or maybe more check if there is one difference)
-4. switch top if wrong order (do with both stacks)
-5. rotate one way depending on where the next closest to middle number is (check is stack b also should rotate)
-6. 
-
-*/
-
-
-
-
-/*
-
-	identify the lowest number location and try to get that to the bottom
-	in the process of that move stuff in right order and move stuff to stack b
-	weather the computer chooses to use rra or ra depends on which way is closest for it to get there in least amount of moves
-	on the way the computer will check if any number is not in right order and will switch their position
-	depending on which way we rotate the way we will switch will also change
-
-	when lowest number is at the bottom 
-
-	ex if putting top element in the bottom
-		if (stack->a[top_a] < stack->a[top_a + 1])
-			if (stack->b_empty == FALSE && stack->a[stack->top_a] < stack->b[stack->top_b])
-				//maybe check how to quickliest get it to the right position
-				if (stack->a[top_a] > stack->b[top_b])
-					if (stack->b[stack->top_b + 1] > stack->b[stack->bottom - 1])
-						sb swap top of stack b
-					//make some kind of looping either back and forward and have it loop back after pushing it to correct position
-					//rr or rb thingy
-					push to b
-					// when moving it back we need to check if moving same direction would make sense for stack a
-					//ex if stack->a[top_a] > stack->b[top_b + 1] && stack->a[top_a + 1] < stack->b[top_b + 1]
-					// if this happens the next move HAS TO BE 'pa'
-					// only can do this if bottom is lowest number and i have to make sure it is assembled in reverse order so i can push it to top of stack b
-
-			if (stack->a[stack->top_a + 1] > stack->a[stack->bottom - 1])
-				switch(maybe also here with b_stack if possible)
-		if (stack->a[top_a] > stack->a[stack->bottom - 1])
-			if (stack->b_empty == FALSE && stack->b[top_b] < stack->b[stack->bottom - 1])
-				reverse to bottom rr
-			else
-				reverse to bottom ra
-		else
-			push to b
-				//make sure b is in order and if moves make sense to do on both stacks it will be done here
-		to know weather to put current number to the bottom you check if the top number is bigger than the bottom number
-		
-		when biggest number is at bottom
-		if (stack->a[top_a] < stack->a[top_a + 1])
-
-	if putting bottom to top
-		if (nbr < nbr + 1)
-			switch
-		else
-			keep position
-
-	when stack a bottom is correct slowly move stuff to stack b until stack is down to two ordered stacks
-	depending on which is longer we will do either rra or ra we rotate until the bottom ordered stack is on top and we will move stuff from stack b
-	if the other sorted stack isn't the end we will move when stack->b top is smaller than the stack-a[bottom];
-
-
-when two sorted stacks in stack a and one sorted stack b i will merge them together
-
-check at what point in the array of stack->a is sorted correctly
-
-ALWAYS keep stack b in order as much as possible
-
-	5
-	3
-	6
-	4
-	2
-	0
-	1
-
-//rotate logic	
-	ra
-	pb
-	ra
-	pb
-	pb
-	rr
-	ra
-	pa
-	pa
-	pa
-	rra
-	rra
-
-
-
-
-
-
-./checker 0 4 7 -9 9 2 10 -4 5 3 1 8 -6 6
-pb
-pb
-ra
-pb
-rr
-pb
-sb
-ra
-rrb
-pb
-rb
-rr
-pb
-sb
-rra
-pb
-rrb
-rrb
-rrb
-pb
-sa
-rb
-rb
-rb
-pb
-rb
-rr
-pb
-pb
-rra
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-
-41
-
-
-
-
-moving it downwards instead of up rra
-pb
-pb
-rra
-rra
-pb
-rb
-pb
-pb
-pb
-rr
-sa
-rr
-rb
-rb
-pb
-rb
-rb
-pb
-sa
-rrb
-rrb
-pb
-sa
-pb
-rrb
-pb
-rrb
-rrb
-pa
-pa
-pa
-pa
-sb
-pa
-sb
-pa
-pa
-pa
-pa
-pa
-pa
-
-
-41
-
-
-top two and bottom system
-pb
-rra
-sa
-rra
-pb
-pb
-rrb
-sb
-pb
-sa
-pb
-rra
-sa
-rra
-rb
-pa
-rra
-pb
-rra
-rra
-ss
-pb
-sb
-pa
-pa
-rra
-pb
-rra
-rra
-ss
-ra
-pa
-sb
-pa
-pa
-pa
-pa
-
-37
-
-keep track of top and bottom in each stack so i then can know if they have been divided with all the numbers
-
-
-./checker 5 4 3 2 1
-ra
-sa
-pb
-sa
-pb
-ss
-ra
-pa
-pa
-rra
-
-10
-
-keep middle 3 everything else goes to stack b
-
-pb
-pb
-ra
-ss
-pa
-pa
-ra
-ra
-
-8
-
-jefs version
-
-sa
-ra
-pb
-ra
-pb
-ra
-pa
-pa
-
-8
-
-./checker 9 8 7 6 5 4 3
-sa
-rra
-pb
-rra
-pb
-rra
-pb
-rra
-pb
-rra
-pa
-pa
-pa
-pa
-
-14
-
-ra
-sa
-pb
-sa
-pb
-ss
-pb
-sa
-rb
-pb
-rb
-sa
-pb
-rb
-pa
-pa
-pa
-pa
-pa
-
-19
-
-
-
-sort only top two and bottom
-sa
-rra
-rra
-sa
-pb
-rra
-sa
-pb
-rra
-sa
-pb
-rra
-sa
-pa
-pa
-pa
-
-16
-
-
-./checker 8 4 9 3 6 5 7
-sa
-rra
-sa
-rra
-sa
-pa
-rra
-sa
-rra
-pa
-sa
-
-11
-
-
-
-two top and bottom compare method
-./checker -5 8 -6 9 -9 10 2 3 1 4 0 -4 5 -8
-rra
-pb
-pb
-rra
-rra
-pb
-rra
-pb
-rra
-rra
-pb
-rra
-rra
-rra
-pb
-rra
-pb
-rb
-rra
-rra
-sa
-ra
-pa
-ra
-ra
-pa
-pa
-pa
-pa
-rra
-pa
-pa
-
-32
-
-
-jeffs method
-./checker -5 8 -6 9 -9 10 2 3 1 4 0 -4 5 -8
-pb
-rra
-pb
-rrr
-pb
-rra
-pb
-sb
-rra
-pb
-sb
-rra
-pb
-sb
-rra
-rb
-rb
-pb
-rrr
-pb
-sb
-rra
-rb
-pb
-sb
-rrr
-sa
-rrr
-pb
-rra
-sa
-rb
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-pa
-rra
-pa
-pa
-
-42
-
-
-
-
-
-sort only top two and bottom
-keep track of lowest and heighest number in each stack
-stack->a_low
-stack->a_heigh
-stack->b_low
-stack->b_heigh
-stack->b_lowB
-stack->b_heighB
-
-
-pseudo code
-
-stack->a_low = lowest_number
-stack->a_heigh = heighest_number
-stack->b_low = 1;
-stack->b_heigh = -1;
-stack->b_lowBig = 1;
-stack->b_heighBig = -1;
-
-stage = 1;
-while (hasn't been solved)
-{
-	if (stack a get's solved and stack b is not empty)
-		stage++;
-	if (stage == 1)
-	{
-		if (stack->a[bottom - 2] == a_low && stack->a[bottom - 1] == stack->a_heigh)
-			rra
-			rra
-			sa
-			ra
-		else if (stack->a[top_a] < stack->b_low)
-			push to stack b
-			rb
-		else if (stack->a[top_a] > stack->a[top_a + 1])
-		{
-			if (same can be done for stack b)
-				switch position ss
-			else
-				switch position sa
-		}
-		else if (stack->a[bottom - 1] > stack->a[top_a] && stack->a[bottom - 1] > stack->a[top_a + 1])
-		{
-			
-			if (stack->a[bottom - 1] > stack->a[top_a + 3])
-			{
-				if (same can be done for stack b)
-					rrr
-				else
-					rra
-				push top elements to stack b
-					if stack->b[top_a] != stack->b_heigh
-						rrb or rb
-				update
-					stack->b_lowBig && b_heighBig
-			}
-			else
-			{
-				push two top elements to stack b
-					if stack->b[top_a] != stack->b_heigh
-						rrb or rb
-				if (same can be done for stack b)
-					rrr
-				else
-					rra
-				update
-					stack->b_low && b_heigh (only if heighter than what was previous heighest and lowest)
-			}
-		}
-		else if (stack->a[bottom - 1] > stack->a[top_a] && tack->a[bottom - 1] < stack->a[top_a + 1])
-		{
-			push first element to stack b
-				make sure in right order or else need to rotate before pushing
-			if (same can be done for stack b)
-				rrr
-			else
-				rra
-			
-		}
-		else if (stack->a[bottom - 1] < stack->a[top_a])
-		{
-			if (same can be done for stack b)
-				rrr
-			else
-				rra
-		}
-	}
-	else if (stage == 2)
-	{
-		if (stack->b[top_b] == stack->b_heighBig)
-		{
-			pa
-			update what is the new b_heighBig and b_lowBig
-			update stack->a_low and a_heigh
-			ra
-		}
-		else if (stack->b[top_b] == stack->b_heigh)
-		{
-			while (stack->a[top_a] < stack->b[top_b])
-			{
-				ra
-			}
-			while (stack->a[top_a] > stack->b[top_b] && stack->a[bottom - 1] < stack->b[top_b])
-				pa
-				update what is the new b_heighBig and b_lowBig
-				update stack->a_low and a_heigh
-			if (stack->a[bottom - 1] < stack->a[top_a])
-				rra
-		}
-
-	}
-}
-
-
 
 */
