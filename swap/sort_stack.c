@@ -390,7 +390,7 @@ void	sort_stack(t_stack *stack, int longest_list)
 					// {
 						int index = islist(stack, stack->a[stack->top_a]);
 						if (index > -1)
-							solve_and_print(stack, "rra");
+							solve_and_print(stack, "ra");
 						else
 							push_and_update(stack, 'b');
 					//}
