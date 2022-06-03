@@ -345,12 +345,6 @@ void	sort_stack(t_stack *stack, int longest_list)
 	stage = 1;
 	b_ordered = FALSE;
 	already_sorted(stack);
-	int i = 0;
-	while (i < stack->len)
-	{
-		ft_printf("stack->list[%d]: %d\n", i, stack->list[i]);
-		++i;
-	}
 	if (longest_list == 0)
 		old_sorting_algo(stack);
 	else
@@ -399,14 +393,12 @@ void	sort_stack(t_stack *stack, int longest_list)
 							solve_and_print(stack, "rra");
 						else
 							push_and_update(stack, 'b');
-						ft_printf("index: %d\n", index);
 					//}
 				//}
 			}
 			else if (stage == 4)
 			{
-				ft_putstr("stage4\n");
-
+				//ft_putstr("stage4\n");
 	/*
 
 	stuck on stage 4 - there is a continuous running loop that i need to find
@@ -421,7 +413,9 @@ void	sort_stack(t_stack *stack, int longest_list)
 				{
 					stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 					while (stack->b_empty == FALSE)
+					{
 						push_and_update(stack, 'a');
+					}
 				}
 				if (stack->b_empty == TRUE)
 				{
