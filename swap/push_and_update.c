@@ -316,14 +316,12 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			if (stack->b_small > stack->a[stack->top_a] || \
 			stack->b_big < stack->a[stack->top_a])
 			{
-				ft_printf("rotates\n");
-				
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 			}
 			else
 			{
 				d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
-				ft_printf("d = 1 is true: %d\n", d);
+				//ft_printf("d = 1 is true: %d\n", d);
 				if (d == FALSE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
 				{	//while (stack->b[stack->top_b] > stack->a[stack->top_a])
 					while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a])))//!((stack->b[stack->bottom - 1] > stack->a[stack->top_a])))// || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
@@ -333,12 +331,12 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 					while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a])))//!((stack->b[stack->bottom - 1] > stack->a[stack->top_a])))// || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
 					{
 						int k = 0;
-			while (k < stack->bottom)
-			{
-				ft_printf("stack->ordered_big: %d, a[%d]: %d	b[%d]: %d\n", stack->ordered_big, k, stack->a[k], k, stack->b[k]);
-				k++;
-			}
-			solve_and_print(stack, "rrb");
+						while (k < stack->bottom)
+						{
+							ft_printf("stack->ordered_big: %d, a[%d]: %d	b[%d]: %d\n", stack->ordered_big, k, stack->a[k], k, stack->b[k]);
+							k++;
+						}
+						solve_and_print(stack, "rrb");
 					}
 				}
 			}
@@ -351,7 +349,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			stack->b_big = stack->b[stack->top_b];
 		}
 	}
-	if (stack->b[stack->top_b] == -45)
+	if (stack->b[stack->top_b] == 45)
 	{
 		int k = 0;
 		while (k < stack->bottom)
@@ -359,7 +357,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			ft_printf("stack->ordered_big: %d, a[%d]: %d	b[%d]: %d\n", stack->ordered_big, k, stack->a[k], k, stack->b[k]);
 			k++;
 		}
-		//exit(0);
+		exit(0);
 	}
 }
 

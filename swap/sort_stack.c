@@ -183,20 +183,11 @@ ARG="-46 -5 -47 5 6 42 -35 35 -25 -31 43 36 44 21 -33 29 -13 45 -11 -10 22 50 -1
 
 */
 
-void	sort_stack(t_stack *stack)
+static void	old_sorting_algo(t_stack *stack)
 {
 	int	stage;
 	int	b_ordered;
 
-	//int i = 0;
-	stage = 1;
-	b_ordered = FALSE;
-	already_sorted(stack);
-	//ft_printf("nbr: %d, \n", stack->start_nbr);
-	//exit(0);
-	//int j = 0;
-	//int stop = 0;
-	// if i have one order stack a and b is empty or needs to be merged call the rotate function... or have it be stage 4... rotating...
 	while (check_if_solved(stack, 'c') == ERROR)//i++ < 10 && 
 	{
 		// ft_putstr("\n");
@@ -257,6 +248,7 @@ void	sort_stack(t_stack *stack)
 			}
 				int nbr = 0;
 				int index = stack->top_a;
+				// I THINK THIS CALCULATION THINGY IS WRONG !
 				if (stack->a[index] == stack->ordered_big)// && i + 1 != stack->bottom && stack->a_ordered == TRUE)
 					nbr = stack->a[index + 1];
 				else
@@ -276,11 +268,12 @@ void	sort_stack(t_stack *stack)
 				}
 				//ft_printf("nbr: %d\n", nbr);
 				stack->first_small = FALSE;
-				ft_printf("nbr: %d\n", nbr);
-				if (nbr == 50)
-					exit(0);
-				stack_rotate_init(stack, stack->a, nbr, 'a');
-				
+				//ft_printf("nbr: %d\n", nbr);
+				//if (nbr == 50)
+				//	exit(0);
+				ft_printf("stack->ordered_big: %d\n", stack->ordered_big);
+				stack_rotate_init(stack, stack->a, 50, 'a');
+				exit(0);
 			}
 			else
 			{
@@ -292,39 +285,13 @@ void	sort_stack(t_stack *stack)
 				}
 				else
 				{
-					solve_and_print(stack, "rra");
-					//if (stack->ordered_small > stack->ordered_big && stack->a[stack->top_a + 1] == stack->ordered_small && stack->a[stack->top_a] < stack->ordered_small)
-					//{
-					//	stack->ordered_small = stack->a[stack->top_a];
-					//}
 					push_and_update(stack, 'b');
 				}
 			}
-			
-			// int i = 0;
-			// while (i < stack->bottom)
-			// {
-			// 	ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
-			// 	i++;
-			
-			// }
-				
-			//stage_one_split(stack);
-	// 		ft_putstr("\n");
-	// ft_putnbr(stack->a[stack->bottom - 4]);
-	// ft_putnbr(stack->a[stack->bottom - 3]);
-	// ft_putnbr(stack->a[stack->bottom - 2]);
-	// ft_putnbr(stack->a[stack->bottom - 1]);
-	// 	ft_putstr("\n");
-	// ft_putnbr(stack->b[stack->bottom - 4]);
-	// ft_putnbr(stack->b[stack->bottom - 3]);
-	// ft_putnbr(stack->b[stack->bottom - 2]);
-	// ft_putnbr(stack->b[stack->bottom - 1]);
 		}
 		else if (stage == 4)
 		{
 			ft_putstr("stage4\n");
-
 
 /*
 
@@ -337,69 +304,15 @@ ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -4
 
 */
 
-
-			// is it important to rotate stack a? maybe yes
-			//stack_rotate_init(stack, stack->a, stack->a_big, 'a');
-			// int k = 0;
-			// while (k < stack->bottom)
-			// {
-			// 	ft_printf("a[%d]: %d	b[%d]: %d\n", k, stack->a[k], k, stack->b[k]);
-			// 	k++;
-			// }
-			// exit(0);
 			if (stack->b_empty == FALSE)
 			{
 				stack_rotate_init(stack, stack->b, stack->b_small, 'b');
 				while (stack->b_empty == FALSE)
-				{
-		//			ft_printf("%d\n", stack->b_empty);
-					push_and_update(stack, 'a');
-		// 				ft_printf("%d\n", stack->b_empty);
-		// 			int i = 0;
-		// while (i < stack->bottom)
-		// {
-		// 	ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
-		// 	i++;
-
-		// }
-		// j++;
-		// 	if (j > 42)
-		// 		exit(0);
-		}	}
+					push_and_update(stack, 'a');}
 			if (stack->b_empty == TRUE)
 			{
 				stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 			}
-
-	// ft_putstr("\n");
-	// ft_putnbr(stack->b[stack->bottom - 4]);
-	// ft_putnbr(stack->b[stack->bottom - 3]);
-	// ft_putnbr(stack->b[stack->bottom - 2]);
-	// ft_putnbr(stack->b[stack->bottom - 1]);
-	// ft_printf("\nbig: %d, small: %d\nstack->a", stack->b_big, stack->b_small);
-	// ft_putchar('\n');
-	// ft_putnbr(stack->a[0]);
-	// ft_putnbr(stack->a[1]);
-	// ft_putnbr(stack->a[2]);
-	// ft_putnbr(stack->a[3]);
-	// ft_putnbr(stack->a[4]);
-	// ft_putnbr(stack->a[5]);
-		//	if (stack->b_empty == TRUE)
-		//	{
-				/*
-				int i = 0;
-				while (i < stack->bottom)
-				{
-					ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
-					i++;
-				}*/
-			//	exit(0);
-			//}
-			//++j;
-			//if (j > 10)
-			//	exit(0);
-			
-			
 		}
 		else if (stage == 5)
 		{
@@ -407,33 +320,98 @@ ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -4
 			//exit(0);
 			stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		}
-		else if (stage == 3)
-		{
-		/*	ft_putstr("stage3\n"); SHOULD THIS STAGE BE DELETED???
-		//	exit(0);
-			stage_three_sort_b(stack);
-		  ft_putnbr(stack->a[stack->bottom - 6]);
-			ft_putnbr(stack->a[stack->bottom - 5]);
-		  ft_putnbr(stack->a[stack->bottom - 4]);
-		  ft_putnbr(stack->a[stack->bottom - 3]);
-		  ft_putnbr(stack->a[stack->bottom - 2]);
-		  ft_putnbr(stack->a[stack->bottom - 1]);
-			//exit(0);*/
-		}
-		/*int i = 0;
-		while (i < stack->bottom)
-		{
-			ft_printf("a[%d]: %d	b[%d]: %d\n", i, stack->a[i], i, stack->b[i]);
-			i++;
-		
-		}*/
 	}
+}
 
-	/*ft_putnbr(stack->a[0]);
-	ft_putnbr(stack->a[1]);
-	ft_putnbr(stack->a[2]);
-	ft_putnbr(stack->a[3]);
-	ft_putnbr(stack->a[4]);*/
+void	sort_stack(t_stack *stack, int longest_list)
+{
+	int	stage;
+	int	b_ordered;
+
+	//int i = 0;
+	stage = 1;
+	b_ordered = FALSE;
+	already_sorted(stack);
+	if (longest_list == 0)
+		exit(0);//do one sort of calculation
+	else
+	{
+		while (check_if_solved(stack, 'c') == ERROR)
+		{
+			stack->a_ordered = check_if_ordered(stack, stack->a, stack->top_a, 'a');
+			if (stack->b_small < stack->b_big)
+				b_ordered = check_if_ordered(stack, stack->b, stack->top_b, 'b');
+			if (stack->a_ordered == TRUE && (b_ordered == TRUE || stack->b_empty == TRUE))
+			{
+				if (stack->b_empty == TRUE)
+					stage = 5;
+				else
+					stage = 4;
+			}
+			else if (stack->a_ordered == TRUE)
+			{
+				if (stack->b_empty == TRUE)
+					stage = 5;
+				else
+					stage = 4;
+			}
+			if (stage == 1)
+			{
+				if ((stack->a[stack->bottom - 1] == stack->ordered_big || stack->bottom - stack->top_b > 10) && b_ordered == TRUE)
+				{
+					stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+					while (stack->b_empty == FALSE)
+						push_and_update(stack, 'a');
+					stack->first_small = FALSE;
+					stack_rotate_init(stack, stack->a, stack->ordered_big, 'a');
+				}
+				else
+				{
+					if (stack->ordered_small > stack->ordered_big)
+					{
+						push_and_update(stack, 'b');
+						if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+							switch_stacks(stack, 'a');
+					}
+					else
+					{
+						push_and_update(stack, 'b');
+					}
+				}
+			}
+			else if (stage == 4)
+			{
+				ft_putstr("stage4\n");
+
+
+	/*
+
+	stuck on stage 4 - there is a continuous running loop that i need to find
+
+	it stops pushign to stage a at some point
+
+	ARG="-12 -17 10 24 -47 31 7 -21 -48 -40 -30 -22 38 30 -33 48 -36 -2 11 -43 14 -41 42 5 -9 -42 3 21 46 -32 -1 -45 -8 23 29 -35 36 -46 9 -25 -16 33 -24 43 -44 27 -14 49 -34 -18 -7 41 45 13 50 8 19 32 4 -31 -3 -10 34 -19 -6 -27 25 -39 -28 -49 47 37 28 -23 39 -26 6 -37 -11 1 15 -50 -5 44 -20 35 22 20 16 -13 -15 18 12 0 -29 -38 -4 2 40 26 17"; ./push_swap $ARG
+
+
+	*/
+				if (stack->b_empty == FALSE)
+				{
+					stack_rotate_init(stack, stack->b, stack->b_small, 'b');
+					while (stack->b_empty == FALSE)
+						push_and_update(stack, 'a');
+				}
+				if (stack->b_empty == TRUE)
+				{
+					stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+				}
+			}
+			else if (stage == 5)
+			{
+				//ft_putstr("stage5\n");
+				stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+			}
+		}
+	}
 }
 
 /*

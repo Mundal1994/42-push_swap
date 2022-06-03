@@ -36,6 +36,8 @@ typedef struct s_stack
 	int			median_nbr;
 	int			a_ordered;
 	int			first_small;
+	int			*list;
+	int			len;
 } t_stack;
 
 typedef struct s_instruction

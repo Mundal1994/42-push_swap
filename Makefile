@@ -32,6 +32,7 @@ SRC2 += $(S)stage_one.c
 SRC2 += $(S)stack_rotate_init.c
 SRC2 += $(S)stack_rotate_push.c
 SRC2 += $(S)push_and_update.c
+SRC2 += $(S)longest_list.c
 SRC2 += $(CO)valid_input_checker.c
 SRC2 += $(CO)create_stack.c
 SRC2 += $(CO)solve_stack.c
