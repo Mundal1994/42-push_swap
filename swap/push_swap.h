@@ -24,6 +24,6 @@ void	stack_rotate_push(t_stack *stack, char a_char, char c);
 void	push_and_update(t_stack *stack, char c);
 void	switch_stacks(t_stack *stack, char c);
 void	solve_and_print(t_stack *stack, char *str);
-int		longest_list(t_stack *stack);
+int		longest_list(t_stack *stack, char c);
 
 #endif

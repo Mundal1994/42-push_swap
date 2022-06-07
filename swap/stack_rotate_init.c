@@ -30,7 +30,6 @@ int	calc_rr_or_rrr(t_stack *stack, int nbr, int top_c, char c)
 	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
 		save = i - top_c;*/
 	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
-	
 	while (i < stack->bottom)
 	{
 		if (stack->a[stack->top_a] < nbr && stack->a[stack->bottom - 1] > nbr && c == 'a')

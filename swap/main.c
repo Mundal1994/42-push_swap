@@ -25,7 +25,7 @@ int	main(int argc, char **argv)
 			return (1);
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
-		sort_stack(stack, longest_list(stack));
+		sort_stack(stack, longest_list(stack, 'a'));
 		if (stack->a)
 			free(stack->a);
 		if (stack->b)
