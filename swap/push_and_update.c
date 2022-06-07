@@ -148,7 +148,7 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 	// {	
 	// 	first_small = FALSE;
 	// }
-	//ft_printf("\nsave: %d, bottom: %d, divided: %d, nbr: %d\n", save, stack->bottom + 1, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
+	//ft_printf("\nsave: %d, div: %d, nbr: %d\n", save, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
 	if (save == stack->bottom + 1)
 		return (ERROR);
 	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
@@ -190,19 +190,22 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 		{
 			if (stack->ordered_big < stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
 			{
+				//ft_printf("HERE 1\n");
 				while (stack->a[stack->bottom - 1] != stack->ordered_big)
 					solve_and_print(stack, "rra");
 			}
 			else if (stack->ordered_small > stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
 			{
+				//ft_printf("HERE 2\n");
 				while (stack->a[stack->top_a] != stack->ordered_small)
 					solve_and_print(stack, "rra");
 			}
 			else
 			{
-				if (stack->a[stack->top_a] == stack->ordered_big)
-					while (stack->a[stack->bottom - 1] != stack->ordered_small)
-						solve_and_print(stack, "rra");
+				// if (stack->a[stack->top_a] == stack->ordered_big)
+				// 	while (stack->a[stack->bottom - 1] != stack->ordered_small)
+				// 		solve_and_print(stack, "rra");
+				//ft_printf("HERE 3\n");
 				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
 					solve_and_print(stack, "rra");
 			}
@@ -262,12 +265,12 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			// 	}
 			// }
 			solve_and_print(stack, "pb");
-			//stack->top_b != stack->bottom - 1 && 
-			if (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])//(stack->b[stack->top_b] < stack->b[stack->bottom - 1] || (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])))
+			//stack->top_b != stack->bottom - 1 is important because we don't want to do these on the first push!!! dont delete!!!
+			if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])//(stack->b[stack->top_b] < stack->b[stack->bottom - 1] || (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])))
 			{
 				solve_and_print(stack, "rb");
 			}
-			if (stack->b[stack->top_b] < stack->b[stack->top_b + 1])
+			if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 			{
 				switch_stacks(stack, 'b');
 			}
