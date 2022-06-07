@@ -38,6 +38,12 @@ typedef struct s_stack
 	int			first_small;
 	int			*list;
 	int			len;
+	int			mid_low;
+	int			mid_heigh;
+	int			small_low;
+	int			small_heigh;
+	int			big_low;
+	int			big_heigh;
 } t_stack;
 
 typedef struct s_instruction

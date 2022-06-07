@@ -400,6 +400,19 @@ static void	isolate_sorted_list(t_stack *stack, int *c, int top_c, char c_char)
 	}
 }
 
+static int	is_split(t_stack *stack)
+{
+	int i = stack->top_a;
+
+	while (i < stack->bottom)
+	{
+		if (stack->a[i] <= stack->small_heigh || stack->a[i] >= stack->big_low)
+			return (FALSE);
+		++i;
+	}
+	return (TRUE);
+}
+
 void	sort_stack(t_stack *stack, int list_len)
 {
 	int	stage;
@@ -409,6 +422,97 @@ void	sort_stack(t_stack *stack, int list_len)
 	stage = 1;
 	b_ordered = FALSE;
 	already_sorted(stack);
+	//int i = 0;
+	while (is_split(stack) == FALSE)
+	{
+		if (stack->a[stack->top_a] <= stack->small_heigh)
+		{
+			if (stack->a[stack->top_a] > stack->b[stack->bottom - 1] && stack->b_empty == FALSE)
+			{
+				solve_and_print(stack, "rrb");
+			}
+			push_and_update(stack, 'b');
+			solve_and_print(stack, "rb");
+			if (stack->b[stack->top_b] < stack->b[stack->bottom - 1] && stack->b_empty == FALSE)
+			{
+				solve_and_print(stack, "rb");
+			}
+		}
+		else if (stack->a[stack->top_a] >= stack->big_low)
+		{
+			push_and_update(stack, 'b');
+			if (stack->b[stack->top_b] < stack->b[stack->top_b + 1])
+				switch_stacks(stack, 'b');
+		}
+		else if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
+		{
+			switch_stacks(stack, 'a');
+		}
+		else
+		{
+			solve_and_print(stack, "ra");
+		}
+	}
+	longest_list(stack, 'a');
+	// int l = 0;
+	// while (l < stack->bottom)
+	// {
+	// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+	// 	l++;
+	// }
+	// i = 0;
+	// while (i < stack->len)
+	// {
+	// 	ft_printf("stack->list[%d]: %d\n", i, stack->list[i]);
+	// 	++i;
+	// }
+	while (check_if_ordered(stack, stack->a, stack->top_a, 'a') != TRUE)
+	{
+		if (islist(stack, stack->a[stack->top_a]) < 0)
+		{
+			push_and_update(stack, 'b');
+			if (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b + 1] < stack->big_low)
+				switch_stacks(stack, 'b');
+		}
+		else
+		{
+			solve_and_print(stack, "ra");
+		}
+	}
+	while (stack->b[stack->top_b] < stack->big_low)
+	{
+		push_and_update(stack, 'a');
+	}
+	// l = 0;
+	// while (l < stack->bottom)
+	// {
+	// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+	// 	l++;
+	// }
+	// i = 0;
+	// while (i < stack->len)
+	// {
+	// 	ft_printf("stack->list[%d]: %d\n", i, stack->list[i]);
+	// 	++i;
+	// }
+	stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+	while (stack->b_empty == FALSE)
+	{
+		push_and_update(stack, 'a');
+	}
+	// l = 0;
+	// while (l < stack->bottom)
+	// {
+	// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+	// 	l++;
+	// }
+	// i = 0;
+	// while (i < stack->len)
+	// {
+	// 	ft_printf("stack->list[%d]: %d\n", i, stack->list[i]);
+	// 	++i;
+	// }
+	exit(0);
 	if (list_len == 0)
 		old_sorting_algo(stack);
 	else
@@ -540,7 +644,7 @@ when no more big numbers push small numbers and sort them
 							isolate_sorted_list(stack, stack->b, stack->top_b, 'b');
 							if (stack->a[stack->top_a] == stack->list[stack->len - 1])
 							{
-								ft_printf("new list");
+								//ft_printf("new list");
 								//if (longest_list(stack, 'b') <= 0)
 								//{
 									while (stack->b_empty == FALSE)

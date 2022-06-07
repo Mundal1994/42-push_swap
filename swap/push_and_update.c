@@ -91,7 +91,7 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 	int	i;
 	int	save;
 //	static int first = TRUE;
-	static int temp_big_numb = FALSE;
+	//static int temp_big_numb = FALSE;
 
 	i = top_c;
 	save = stack->bottom + 1;
@@ -132,11 +132,12 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 		{
 			save = i - top_c;
 		}
-		else if (stack->a[i] < nbr && stack->a[i] == temp_big_numb && i + 1 != stack->bottom)
-		{
-			save = i - top_c;
-			break ;
-		}
+		// else if (stack->a[i] < nbr && stack->a[i] == temp_big_numb && i + 1 != stack->bottom)
+		// {
+		// 	ft_printf("HERE3\n");
+		// 	save = i - top_c;
+		// 	break ;
+		// }
 		else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
 		{
 			save = i - top_c;
@@ -155,6 +156,8 @@ static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 		return (TRUE);
 	return (FALSE);
 }
+
+/*something is wrong with above rotation logic*/
 
 static void	push_and_update_helper(t_stack *stack, char c, int d)
 {
@@ -190,13 +193,11 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 		{
 			if (stack->ordered_big < stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
 			{
-				//ft_printf("HERE 1\n");
 				while (stack->a[stack->bottom - 1] != stack->ordered_big)
 					solve_and_print(stack, "rra");
 			}
 			else if (stack->ordered_small > stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
 			{
-				//ft_printf("HERE 2\n");
 				while (stack->a[stack->top_a] != stack->ordered_small)
 					solve_and_print(stack, "rra");
 			}
@@ -205,7 +206,6 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				// if (stack->a[stack->top_a] == stack->ordered_big)
 				// 	while (stack->a[stack->bottom - 1] != stack->ordered_small)
 				// 		solve_and_print(stack, "rra");
-				//ft_printf("HERE 3\n");
 				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
 					solve_and_print(stack, "rra");
 			}
@@ -266,14 +266,14 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			// }
 			solve_and_print(stack, "pb");
 			//stack->top_b != stack->bottom - 1 is important because we don't want to do these on the first push!!! dont delete!!!
-			if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])//(stack->b[stack->top_b] < stack->b[stack->bottom - 1] || (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])))
+			/*if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])//(stack->b[stack->top_b] < stack->b[stack->bottom - 1] || (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])))
 			{
 				solve_and_print(stack, "rb");
 			}
 			if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 			{
 				switch_stacks(stack, 'b');
-			}
+			}*/
 	//	}
 		if (stack->b_small > stack->b_big)//means stack is empty
 		{

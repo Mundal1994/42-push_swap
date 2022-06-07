@@ -12,6 +12,46 @@
 
 #include "push_swap.h"
 
+static void	data_collect(t_stack *stack)
+{
+	int	i;
+	int	j;
+	int	count;
+
+	stack->mid_low = -2147483648;
+	stack->mid_heigh = -2147483648;
+	stack->small_low = 2147483647;
+	stack->small_heigh = 2147483647;
+	stack->big_low = -2147483648;
+	stack->big_heigh = -2147483648;
+	i = 0;
+	while (i < stack->bottom)
+	{
+		j = 0;
+		count = 0;
+		while (j < stack->bottom)
+		{
+			if (stack->a[j] < stack->a[i])
+				++count;
+			++j;
+		}
+		if (count == (stack->bottom / 3) * 1)
+			stack->mid_low = stack->a[i];
+		else if (count == ((stack->bottom / 3) * 1) - 1)
+			stack->small_heigh = stack->a[i];
+		else if (count == 0)
+			stack->small_low = stack->a[i];
+		else if (count == stack->bottom - 1)
+			stack->big_heigh = stack->a[i];
+		else if (count == ((stack->bottom / 3) * 2) + 1)
+			stack->big_low = stack->a[i];
+		else if (count == (stack->bottom / 3) * 2)
+			stack->mid_heigh = stack->a[i];
+		++i;
+	}
+	//ft_printf("small_low: %d	small_heigh: %d\nmid_low: %d	mid_heigh: %d\nbig_low: %d	big_heigh: %d\n", stack->small_low, stack->small_heigh, stack->mid_low, stack->mid_heigh, stack->big_low, stack->big_heigh);
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*stack;
@@ -25,6 +65,7 @@ int	main(int argc, char **argv)
 			return (1);
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
+		data_collect(stack);
 		sort_stack(stack, longest_list(stack, 'a'));
 		if (stack->a)
 			free(stack->a);
