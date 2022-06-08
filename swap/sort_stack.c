@@ -217,7 +217,25 @@ static int	is_split(t_stack *stack)
 	}
 	return (TRUE);
 }
-
+/*
+static void	rotate_stack(t_stack *stack, char c, char d)
+{
+	if (c == 'a')
+	{
+		if (d == 'd')
+			solve_and_print(stack, "rra");
+		else
+			solve_and_print(stack, "ra");
+	}
+	else
+	{
+		if (d == 'd')
+			solve_and_print(stack, "rrb");
+		else
+			solve_and_print(stack, "rb");
+	}
+}
+*/
 void	sort_stack(t_stack *stack)
 {
 	int	stage;
@@ -232,26 +250,17 @@ void	sort_stack(t_stack *stack)
 		{
 			if (stack->a[stack->top_a] <= stack->small_heigh)
 			{
-				if (stack->a[stack->top_a] > stack->b[stack->bottom - 1] && stack->b_empty == FALSE)
-				{
-					solve_and_print(stack, "rrb");
-				}
 				push_and_update(stack, 'b');
-				solve_and_print(stack, "rb");
-				if (stack->b[stack->top_b] < stack->b[stack->bottom - 1] && stack->b_empty == FALSE)
-				{
+				if (stack->a[stack->top_a] > stack->small_heigh && stack->a[stack->top_a] < stack->big_low)
+					solve_and_print(stack, "rr");
+				else
 					solve_and_print(stack, "rb");
-				}
 			}
 			else if (stack->a[stack->top_a] >= stack->big_low)
 			{
 				push_and_update(stack, 'b');
 				if (stack->b[stack->top_b] < stack->b[stack->top_b + 1])
 					switch_stacks(stack, 'b');
-			}
-			else if (stack->a[stack->top_a] > stack->a[stack->top_a + 1])
-			{
-				switch_stacks(stack, 'a');
 			}
 			else
 			{
@@ -264,10 +273,6 @@ void	sort_stack(t_stack *stack)
 			if (islist(stack, stack->a[stack->top_a]) < 0)
 			{
 				push_and_update(stack, 'b');
-				// if (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] >= stack->big_low)
-				// {
-				// 	switch_stacks(stack, 'b');
-				// }
 			}
 			else
 			{
