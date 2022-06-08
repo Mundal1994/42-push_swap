@@ -282,8 +282,32 @@ void	sort_stack(t_stack *stack)
 		// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
 		// 	l++;
 		// }
-		while (stack->b[stack->top_b] < stack->big_low)
-			push_and_update(stack, 'a');
+		while (stack->b[stack->top_b] < stack->big_low && stack->b[stack->top_b] > stack->small_heigh)
+		{
+			if (first == TRUE && stack->b[stack->top_b] > stack->mid_heigh - ((stack->mid_heigh - stack->mid_low) / 2))
+				push_and_update(stack, 'a');
+			else if (first == TRUE)
+				solve_and_print(stack, "rb");
+			else if (first == FALSE && stack->b[stack->top_b] <= stack->mid_heigh - ((stack->mid_heigh - stack->mid_low) / 2))
+			{
+				push_and_update(stack, 'a');
+				if (stack->b[stack->bottom - 1] > stack->small_heigh)
+					solve_and_print(stack, "rrb");
+			}
+			if (first == TRUE && stack->b[stack->top_b] >= stack->big_low)
+			{
+				first = FALSE;
+				solve_and_print(stack, "rrb");
+			}
+		}
+		// int l = 0;
+		// while (l < stack->bottom)
+		// {
+		// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+		// 	l++;
+		// }
+		// exit (0);
+		first = TRUE;
 		while (stack->b[stack->top_b] > stack->small_heigh && stack->b_empty == FALSE)
 		{
 			if (first == TRUE && stack->b[stack->top_b] > stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
@@ -293,10 +317,12 @@ void	sort_stack(t_stack *stack)
 				solve_and_print(stack, "rb");
 			}
 			else if (first == FALSE && stack->b[stack->top_b] <= stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
+			{
 				push_and_update(stack, 'a');
-			else if (first == FALSE)
-				solve_and_print(stack, "rrb");
-			if (stack->b[stack->top_b] <= stack->small_heigh)
+				if (stack->b[stack->bottom - 1] > stack->small_heigh)
+					solve_and_print(stack, "rrb");
+			}
+			if (first == TRUE && stack->b[stack->top_b] <= stack->small_heigh)
 			{
 				first = FALSE;
 				solve_and_print(stack, "rrb");
