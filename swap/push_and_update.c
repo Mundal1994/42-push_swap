@@ -86,7 +86,7 @@ static void	update_big_small_value(t_stack *stack, char c)
 
 */
 
-static int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
+int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 {
 	int	i;
 	int	save;
@@ -220,55 +220,15 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 		}
 		if (stack->top_b == stack->bottom)//means one element left
 		{
-			//stack->b_empty = TRUE;
 			stack->b_small = 2147483647;
 			stack->b_big = -2147483648;
 		}
 	}
 	else
 	{
-		// if (stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->top_b + 1] < stack->a[stack->top_a])
-		// {
-		// 	solve_and_print(stack, "pb");
-		// 	update_big_small_value(stack, c);
-		// 	switch_stacks(stack, 'b');
-		// }
-		// else
-		// {
-			// if (stack->b_small > stack->a[stack->top_a] || \
-			// stack->b_big < stack->a[stack->top_a])
-			// {
-			// 	stack_rotate_init(stack, stack->b, stack->b_small, 'b');
-			// }
-			// else
-			// {
-			// 	d = calc_rr_or_rrr(stack, stack->a[stack->top_a], stack->top_b, 'b');
-			// 	if (d == FALSE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-			// 	{	
-			// 		while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a])))//!((stack->b[stack->bottom - 1] > stack->a[stack->top_a])))// || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
-			// 			solve_and_print(stack, "rb");
-			// 	}else if (d == TRUE && stack->b_empty == FALSE)// && stack->a[stack->top_a] < stack->b_big && stack->b_big > stack->b_small)
-			// 	{
-			// 		while (!((stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] < stack->a[stack->top_a])))//!((stack->b[stack->bottom - 1] > stack->a[stack->top_a])))// || stack->b[stack->bottom - 1] == stack->b_small) && stack->b[stack->top_b] < stack->a[stack->top_a]))//stack->b[stack->bottom - 1] < stack->a[stack->top_a] || (stack->b[stack->bottom - 1] > stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a]))
-			// 		{
-			// 			solve_and_print(stack, "rrb");
-			// 		}
-			// 	}
-			// }
-			solve_and_print(stack, "pb");
-			//stack->top_b != stack->bottom - 1 is important because we don't want to do these on the first push!!! dont delete!!!
-			/*if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])//(stack->b[stack->top_b] < stack->b[stack->bottom - 1] || (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] < stack->b[stack->top_b + 2])))
-			{
-				solve_and_print(stack, "rb");
-			}
-			if (stack->top_b != stack->bottom - 1 && stack->b[stack->top_b] < stack->b[stack->top_b + 1])
-			{
-				switch_stacks(stack, 'b');
-			}*/
-	//	}
+		solve_and_print(stack, "pb");
 		if (stack->b_small > stack->b_big)//means stack is empty
 		{
-			//stack->b_empty = FALSE;
 			stack->b_small = stack->b[stack->bottom - 1];
 			stack->b_big = stack->b[stack->top_b];
 		}
