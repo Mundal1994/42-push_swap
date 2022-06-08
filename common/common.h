@@ -27,13 +27,23 @@ typedef struct s_stack
 	int			b_empty;
 	int			a_small;
 	int			a_big;
-	int			a_smallB;
-	int			a_bigB;
+	int			ordered_small;
+	int			ordered_big;
 	int			b_small;
 	int			b_big;
 	int			start_nbr;
 	int			median;
 	int			median_nbr;
+	int			a_ordered;
+	int			first_small;
+	int			*list;
+	int			len;
+	int			mid_low;
+	int			mid_heigh;
+	int			small_low;
+	int			small_heigh;
+	int			big_low;
+	int			big_heigh;
 } t_stack;
 
 typedef struct s_instruction

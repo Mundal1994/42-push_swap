@@ -21,12 +21,17 @@ void	switch_stacks(t_stack *stack, char c)
 		else
 		{
 			solve_and_print(stack, "sa");
-			if (stack->b[stack->top_b] < stack->b[stack->bottom - 1] && stack->b[stack->top_b] == stack->b_small)
-				solve_and_print(stack, "rb");
+			// if (stack->b[stack->top_b] < stack->b[stack->bottom - 1] && stack->b[stack->top_b] == stack->b_small)
+			// 	solve_and_print(stack, "rb");
 		}
 	}
 	else
-		solve_and_print(stack, "sb");
+	{
+		if (stack->a[stack->top_a] > stack->a[stack->top_a + 1] && stack->a[stack->top_a + 1] != stack->ordered_small)
+			solve_and_print(stack, "ss");
+		else
+			solve_and_print(stack, "sb");
+	}
 }
 
 void	stack_rotate_push(t_stack *stack, char c, char d)

@@ -26,7 +26,10 @@ static int	calc_rotation_based_on_nbr(t_stack *stack, int nbr, int top_c, char c
 		save = i - top_c;
 	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
 		save = i - top_c;*/
+<<<<<<< HEAD
 	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
+=======
+>>>>>>> push_list
 	while (i < stack->bottom)
 	{
 		if ((stack->a[i] == nbr && c == 'a') || (stack->b[i] == nbr && c == 'b'))
@@ -54,20 +57,22 @@ void	solve_and_print(t_stack *stack, char *str)
 
 /*	rotates based on stack	*/
 
-static void	solve_based_on_stack(t_stack *stack, int *b, int top_b, char a)
+static void	solve_based_on_stack(t_stack *stack, char a)
 {
+//	int i;
 	if (a == 'a')
 	{
-		if (stack->b_empty == FALSE && b[stack->bottom - 1] > b[top_b])
-			solve_and_print(stack, "rr");
-		else
+		// if (stack->b_empty == FALSE && b[stack->bottom - 1] > b[top_b])
+		// 	solve_and_print(stack, "rr");
+		// else
 			solve_and_print(stack, "ra");
 	}
 	else
 	{
-		if (b[stack->bottom - 1] < b[top_b])
-			solve_and_print(stack, "rr");
-		else
+		// if (b[stack->bottom - 1] < b[top_b])
+		// 	i = 0;
+		//	solve_and_print(stack, "rr");
+		//else
 			solve_and_print(stack, "rb");
 	}
 }
@@ -79,25 +84,25 @@ void	rotate_stacks(t_stack *stack, char c, char a)
 	if (c == 'r')
 	{
 		if (a == 'a')
-			solve_based_on_stack(stack, stack->b, stack->top_b, a);
+			solve_based_on_stack(stack, a);
 		else
-			solve_based_on_stack(stack, stack->a, stack->top_a, a);
+			solve_based_on_stack(stack, a);
 	}
 	else
 	{
 		if (a == 'a')
 		{
-			if (stack->b_empty == FALSE && stack->b[stack->bottom - 1] > stack->b[stack->top_b])
-				solve_and_print(stack, "rrr");
-			else
+			// if (stack->b_empty == FALSE && stack->b[stack->bottom - 1] > stack->b[stack->top_b])
+			// 	solve_and_print(stack, "rrr");
+			// else
 				solve_and_print(stack, "rra");
 		}
 		else
 		{
-			if (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
-				solve_and_print(stack, "rrr");
-			else
-				solve_and_print(stack, "rrb");
+			// if (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
+			// 	solve_and_print(stack, "rrr");
+			// else
+			solve_and_print(stack, "rrb");
 		}
 	}
 }
