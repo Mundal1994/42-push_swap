@@ -275,10 +275,66 @@ void	sort_stack(t_stack *stack)
 				solve_and_print(stack, "ra");
 			}
 		}
+		int first = TRUE;
+		// int l = 0;
+		// while (l < stack->bottom)
+		// {
+		// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+		// 	l++;
+		// }
+		while (stack->b[stack->top_b] < stack->big_low)
+			push_and_update(stack, 'a');
+		while (stack->b[stack->top_b] > stack->small_heigh && stack->b_empty == FALSE)
+		{
+			if (first == TRUE && stack->b[stack->top_b] > stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
+				push_and_update(stack, 'a');
+			else if (first == TRUE)
+			{
+				solve_and_print(stack, "rb");
+			}
+			else if (first == FALSE && stack->b[stack->top_b] <= stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
+				push_and_update(stack, 'a');
+			else if (first == FALSE)
+				solve_and_print(stack, "rrb");
+			if (stack->b[stack->top_b] <= stack->small_heigh)
+			{
+				first = FALSE;
+				solve_and_print(stack, "rrb");
+			}
+		}
+		first = TRUE;
+		int	first_nbr = 0;
 		while (stack->b_empty == FALSE)
 		{
-			push_and_update(stack, 'a');
+			if (first == TRUE && stack->b[stack->top_b] > stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2))
+				push_and_update(stack, 'a');
+			else if (first == FALSE && stack->b[stack->top_b] <= stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2))
+				push_and_update(stack, 'a');
+			else
+			{
+				if (!first_nbr)
+					first_nbr = stack->b[stack->top_b];
+				solve_and_print(stack, "rb");
+				// int l = 0;
+				// while (l < stack->bottom)
+				// {
+				// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+				// 	l++;
+				// }
+				// ft_printf("first: %d, first_nbr: %d\n", first, first_nbr);
+				// ft_printf("stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2): %d\n", stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2));
+			}
+			if (stack->b[stack->top_b] == first_nbr)
+				first = FALSE;
 		}
+		stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+		// int l = 0;
+		// while (l < stack->bottom)
+		// {
+		// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
+		// 	l++;
+		// }
+		// exit(0);
 		// int l = 0;
 		// while (l < stack->bottom)
 		// {

@@ -111,7 +111,7 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 	if (c == 'a')
 	{
 		d = calc_rotation_based_on_nbr(stack, nbr, stack->top_a, 'a');
-		ft_printf("stack %c	rotate r = 0: d = %d\n", c, d);
+		//ft_printf("stack %c	rotate r = 0: d = %d\n", c, d);
 		if (d == FALSE)
 			while (a[stack->bottom - 1] < a[stack->top_a])
 				stack_rotate_push(stack, c, 'r');
@@ -122,7 +122,7 @@ void	stack_rotate_init(t_stack *stack, int *a, int nbr, char c)
 	else
 	{
 		d = calc_rotation_based_on_nbr(stack, nbr, stack->top_b, 'b');
-		ft_printf("stack %c	rotate r = 0: d = %d\n", c, d);
+		//ft_printf("stack %c	rotate r = 0: d = %d\n", c, d);
 		if (d == FALSE)
 			while (a[stack->bottom - 1] > a[stack->top_b])
 				stack_rotate_push(stack, c, 'r');
