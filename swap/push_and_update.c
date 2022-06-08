@@ -136,14 +136,12 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 		d = calc_push_a_rotation(stack, stack->b[stack->top_b], stack->top_a);
 		if (d == FALSE)
 		{
-			// if (stack->a_small > stack->b[stack->top_b])
-			// {
-			// 	ft_printf("HELELLO\n");
-			// 	while (stack->a[stack->bottom - 1] != stack->a_big)
-			// 		solve_and_print(stack, "ra");
-			// }
-			// else
 			if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
+			{
+				while (stack->a[stack->bottom - 1] != stack->a_big)
+					solve_and_print(stack, "ra");
+			}
+			else if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
 			{
 				while (stack->a[stack->bottom - 1] != stack->a_big)
 					solve_and_print(stack, "ra");

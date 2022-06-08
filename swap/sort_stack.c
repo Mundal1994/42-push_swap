@@ -264,10 +264,9 @@ void	sort_stack(t_stack *stack)
 			if (islist(stack, stack->a[stack->top_a]) < 0)
 			{
 				push_and_update(stack, 'b');
-				// if (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && islist(stack, stack->b[stack->top_b + 1]) >= 0)
+				// if (stack->b[stack->top_b] < stack->b[stack->top_b + 1] && stack->b[stack->top_b] >= stack->big_low)
 				// {
 				// 	switch_stacks(stack, 'b');
-				// 	solve_and_print(stack, "ra");
 				// }
 			}
 			else
@@ -310,13 +309,13 @@ void	sort_stack(t_stack *stack)
 		first = TRUE;
 		while (stack->b[stack->top_b] > stack->small_heigh && stack->b_empty == FALSE)
 		{
-			if (first == TRUE && stack->b[stack->top_b] > stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
+			if (first == TRUE && stack->b[stack->top_b] <= stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
 				push_and_update(stack, 'a');
 			else if (first == TRUE)
 			{
 				solve_and_print(stack, "rb");
 			}
-			else if (first == FALSE && stack->b[stack->top_b] <= stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
+			else if (first == FALSE && stack->b[stack->top_b] > stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2))
 			{
 				push_and_update(stack, 'a');
 				if (stack->b[stack->bottom - 1] > stack->small_heigh)
