@@ -26,10 +26,6 @@ static int	calc_rotation_based_on_nbr(t_stack *stack, int nbr, int top_c, char c
 		save = i - top_c;
 	else if (stack->b[i] < nbr && stack->b[stack->bottom - 1] > nbr && c == 'b')
 		save = i - top_c;*/
-<<<<<<< HEAD
-	//ft_printf("save: %d, median: %d, median_nbr: %d, bottom median: %d\n", save, stack->median, stack->median_nbr, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)));
-=======
->>>>>>> push_list
 	while (i < stack->bottom)
 	{
 		if ((stack->a[i] == nbr && c == 'a') || (stack->b[i] == nbr && c == 'b'))
