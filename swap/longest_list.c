@@ -19,12 +19,12 @@ static void	*fill_arr(t_stack *stack, int arr[stack->bottom])
 	int	i;
 	int	j;
 
-	i = 0;
+	i = stack->top_a;
 	stack->len = 0;
 	stack->ordered_big = stack->a[i];
 	while (i < stack->bottom)
 	{
-		j = 0;
+		j = stack->top_a;
 		while (j < i)
 		{
 			if (stack->a[j] < stack->a[i] && arr[j] >= arr[i])
@@ -160,12 +160,12 @@ int	longest_list(t_stack *stack, char c)
 		}
 		if (c == 'a')
 		{
-			collect_list(stack, arr, 0, 0);
+			collect_list(stack, arr, 0, stack->top_a);
 			stack->ordered_small = stack->list[0];
 		}
 		else
 		{
-			collect_list_stack_b(stack, arr, 0, 0);
+			collect_list_stack_b(stack, arr, 0, stack->top_b);
 			stack->b_small = stack->list[0];
 		}
 	}

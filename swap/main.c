@@ -66,7 +66,7 @@ int	main(int argc, char **argv)
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
 		data_collect(stack);
-		sort_stack(stack, longest_list(stack, 'a'));
+		sort_stack(stack);
 		if (stack->a)
 			free(stack->a);
 		if (stack->b)
