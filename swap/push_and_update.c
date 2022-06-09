@@ -104,11 +104,12 @@ int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 		{
 			save = i - top_c;
 		}
-		else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
+		else if (nbr > stack->a_big && stack->a[i] == stack->a_big)
 		{
 			save = i - top_c;
+			break ;
 		}
-		else if (nbr > stack->a_big && stack->a[i] == stack->a_big)
+		else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
 		{
 			save = i - top_c;
 		}
