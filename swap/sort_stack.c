@@ -372,13 +372,8 @@ void	sort_stack(t_stack *stack)
 			else if (first == FALSE && stack->b[stack->top_b] > big_calc)
 			{
 				push_and_update(stack, 'a');
-				if (stack->b[stack->bottom - 1] > stack->small_heigh)
+				if (stack->b[stack->bottom - 1] <= stack->small_heigh)
 				{
-					/*
-					make function that locates where the index is for the next nbr that fits the push a creteria
-					because as we might use rrr multiple times it might not be right to use rrr
-					so we need right index to feet to calc_push_a_rotation function
-					*/
 					d = calc_push_a_rotation(stack, stack->b[index_of_nbr(stack, stack->bottom - 1, big_calc, 'd')], stack->top_a);
 					if (d == TRUE)
 						solve_and_print(stack, "rrr");
