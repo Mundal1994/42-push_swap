@@ -288,14 +288,15 @@ static int	index_of_nbr2(t_stack *stack, int start, int value, int d)
 	}
 	return (-1);
 }
-/*
-static void	sort_numbers_mid(t_stack *stack, int calc)
+
+static void	sort_numbers_mid(t_stack *stack, int calc, int multi)
 {
 	int d;
 	int first = TRUE;
-	//int third = FALSE;
-	int mid_calc = stack->mid_heigh - (calc * 2);
-	while (stack->b[stack->top_b] < stack->big_low && stack->b[stack->top_b] > stack->small_heigh)
+	--multi;
+	int mid_calc = stack->mid_heigh - (calc * multi);
+	--multi;
+	while (multi >= -1)
 	{
 		if (first == TRUE && stack->b[stack->top_b] <= mid_calc)
 			push_and_update(stack, 'a');
@@ -307,22 +308,29 @@ static void	sort_numbers_mid(t_stack *stack, int calc)
 			else
 				solve_and_print(stack, "rb");
 		}
-		else if (first == FALSE && stack->b[stack->top_b] <= mid_calc)
+		else if (first == FALSE && stack->b[stack->top_b] <= mid_calc && stack->b[stack->top_b] > stack->small_heigh && stack->b[stack->top_b] < stack->big_low)
 		{
 			push_and_update(stack, 'a');
-			if (stack->b[stack->bottom - 1] > stack->small_heigh)
-			{
-				d = calc_push_a_rotation(stack, stack->b[index_of_nbr2(stack, stack->bottom - 1, mid_calc, 'd')], stack->top_a);
-				if (d == TRUE)
-					solve_and_print(stack, "rrr");
-				else
-					solve_and_print(stack, "rrb");
-			}
 		}
-		if (first == TRUE && stack->b[stack->top_b] >= stack->big_low)
+		else if (first == FALSE)
+		{
+			d = calc_push_a_rotation(stack, stack->b[index_of_nbr2(stack, stack->bottom - 1, mid_calc, 'd')], stack->top_a);
+			if (d == TRUE)
+				solve_and_print(stack, "rrr");
+			else
+				solve_and_print(stack, "rrb");
+		}
+		if (first == FALSE && stack->b[stack->bottom - 1] <= stack->small_heigh)
+		{
+			mid_calc = stack->mid_heigh - (calc * multi);
+			--multi;
+			first = TRUE;
+		}
+		else if (first == TRUE && stack->b[stack->top_b] >= stack->big_low)
 		{
 			first = FALSE;
-			mid_calc = stack->big_heigh;
+			mid_calc = stack->mid_heigh - (calc * multi);
+			--multi;
 			d = calc_push_a_rotation(stack, stack->b[index_of_nbr2(stack, stack->bottom - 1, mid_calc, 'd')], stack->top_a);
 			if (d == TRUE)
 				solve_and_print(stack, "rrr");
@@ -330,26 +338,15 @@ static void	sort_numbers_mid(t_stack *stack, int calc)
 				solve_and_print(stack, "rrb");
 		}
 	}
-}*/
+}
 
-// static int	find_nbr(t_stack *stack)
-// {
-// 	int i = stack->top_b;
-
-// 	while (i < stack->bottom)
-// 	{
-// 		if (stack->b[i] <= stack->small_heigh)
-// 			break ;
-// 		++i;
-// 	}
-// 	return (i);
-// }
+/*	apply same rotation logic to middle and small numbers	*/
 
 static void	sort_numbers_big(t_stack *stack, int calc, int multi)
 {
 	int	first = TRUE;
 	int	d;
-	multi -= 1;
+	--multi;
 	int big_calc = stack->big_heigh - (calc * multi);
 	--multi;
 	while (multi >= -1)
@@ -493,7 +490,7 @@ void	sort_stack(t_stack *stack)
 		// 	l++;
 		// }
 		///exit (0);
-		int d;
+		/*int d;
 		int mid_calc = stack->mid_heigh - ((stack->mid_heigh - stack->mid_low) / 2);
 		while (stack->b[stack->top_b] < stack->big_low && stack->b[stack->top_b] > stack->small_heigh)
 		{
@@ -528,8 +525,9 @@ void	sort_stack(t_stack *stack)
 				else
 					solve_and_print(stack, "rrb");
 			}
-		}
-		//sort_numbers_mid(stack, (stack->mid_heigh - stack->mid_low) / 2);
+		}*/
+		int multi = 6;
+		sort_numbers_mid(stack, (stack->mid_heigh - stack->mid_low) / multi, multi);
 
 
 
@@ -540,7 +538,7 @@ void	sort_stack(t_stack *stack)
 		// 	l++;
 		// }
 		// exit (0);
-		int multi = 6;
+		multi = 6;
 		sort_numbers_big(stack, (stack->big_heigh - stack->big_low) / multi, multi);
 		/*first = TRUE;
 		int big_calc = stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2);
@@ -591,7 +589,7 @@ void	sort_stack(t_stack *stack)
 		// 	l++;
 		// }
 		// exit (0);
-		
+		int d;
 		first = TRUE;
 		int	first_nbr = 0;
 		int small_calc = stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2);
