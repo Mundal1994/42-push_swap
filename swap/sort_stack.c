@@ -349,10 +349,10 @@ static void	sort_numbers_big(t_stack *stack, int calc, int multi)
 {
 	int	first = TRUE;
 	int	d;
-	multi -= 2;
+	multi -= 1;
 	int big_calc = stack->big_heigh - (calc * multi);
 	--multi;
-	while (multi > -1)
+	while (multi >= -1)
 	{
 		if (first == TRUE && stack->b[stack->top_b] <= big_calc)
 		{
@@ -540,7 +540,7 @@ void	sort_stack(t_stack *stack)
 		// 	l++;
 		// }
 		// exit (0);
-		int multi = 7;
+		int multi = 6;
 		sort_numbers_big(stack, (stack->big_heigh - stack->big_low) / multi, multi);
 		/*first = TRUE;
 		int big_calc = stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2);
