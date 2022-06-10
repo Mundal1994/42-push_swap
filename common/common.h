@@ -27,16 +27,12 @@ typedef struct s_stack
 	int			b_empty;
 	int			a_small;
 	int			a_big;
-	int			ordered_small;//figure out if i need this ordered small and big
-	int			ordered_big;
 	int			b_small;
 	int			b_big;
-	int			a_ordered;
-	int			first_small;
 	int			*list;
 	int			len;
-	int			mid_low;
-	int			mid_heigh;
+	// int			mid_low;
+	// int			mid_heigh;
 	int			small_low;
 	int			small_heigh;
 	int			big_low;
@@ -50,9 +46,8 @@ typedef struct s_instruction
 
 int		valid_input_checker(int argc, char **argv, t_stack *stack);
 int		error(t_stack *stack, int i);
-int		check_if_solved(t_stack *stack, char check);
+int		check_if_solved(t_stack *stack);
 int		create_stack(int argc, char **argv, t_stack *stack);
 void	solve_stack(t_stack *stack, char *line);
-int		is_stack_solved(int *a, int i, int len);
 
 #endif

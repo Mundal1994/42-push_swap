@@ -69,6 +69,8 @@ static int	initialize_stacks(char **argv, t_stack *stack, int i, int *j)
 
 /*	mallocs and starts creatings stack a and b	*/
 
+// maybe free stack->a or stack->b
+
 int	create_stack(int argc, char **argv, t_stack *stack)
 {
 	int	i;
@@ -90,8 +92,5 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 	}
 	stack->b_small = 2147483647;
 	stack->b_big = -2147483648;
-	stack->ordered_small = 2147483647;
-	stack->ordered_big = -2147483648;
-	stack->first_small = TRUE;
 	return (0);
 }

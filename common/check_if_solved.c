@@ -26,41 +26,19 @@ int	error(t_stack *stack, int i)
 	return (ERROR);
 }
 
-/*	checks individual stack if solved or not	*/
+/*	checks if stack a has been solved and if stack b is empty	*/
 
-int	is_stack_solved(int *a, int i, int len)
-{
-	while (i < len)
-	{
-		if (a[i] > a[i - 1])
-			return (ERROR);
-		++i;
-	}
-	return (0);
-}
-
-/*
-**	checks if stack a has been solved and depending on when the check occurs
-**	stack b will be checked if it is empty or not as well
-*/
-
-int	check_if_solved(t_stack *stack, char check)
+int	check_if_solved(t_stack *stack)
 {
 	int	i;
 
-	if (check == 'c')
-	{
-		if (stack->b_empty == FALSE)
-			return (ERROR);
-	}
+	if (stack->b_empty == FALSE)
+		return (ERROR);
 	i = stack->top_a + 1;
 	while (i < stack->bottom)
 	{
 		if (stack->a[i] < stack->a[i - 1])
-		{
-			//ft_printf("i: %d, stack->a[i]: %d\n", i, stack->a[i]);
-				return (ERROR);
-		}
+			return (ERROR);
 		++i;
 	}
 	return (0);

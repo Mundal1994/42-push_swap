@@ -144,20 +144,6 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				while (stack->a[stack->bottom - 1] != stack->a_big)
 					solve_and_print(stack, "ra");
 			}
-			// else if (stack->ordered_big < stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
-			// {
-			// 	while (stack->a[stack->bottom - 1] != stack->ordered_big)
-			// 	{
-			// 		solve_and_print(stack, "ra");
-			// 	}
-			// }
-			// else if (stack->ordered_small > stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
-			// {
-			// 	while (stack->a[stack->top_a] != stack->ordered_small)
-			// 	{
-			// 		solve_and_print(stack, "ra");
-			// 	}
-			// }
 			else
 			{
 				while (!(stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]))
@@ -173,16 +159,6 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				while (stack->a[stack->bottom - 1] != stack->a_big)
 					solve_and_print(stack, "rra");
 			}
-			// else if (stack->ordered_big < stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
-			// {
-			// 	while (stack->a[stack->bottom - 1] != stack->ordered_big)
-			// 		solve_and_print(stack, "rra");
-			// }
-			// else if (stack->ordered_small > stack->b[stack->top_b] && stack->ordered_small <= stack->ordered_big)
-			// {
-			// 	while (stack->a[stack->top_a] != stack->ordered_small)
-			// 		solve_and_print(stack, "rra");
-			// }
 			else
 			{
 				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
@@ -190,18 +166,6 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 			}
 		}
 		solve_and_print(stack, "pa");
-		if (stack->ordered_small > stack->a[stack->top_a])
-			stack->ordered_small = stack->a[stack->top_a];
-		if (stack->ordered_big < stack->a[stack->top_a])
-		{
-			int i = stack->top_a;
-			stack->ordered_big = stack->a[stack->top_a];
-			while (stack->a[i] < stack->a[i + 1])
-			{
-				stack->ordered_big = stack->a[i + 1];
-				++i;
-			}
-		}
 		if (stack->top_b == stack->bottom)//means one element left
 		{
 			stack->b_small = 2147483647;

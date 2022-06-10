@@ -111,7 +111,7 @@ int	instruction_solve(t_stack *stack)
 		solve_stack(stack, line);
 		free(line);
 	}
-	if (check_if_solved(stack, 'c') == ERROR)
+	if (check_if_solved(stack) == ERROR)
 		return (1);
 	return (0);
 }

@@ -68,127 +68,6 @@ static int	is_sorted(t_stack *stack)
 	return (TRUE);
 }
 
-static int	find_index(t_stack *stack, int start, int value, int d)
-{
-	int	i;
-
-	i = start;
-	if (d == 'd')
-	{
-		while (i > stack->top_b)
-		{
-			if (stack->b[i] <= value)
-				return (i);
-			--i;
-		}
-	}
-	else
-	{
-		while (i < stack->bottom)
-		{
-			if (stack->b[i] <= value)
-				return (i);
-			++i;
-		}
-	}
-	return (-1);
-}
-
-static void	rotate_based_on_calc(t_stack *stack, int calc, char c)
-{
-	int	d;
-
-	if (c == 'r')
-	{
-		d = calc_push_a_rotation(stack, stack->b[find_index(stack, stack->top_b + 1, calc, 'r')], stack->top_a);
-		if (d == FALSE)
-			solve_and_print(stack, "rr");
-		else
-			solve_and_print(stack, "rb");
-	}
-	else
-	{
-		d = calc_push_a_rotation(stack, stack->b[find_index(stack, stack->bottom - 1, calc, 'd')], stack->top_a);
-		if (d == TRUE)
-			solve_and_print(stack, "rrr");
-		else
-			solve_and_print(stack, "rrb");
-	}
-}
-
-static void	sort_middle(t_stack *stack, int calc, int multi)
-{
-	int first;
-	int mid_calc;
-
-	--multi;
-	mid_calc = stack->mid_heigh - (calc * multi--);
-	first = TRUE;
-	while (multi >= -1)
-	{
-		if (first == TRUE && stack->b[stack->top_b] <= mid_calc)
-			push_and_update(stack, 'a');
-		else if (first == TRUE)
-			rotate_based_on_calc(stack, mid_calc, 'r');
-		else if (first == FALSE && stack->b[stack->top_b] <= mid_calc && \
-			stack->b[stack->top_b] > stack->small_heigh && stack->b[stack->top_b] \
-			< stack->big_low)
-			push_and_update(stack, 'a');
-		else if (first == FALSE)
-			rotate_based_on_calc(stack, mid_calc, 'd');
-		if (first == FALSE && stack->b[stack->bottom - 1] <= stack->small_heigh)
-		{
-			mid_calc = stack->mid_heigh - (calc * multi--);
-			first = TRUE;
-		}
-		else if (first == TRUE && stack->b[stack->top_b] >= stack->big_low)
-		{
-			first = FALSE;
-			mid_calc = stack->mid_heigh - (calc * multi--);
-			rotate_based_on_calc(stack, mid_calc, 'd');
-		}
-	}
-}
-/*	apply same rotation logic to middle and small numbers	*/
-
-static void	sort_biggest(t_stack *stack, int calc, int multi)
-{
-	int	first;
-	int big_calc;
-
-	--multi;
-	big_calc = stack->big_heigh - (calc * multi--);
-	first = TRUE;
-	while (multi >= -1)
-	{
-		if (first == TRUE && stack->b[stack->top_b] <= big_calc)
-			push_and_update(stack, 'a');
-		else if (first == TRUE)
-			rotate_based_on_calc(stack, big_calc, 'r');
-		else if (first == FALSE && stack->b[stack->top_b] <= big_calc && \
-			stack->b[stack->top_b] >= stack->big_low)
-			push_and_update(stack, 'a');
-		else if (first == FALSE)
-			rotate_based_on_calc(stack, big_calc, 'd');
-		if (first == FALSE && stack->b[stack->bottom - 1] <= stack->small_heigh)
-		{
-			big_calc = stack->big_heigh - (calc * multi--);
-			first = TRUE;
-		}
-		else if (first == TRUE && stack->b[stack->top_b] <= stack->small_heigh)
-		{
-			first = FALSE;
-			big_calc = stack->big_heigh - (calc * multi--);
-			rotate_based_on_calc(stack, big_calc, 'd');
-		}
-	}
-	if (stack->b[stack->top_b] > stack->small_heigh)
-	{
-		rotate_based_on_calc(stack, big_calc, 'd');
-		push_and_update(stack, 'a');
-	}
-}
-
 static void	sort_smallest(t_stack *stack, int calc, int multi)
 {
 	int	check_nbr;
@@ -200,7 +79,11 @@ static void	sort_smallest(t_stack *stack, int calc, int multi)
 	while (stack->b_empty == FALSE)
 	{
 		if (stack->b[stack->top_b] <= small_calc)
+		{
+			if (stack->b[stack->top_b] == check_nbr)
+				check_nbr = stack->b[stack->top_b + 1];
 			push_and_update(stack, 'a');
+		}
 		else
 		{
 			if (!check_nbr)
@@ -217,7 +100,7 @@ static void	sort_smallest(t_stack *stack, int calc, int multi)
 
 void	sort_stack(t_stack *stack)
 {
-	if (check_if_solved(stack, 'c') == ERROR)
+	if (check_if_solved(stack) == ERROR)
 	{
 		while (is_sorted(stack) == FALSE)
 		{
@@ -234,7 +117,7 @@ void	sort_stack(t_stack *stack)
 			else
 				solve_and_print(stack, "ra");
 		}
-		longest_list(stack, 'a');
+		longest_list(stack);
 		while (check_if_ordered(stack) != TRUE)
 		{
 			if (is_list(stack, stack->a[stack->top_a]) < 0)
@@ -242,6 +125,8 @@ void	sort_stack(t_stack *stack)
 			else
 				solve_and_print(stack, "ra");
 		}
+		if (stack->list)
+			free(stack->list);
 		int multi;
 		
 		if (stack->bottom < 50)
@@ -250,7 +135,7 @@ void	sort_stack(t_stack *stack)
 			multi = 4;
 		else
 			multi = 6;
-		sort_middle(stack, (stack->mid_heigh - stack->mid_low) / multi, multi);
+		sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
 		sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
 		sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
 		stack_rotate_init(stack);
