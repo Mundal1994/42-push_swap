@@ -236,7 +236,7 @@ static void	rotate_stack(t_stack *stack, char c, char d)
 	}
 }
 */
-
+/*
 static int	index_of_nbr(t_stack *stack, int start, int value, int d)
 {
 	int	i;
@@ -262,7 +262,7 @@ static int	index_of_nbr(t_stack *stack, int start, int value, int d)
 	}
 	return (-1);
 }
-
+*/
 static int	index_of_nbr2(t_stack *stack, int start, int value, int d)
 {
 	int	i;
@@ -394,26 +394,28 @@ static void	sort_numbers_big(t_stack *stack, int calc, int multi)
 		}
 	}
 }
-/*
-static void	sort_small_nbr(t_stack *stack, int calc)
+
+static void	sort_small_nbr(t_stack *stack, int calc, int multi)
 {
-	int first = TRUE;
-	int third = FALSE;
-	int	first_nbr = 0;
-	int small_calc = stack->small_heigh - (calc * 2);
 	int d;
-	first_nbr = stack->small_low;
+	int	first_nbr = 0;
+	--multi;
+	int small_calc = stack->small_heigh - (calc * multi);
+	--multi;
 	while (stack->b_empty == FALSE)
 	{
-		if (stack->b[stack->top_b] >= small_calc)
+		//if (first == TRUE && stack->b[stack->top_b] > small_calc)
+		//	push_and_update(stack, 'a');
+		//else 
+		if (stack->b[stack->top_b] <= small_calc)
+		{
 			push_and_update(stack, 'a');
-		// else if (first == FALSE && stack->b[stack->top_b] > small_calc)
-		// {
-		// 	push_and_update(stack, 'a');
-		// }
+		}
 		else
 		{
-			d = calc_push_a_rotation(stack, stack->b[index_of_nbr(stack, stack->top_b + 1, small_calc, 'r')], stack->top_a);
+			if (!first_nbr)
+				first_nbr = stack->b[stack->top_b];
+			d = calc_push_a_rotation(stack, stack->b[index_of_nbr2(stack, stack->top_b + 1, small_calc, 'r')], stack->top_a);
 			if (d == FALSE)
 				solve_and_print(stack, "rr");
 			else
@@ -427,19 +429,13 @@ static void	sort_small_nbr(t_stack *stack, int calc)
 			// ft_printf("first: %d, first_nbr: %d\n", first, first_nbr);
 			// ft_printf("stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2): %d\n", stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2));
 		}
-		if (stack->b[stack->top_b] == first_nbr && first == FALSE)
+		if (stack->b[stack->top_b] == first_nbr)
 		{
-			third = TRUE;
-			small_calc = stack->small_heigh;
-		}
-		else if (stack->b[stack->top_b] == first_nbr)
-		{
-			first = FALSE;
-			small_calc = stack->small_heigh - (calc * 3);
+			small_calc = stack->small_heigh - (calc * multi);
+			--multi;
 		}
 	}
-	//ft_printf("finished small stack\n");
-}*/
+}
 
 void	sort_stack(t_stack *stack)
 {
@@ -482,7 +478,7 @@ void	sort_stack(t_stack *stack)
 				solve_and_print(stack, "ra");
 			}
 		}
-		int first = TRUE;
+		//int first = TRUE;
 		// int l = 0;
 		// while (l < stack->bottom)
 		// {
@@ -538,7 +534,7 @@ void	sort_stack(t_stack *stack)
 		// 	l++;
 		// }
 		// exit (0);
-		multi = 6;
+		//multi = 6;
 		sort_numbers_big(stack, (stack->big_heigh - stack->big_low) / multi, multi);
 		/*first = TRUE;
 		int big_calc = stack->big_heigh - ((stack->big_heigh - stack->big_low) / 2);
@@ -589,7 +585,7 @@ void	sort_stack(t_stack *stack)
 		// 	l++;
 		// }
 		// exit (0);
-		int d;
+		/*int d;
 		first = TRUE;
 		int	first_nbr = 0;
 		int small_calc = stack->small_heigh - ((stack->small_heigh - stack->small_low) / 2);
@@ -621,8 +617,8 @@ void	sort_stack(t_stack *stack)
 			}
 			if (stack->b[stack->top_b] == first_nbr)
 				first = FALSE;
-		}
-		//sort_small_nbr(stack, (stack->small_heigh - stack->small_low) / 2);
+		}*/
+		sort_small_nbr(stack, (stack->small_heigh - stack->small_low) / multi, multi);
 		stack_rotate_init(stack, stack->a, stack->a_big, 'a');
 		// int l = 0;
 		// while (l < stack->bottom)
