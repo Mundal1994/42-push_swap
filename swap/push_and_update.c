@@ -128,6 +128,49 @@ int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 		return (TRUE);
 	return (FALSE);
 }
+/*
+static int	calc_push_b_rotation(t_stack *stack, int nbr)
+{
+	int	i;
+	int	save;
+
+	i = stack->top_b;
+	save = stack->bottom + 1;
+	while (i < stack->bottom)
+	{
+		if (stack->b_small > nbr && stack->b[i] == stack->b_small)
+		{
+			save = i - stack->top_b;
+			break ;
+		}
+		else if (stack->b[i] > nbr && i == stack->top_b && stack->b[i] == stack->b_small)// might remove this >> (nbr > stack->b_big && stack->b[i] == stack->b_big)
+		{
+			save = i - stack->top_b;
+			break ;
+		}
+		else if (nbr > stack->b_big && stack->b[i] == stack->b_big)
+		{
+			save = i - stack->top_b;
+			break ;
+		}
+		else if (stack->b[i] > nbr && stack->b[i - 1] < nbr)// might remove this >> (nbr > stack->b_big && stack->a[i] == stack->a_big)
+		{
+			save = i - stack->top_b;
+		}
+		++i;
+	}
+//	}
+	// if (stack->bottom - 1 == stack->top_b)
+	// {	
+	// 	first_small = FALSE;
+	// }
+	//ft_printf("\nsave: %d, div: %d, nbr: %d\n", save, (((stack->bottom - stack->top_b) / 2) + ((stack->bottom - stack->top_b) % 2)), nbr);
+	if (save == stack->bottom + 1)
+		return (ERROR);
+	if (save + 1 >= (((stack->bottom - stack->top_b) / 2) + ((stack->bottom - stack->top_b) % 2)))
+		return (TRUE);
+	return (FALSE);
+}*/
 
 /*something is wrong with above rotation logic*/
 
@@ -169,7 +212,6 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 					solve_and_print(stack, "ra");
 				}
 			}
-			//solve_and_print(stack, "pa");
 		}
 		else if (d == TRUE)
 		{
@@ -196,17 +238,7 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
 					solve_and_print(stack, "rra");
 			}
-			//solve_and_print(stack, "pa");
 		}
-		//ft_printf("stack->a_small: %d > stack->b[stack->top_b]: %d\n", stack->a_small, stack->b[stack->top_b]);
-		// int l = 0;
-		// while (l < stack->bottom)
-		// {
-		// 	ft_printf("stack->a[%d]: %d, stack->b[%d]: %d\n", l, stack->a[l], l, stack->b[l]);
-		// 	l++;
-		// }
-		// if (stack->a[stack->top_a] == 203)
-		// 	exit(0);
 		solve_and_print(stack, "pa");
 		if (stack->ordered_small > stack->a[stack->top_a])
 			stack->ordered_small = stack->a[stack->top_a];
@@ -227,7 +259,47 @@ static void	push_and_update_helper(t_stack *stack, char c, int d)
 		}
 	}
 	else
-	{
+	{/*
+		if (stack->bottom - 1 - stack->top_b >= 3)
+		{
+			d = calc_push_b_rotation(stack, stack->b[stack->top_b]);
+			if (d == FALSE)
+			{
+				if (stack->b_small > stack->a[stack->top_a] || stack->b_big < stack->a[stack->top_a])
+				{
+					while (stack->b[stack->bottom - 1] != stack->b_big)
+						solve_and_print(stack, "rb");
+				}
+				else if (stack->b_small > stack->a[stack->top_a] || stack->b_big < stack->a[stack->top_a])
+				{
+					while (stack->b[stack->bottom - 1] != stack->b_big)
+						solve_and_print(stack, "rb");
+				}
+				else
+				{
+					while (!(stack->b[stack->top_b] > stack->a[stack->top_a] && stack->b[stack->bottom - 1] < stack->a[stack->top_a]))
+					{
+						solve_and_print(stack, "rb");
+					}
+				}
+			}
+			else if (d == TRUE)
+			{
+				if (stack->b_small > stack->a[stack->top_a] || stack->b_big < stack->a[stack->top_a])
+				{
+					while (stack->b[stack->bottom - 1] != stack->b_big)
+						solve_and_print(stack, "rrb");
+				}
+				else
+				{
+					// if (stack->a[stack->top_a] == stack->ordered_big)
+					// 	while (stack->a[stack->bottom - 1] != stack->ordered_small)
+					// 		solve_and_print(stack, "rra");
+					while (!((stack->b[stack->bottom - 1] < stack->a[stack->top_a] && stack->b[stack->top_b] > stack->a[stack->top_a])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
+						solve_and_print(stack, "rrb");
+				}
+			}
+		}*/
 		solve_and_print(stack, "pb");
 		if (stack->b_small > stack->b_big)//means stack is empty
 		{
