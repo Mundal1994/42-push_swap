@@ -12,96 +12,36 @@
 
 #include "push_swap.h"
 
-static int	checks_order(t_stack *stack, int i, char c_char, int end)
+static int	check_if_ordered(t_stack *stack)
 {
-	if (end == FALSE)
+	int	i;
+
+	i = stack->top_a;
+	while (i < stack->bottom && stack->a[i] != stack->a_small)
+		++i;
+	if (stack->top_a != i && stack->a[stack->bottom - 1] > stack->a[stack->top_a])
+		return (ERROR);
+	++i;
+	while (i < stack->bottom)
 	{
-		if (stack->a[i] < stack->a[i - 1] && c_char == 'a')
+		if (stack->a[i] < stack->a[i - 1])
 			return (ERROR);
-		else if (stack->b[i] > stack->b[i - 1] && c_char == 'b')
-			return (ERROR);
+		++i;
 	}
-	else
+	if (stack->a[stack->top_a] != stack->a_small)
 	{
-		if (stack->a[stack->bottom - 1] > stack->a[stack->top_a] && c_char == 'a')
-			return (ERROR);
-		if (stack->b[stack->bottom - 1] < stack->b[stack->top_b] && c_char == 'b')
-			return (ERROR);
+		i = stack->top_a + 1;
+		while (stack->a[i] != stack->a_small)
+		{
+			if (stack->a[i] < stack->a[i - 1])
+				return (ERROR);
+			++i;
+		}
 	}
 	return (TRUE);
 }
 
-static int	error_start_nbr(t_stack *stack, int i, char c)
-{
-	stack->start_nbr = i;
-	if (c == 'e')
-		return (ERROR);
-	else
-		return (TRUE);
-}
-
-static int	check_if_ordered(t_stack *stack, int *c, int top_c, int c_char)
-{
-	int	i;
-
-	i = top_c;
-	while (i < stack->bottom && ((c[i] != stack->a_small && c_char == 'a') || \
-	(c[i] != stack->b_big && c_char == 'b')))
-		++i;
-	if (top_c != i && checks_order(stack, i, c_char, TRUE) == ERROR)
-		return (error_start_nbr(stack, i, 'e'));
-	++i;
-	if (c_char == 'b')
-		++i;
-	while (i < stack->bottom)
-	{
-		if (checks_order(stack, i, c_char, FALSE) == ERROR)
-			return (error_start_nbr(stack, i, 'e'));
-		++i;
-	}
-	if ((c[top_c] != stack->a_small && c_char == 'a') || (c[top_c] != stack->b_big && c_char == 'b'))
-	{
-		i = top_c + 1;
-		while ((c[i] != stack->a_small && c_char == 'a') || \
-		(c[i] != stack->b_big && c_char == 'b'))
-		{
-			if (checks_order(stack, i, c_char, FALSE) == ERROR)
-				return (error_start_nbr(stack, i, 'e'));
-			++i;
-		}
-	}
-	return (error_start_nbr(stack, i, 't'));
-}
-
-static void	already_sorted(t_stack *stack)
-{
-	int	i;
-	int	index;
-	int	nbr;
-	int	len;
-	int	small;
-
-	i = 0;
-	len = 0;
-	small = stack->a_small;
-	while (i < stack->bottom)
-	{
-		stack->a_small = stack->a[i];
-		check_if_ordered(stack, stack->a, i, 'a');
-		if (stack->start_nbr - i >= 3)
-		{
-			len = stack->start_nbr - i;
-			index = i;
-			nbr = stack->a[index];
-			i = stack->start_nbr - 1;
-		}
-		++i;
-	}
-	stack->start_nbr = nbr;
-	stack->a_small = small;
-}
-
-static int	islist(t_stack *stack, int nbr)
+static int	is_list(t_stack *stack, int nbr)
 {
 	int	i;
 
@@ -115,7 +55,7 @@ static int	islist(t_stack *stack, int nbr)
 	return (-1);
 }
 
-static int	is_split(t_stack *stack)
+static int	is_sorted(t_stack *stack)
 {
 	int i = stack->top_a;
 
@@ -176,7 +116,7 @@ static void	rotate_based_on_calc(t_stack *stack, int calc, char c)
 	}
 }
 
-static void	sort_numbers_mid(t_stack *stack, int calc, int multi)
+static void	sort_middle(t_stack *stack, int calc, int multi)
 {
 	int first;
 	int mid_calc;
@@ -211,7 +151,7 @@ static void	sort_numbers_mid(t_stack *stack, int calc, int multi)
 }
 /*	apply same rotation logic to middle and small numbers	*/
 
-static void	sort_numbers_big(t_stack *stack, int calc, int multi)
+static void	sort_biggest(t_stack *stack, int calc, int multi)
 {
 	int	first;
 	int big_calc;
@@ -249,7 +189,7 @@ static void	sort_numbers_big(t_stack *stack, int calc, int multi)
 	}
 }
 
-static void	sort_numbers_small(t_stack *stack, int calc, int multi)
+static void	sort_smallest(t_stack *stack, int calc, int multi)
 {
 	int	check_nbr;
 	int small_calc;
@@ -277,15 +217,9 @@ static void	sort_numbers_small(t_stack *stack, int calc, int multi)
 
 void	sort_stack(t_stack *stack)
 {
-	int	stage;
-	int	b_ordered;
-
-	stage = 1;
-	b_ordered = FALSE;
-	already_sorted(stack);
 	if (check_if_solved(stack, 'c') == ERROR)
 	{
-		while (is_split(stack) == FALSE)
+		while (is_sorted(stack) == FALSE)
 		{
 			if (stack->a[stack->top_a] <= stack->small_heigh)
 			{
@@ -301,9 +235,9 @@ void	sort_stack(t_stack *stack)
 				solve_and_print(stack, "ra");
 		}
 		longest_list(stack, 'a');
-		while (check_if_ordered(stack, stack->a, stack->top_a, 'a') != TRUE)
+		while (check_if_ordered(stack) != TRUE)
 		{
-			if (islist(stack, stack->a[stack->top_a]) < 0)
+			if (is_list(stack, stack->a[stack->top_a]) < 0)
 				push_and_update(stack, 'b');
 			else
 				solve_and_print(stack, "ra");
@@ -316,10 +250,10 @@ void	sort_stack(t_stack *stack)
 			multi = 4;
 		else
 			multi = 6;
-		sort_numbers_mid(stack, (stack->mid_heigh - stack->mid_low) / multi, multi);
-		sort_numbers_big(stack, (stack->big_heigh - stack->big_low) / multi, multi);
-		sort_numbers_small(stack, (stack->small_heigh - stack->small_low) / multi, multi);
-		stack_rotate_init(stack, stack->a, stack->a_big, 'a');
+		sort_middle(stack, (stack->mid_heigh - stack->mid_low) / multi, multi);
+		sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
+		sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
+		stack_rotate_init(stack);
 	}
 }
 

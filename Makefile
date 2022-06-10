@@ -28,7 +28,6 @@ SRC += $(CO)check_if_solved.c
 
 SRC2 = $(S)main.c
 SRC2 += $(S)sort_stack.c
-SRC2 += $(S)stage_one.c
 SRC2 += $(S)stack_rotate_init.c
 SRC2 += $(S)stack_rotate_push.c
 SRC2 += $(S)push_and_update.c

@@ -27,13 +27,10 @@ typedef struct s_stack
 	int			b_empty;
 	int			a_small;
 	int			a_big;
-	int			ordered_small;
+	int			ordered_small;//figure out if i need this ordered small and big
 	int			ordered_big;
 	int			b_small;
 	int			b_big;
-	int			start_nbr;
-	int			median;
-	int			median_nbr;
 	int			a_ordered;
 	int			first_small;
 	int			*list;
