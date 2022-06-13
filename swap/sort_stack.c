@@ -12,6 +12,11 @@
 
 #include "push_swap.h"
 
+/*
+**	checks if everything is ordered in stack a
+**	takes into consideration that stack might need to rotate
+*/
+
 static int	check_if_ordered(t_stack *stack)
 {
 	int	i;
@@ -41,6 +46,8 @@ static int	check_if_ordered(t_stack *stack)
 	return (TRUE);
 }
 
+/*	checks if nbr is part of the already sorted list	*/
+
 static int	is_list(t_stack *stack, int nbr)
 {
 	int	i;
@@ -54,6 +61,11 @@ static int	is_list(t_stack *stack, int nbr)
 	}
 	return (-1);
 }
+
+/*
+**	checks if we have sorted it correctly
+**	sorted list and small numbers on stack a and everything else on stack b
+*/
 
 static int	is_sorted(t_stack *stack)
 {
@@ -132,7 +144,7 @@ void	sort_stack(t_stack *stack)
 		
 		if (stack->bottom < 50)
 			multi = 2;
-		if (stack->bottom < 250)
+		else if (stack->bottom < 250)
 			multi = 6;
 		else
 			multi = 10;

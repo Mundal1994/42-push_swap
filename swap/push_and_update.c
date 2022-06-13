@@ -81,112 +81,18 @@ static void	update_big_small_value(t_stack *stack, char c)
 	}
 }
 
-
-int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
-{
-	int	i;
-	int	save;
-
-	i = top_c;
-	save = stack->bottom + 1;
-	while (i < stack->bottom)
-	{
-		if (stack->a_small > nbr && stack->a[i] == stack->a_small)
-		{
-			save = i - top_c;
-			break ;
-		}
-		else if (stack->a[i] > nbr && i == top_c && stack->a[i] == stack->a_small)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
-		{
-			save = i - top_c;
-			break ;
-		}
-		else if (nbr > stack->a_big && stack->a[i] == stack->a_big)
-		{
-			save = i - top_c;
-			break ;
-		}
-		else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)// might remove this >> (nbr > stack->a_big && stack->a[i] == stack->a_big)
-		{
-			save = i - top_c;
-		}
-		++i;
-	}
-	if (save == stack->bottom + 1)
-		return (ERROR);
-	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))
-		return (TRUE);
-	return (FALSE);
-}
-
-/*something is wrong with above rotation logic*/
-
-static void	push_and_update_helper(t_stack *stack, char c, int d)
-{
-	if (c == 'a')
-	{
-		d = calc_push_a_rotation(stack, stack->b[stack->top_b], stack->top_a);
-		if (d == FALSE)
-		{
-			if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
-			{
-				while (stack->a[stack->bottom - 1] != stack->a_big)
-					solve_and_print(stack, "ra");
-			}
-			else if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
-			{
-				while (stack->a[stack->bottom - 1] != stack->a_big)
-					solve_and_print(stack, "ra");
-			}
-			else
-			{
-				while (!(stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]))
-				{
-					solve_and_print(stack, "ra");
-				}
-			}
-		}
-		else if (d == TRUE)
-		{
-			if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
-			{
-				while (stack->a[stack->bottom - 1] != stack->a_big)
-					solve_and_print(stack, "rra");
-			}
-			else
-			{
-				while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))// || stack->a[stack->bottom - 1] == stack->a_small) && stack->a[stack->top_a] < stack->b[stack->top_b]))//stack->a[stack->bottom - 1] > stack->b[stack->top_b])
-					solve_and_print(stack, "rra");
-			}
-		}
-		solve_and_print(stack, "pa");
-		if (stack->top_b == stack->bottom)//means one element left
-		{
-			stack->b_small = 2147483647;
-			stack->b_big = -2147483648;
-		}
-	}
-	else
-	{
-		solve_and_print(stack, "pb");
-		if (stack->b_small > stack->b_big)
-		{
-			stack->b_small = stack->b[stack->bottom - 1];
-			stack->b_big = stack->b[stack->top_b];
-		}
-	}
-}
+/*	calls the functions that takes care of rotation logic and updating correct values	*/
 
 void	push_and_update(t_stack *stack, char c)
 {
 	if (c == 'a')
 	{
-		push_and_update_helper(stack, c, 0);
+		push_to_stack(stack, c);
 		update_big_small_value(stack, c);
 	}
 	else
 	{
-		push_and_update_helper(stack, c, 0);
+		push_to_stack(stack, c);
 		update_big_small_value(stack, c);
 	}
 }
