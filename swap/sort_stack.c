@@ -109,6 +109,8 @@ static void	split_stack(t_stack *stack)
 	}
 }
 
+/*	function that calls the functions that are behind the logic of the sorting	*/
+
 void	sort_stack(t_stack *stack)
 {
 	int	multi;
