@@ -133,4 +133,9 @@ void	sort_biggest(t_stack *stack, int calc, int multi)
 		rotate_based_on_calc(stack, big_calc, 'd');
 		push_and_update(stack, 'a');
 	}
+	if (stack->b[stack->bottom - 1] > stack->small_heigh)
+	{
+		rotate_based_on_calc(stack, big_calc, 'd');
+		push_and_update(stack, 'a');
+	}
 }

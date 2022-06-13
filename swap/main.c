@@ -18,8 +18,6 @@ static void	data_collect(t_stack *stack)
 	int	j;
 	int	count;
 
-	// stack->mid_low = -2147483648;
-	// stack->mid_heigh = -2147483648;
 	stack->small_low = 2147483647;
 	stack->small_heigh = 2147483647;
 	stack->big_low = -2147483648;
@@ -35,9 +33,6 @@ static void	data_collect(t_stack *stack)
 				++count;
 			++j;
 		}
-		// if (count == (stack->bottom / 3) * 1)
-		// 	stack->mid_low = stack->a[i];
-		// else 
 		if (count == ((stack->bottom / 3) * 1) - 1)
 			stack->small_heigh = stack->a[i];
 		else if (count == 0)
@@ -46,8 +41,6 @@ static void	data_collect(t_stack *stack)
 			stack->big_heigh = stack->a[i];
 		else if (count == ((stack->bottom / 3) * 2) + 1)
 			stack->big_low = stack->a[i];
-		// else if (count == (stack->bottom / 3) * 2)
-		// 	stack->mid_heigh = stack->a[i];
 		++i;
 	}
 }

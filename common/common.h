@@ -31,8 +31,6 @@ typedef struct s_stack
 	int			b_big;
 	int			*list;
 	int			len;
-	// int			mid_low;
-	// int			mid_heigh;
 	int			small_low;
 	int			small_heigh;
 	int			big_low;
