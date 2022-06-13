@@ -76,13 +76,12 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 			push_and_update(stack, 'a');
 		else if (first == TRUE)
 			rotate_based_on_calc(stack, mid_calc, 'r');
-		else if (first == FALSE && stack->b[stack->top_b] <= mid_calc && \
-			stack->b[stack->top_b] > stack->small_heigh && stack->b[stack->top_b] \
-			< stack->big_low)
+		else if (first == FALSE && stack->b[stack->top_b] <= mid_calc \
+			&& stack->b[stack->top_b] < stack->big_low)
 			push_and_update(stack, 'a');
 		else if (first == FALSE)
 			rotate_based_on_calc(stack, mid_calc, 'd');
-		if (first == FALSE && stack->b[stack->bottom - 1] <= stack->small_heigh)
+		if (first == FALSE && stack->b[stack->bottom - 1] >= stack->big_low)
 		{
 			mid_calc = stack->big_low - (calc * multi--);
 			first = TRUE;
@@ -95,10 +94,38 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 		}
 	}
 }
+
 /*	apply same rotation logic to middle and small numbers	*/
 
 void	sort_biggest(t_stack *stack, int calc, int multi)
 {
+	int	check_nbr;
+	int big_calc;
+
+	check_nbr = stack->b[stack->bottom - 1];
+	--multi;
+	big_calc = stack->big_heigh - (calc * multi--);
+	while (stack->b_empty == FALSE)
+	{
+		if (stack->b[stack->top_b] <= big_calc)
+		{
+			if (stack->b[stack->top_b] == check_nbr)
+				check_nbr = stack->b[stack->top_b + 1];
+			push_and_update(stack, 'a');
+		}
+		else
+		{
+			//if (!check_nbr)
+			//	check_nbr = stack->b[stack->top_b];
+			rotate_based_on_calc(stack, big_calc, 'r');
+		}
+		if (stack->b[stack->top_b] == check_nbr)
+		{
+			big_calc = stack->big_heigh - (calc * multi);
+			--multi;
+		}
+	}
+	/*
 	int	first;
 	int big_calc;
 
@@ -137,5 +164,5 @@ void	sort_biggest(t_stack *stack, int calc, int multi)
 	{
 		rotate_based_on_calc(stack, big_calc, 'd');
 		push_and_update(stack, 'a');
-	}
+	}*/
 }

@@ -61,7 +61,8 @@ static int	is_sorted(t_stack *stack)
 
 	while (i < stack->bottom)
 	{
-		if (stack->a[i] <= stack->small_heigh || stack->a[i] >= stack->big_low)
+		//if (stack->a[i] <= stack->small_heigh || stack->a[i] >= stack->big_low)
+		if (stack->a[i] > stack->small_heigh && is_list(stack, stack->a[i]) < 0)
 			return (FALSE);
 		++i;
 	}
@@ -70,6 +71,35 @@ static int	is_sorted(t_stack *stack)
 
 static void	sort_smallest(t_stack *stack, int calc, int multi)
 {
+	int	first;
+	int small_calc;
+
+	--multi;
+	small_calc = stack->small_heigh - (calc * multi--);
+	first = TRUE;
+	while (multi >= -1)
+	{
+		if (first == TRUE && stack->b[stack->top_b] <= small_calc)
+			push_and_update(stack, 'a');
+		else if (first == TRUE)
+			rotate_based_on_calc(stack, small_calc, 'r');
+		else if (first == FALSE && stack->b[stack->top_b] <= small_calc)
+			push_and_update(stack, 'a');
+		else if (first == FALSE)
+			rotate_based_on_calc(stack, small_calc, 'd');
+		if (first == FALSE && stack->b[stack->bottom - 1] > stack->small_heigh)
+		{
+			small_calc = stack->small_heigh - (calc * multi--);
+			first = TRUE;
+		}
+		else if (first == TRUE && stack->b[stack->top_b] > stack->small_heigh)
+		{
+			first = FALSE;
+			small_calc = stack->small_heigh - (calc * multi--);
+			rotate_based_on_calc(stack, small_calc, 'd');
+		}
+	}
+	/*
 	int	check_nbr;
 	int small_calc;
 
@@ -95,29 +125,33 @@ static void	sort_smallest(t_stack *stack, int calc, int multi)
 			small_calc = stack->small_heigh - (calc * multi);
 			--multi;
 		}
-	}
+	}*/
 }
 
 void	sort_stack(t_stack *stack)
 {
 	if (check_if_solved(stack) == ERROR)
 	{
+		longest_list(stack);
 		while (is_sorted(stack) == FALSE)
 		{
-			if (stack->a[stack->top_a] <= stack->small_heigh)
+			//if (stack->a[stack->top_a] <= stack->small_heigh)
+			if (stack->a[stack->top_a] > stack->small_heigh && \
+				stack->a[stack->top_a] < stack->big_low && \
+				is_list(stack, stack->a[stack->top_a]) < 0)
+				push_and_update(stack, 'b');
+			else if (stack->a[stack->top_a] >= stack->big_low && \
+				is_list(stack, stack->a[stack->top_a]) < 0)
 			{
 				push_and_update(stack, 'b');
-				if (stack->a[stack->top_a] > stack->small_heigh && stack->a[stack->top_a] < stack->big_low)
+				if (stack->a[stack->top_a] <= stack->small_heigh)
 					solve_and_print(stack, "rr");
 				else
 					solve_and_print(stack, "rb");
 			}
-			else if (stack->a[stack->top_a] >= stack->big_low)
-				push_and_update(stack, 'b');
 			else
 				solve_and_print(stack, "ra");
 		}
-		longest_list(stack);
 		while (check_if_ordered(stack) != TRUE)
 		{
 			if (is_list(stack, stack->a[stack->top_a]) < 0)
@@ -132,12 +166,12 @@ void	sort_stack(t_stack *stack)
 		if (stack->bottom < 50)
 			multi = 2;
 		if (stack->bottom < 250)
-			multi = 4;
-		else
 			multi = 6;
+		else
+			multi = 10;
+		sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
 		sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
 		sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
-		sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
 		stack_rotate_init(stack);
 	}
 }
