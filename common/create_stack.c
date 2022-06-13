@@ -82,7 +82,6 @@ static int	initialize_stacks(char **argv, t_stack *stack, int i, int *j)
 
 static int	initialize_stack_file(char *line, t_stack *stack, int *j)
 {
-	read_from_file(stack);
 	if (collect_from_str(line, stack, j) == ERROR)
 	{
 		free(stack->line);

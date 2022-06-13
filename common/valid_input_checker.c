@@ -65,18 +65,23 @@ static int	digit_checker(char *argv, int len)
 	}
 	return (0);
 }
-#include <fcntl.h>
+
 void	read_from_file(t_stack *stack)
 {
 	int		fd;
 	int		ret;
+	int		ret2;
 	char	*temp;
 
 	fd = open(stack->line, O_RDONLY);
 	temp = NULL;
 	ret = get_next_line(fd, &stack->line);
-	if (ret != 1 || get_next_line(fd, &temp) != 0)
+	ret2 = get_next_line(fd, &temp);
+	if (ret != 1 || ret2 != 0)
 	{
+		stack->line[0] = 'n';
+		if (ret2 == 1)
+			free(temp);
 		close(fd);
 	}
 	close(fd);
