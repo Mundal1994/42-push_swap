@@ -80,68 +80,45 @@ static int	is_sorted(t_stack *stack)
 	return (TRUE);
 }
 
-/*	apply same rotation logic to middle and small numbers	*/
-
-static void	sort_biggest(t_stack *stack, int calc, int multi)
+static void	split_stack(t_stack *stack)
 {
-	int	check_nbr;
-	int big_calc;
-
-	check_nbr = stack->b[stack->bottom - 1];
-	--multi;
-	big_calc = stack->big_heigh - (calc * multi--);
-	while (stack->b_empty == FALSE)
+	while (is_sorted(stack) == FALSE)
 	{
-		if (stack->b[stack->top_b] <= big_calc)
+		if (stack->a[stack->top_a] > stack->small_heigh && \
+			stack->a[stack->top_a] < stack->big_low && \
+			is_list(stack, stack->a[stack->top_a]) < 0)
+			push_and_update(stack, 'b');
+		else if (stack->a[stack->top_a] >= stack->big_low && \
+			is_list(stack, stack->a[stack->top_a]) < 0)
 		{
-			if (stack->b[stack->top_b] == check_nbr)
-				check_nbr = stack->b[stack->top_b + 1];
-			push_and_update(stack, 'a');
+			push_and_update(stack, 'b');
+			if (stack->a[stack->top_a] <= stack->small_heigh)
+				solve_and_print(stack, "rr");
+			else
+				solve_and_print(stack, "rb");
 		}
 		else
-			rotate_based_on_calc(stack, big_calc, 'r');
-		if (stack->b[stack->top_b] == check_nbr)
-		{
-			big_calc = stack->big_heigh - (calc * multi);
-			--multi;
-		}
+			solve_and_print(stack, "ra");
+	}
+	while (check_if_ordered(stack) != TRUE)
+	{
+		if (is_list(stack, stack->a[stack->top_a]) < 0)
+			push_and_update(stack, 'b');
+		else
+			solve_and_print(stack, "ra");
 	}
 }
 
 void	sort_stack(t_stack *stack)
 {
+	int	multi;
+
 	if (check_if_solved(stack) == ERROR)
 	{
 		longest_list(stack);
-		while (is_sorted(stack) == FALSE)
-		{
-			if (stack->a[stack->top_a] > stack->small_heigh && \
-				stack->a[stack->top_a] < stack->big_low && \
-				is_list(stack, stack->a[stack->top_a]) < 0)
-				push_and_update(stack, 'b');
-			else if (stack->a[stack->top_a] >= stack->big_low && \
-				is_list(stack, stack->a[stack->top_a]) < 0)
-			{
-				push_and_update(stack, 'b');
-				if (stack->a[stack->top_a] <= stack->small_heigh)
-					solve_and_print(stack, "rr");
-				else
-					solve_and_print(stack, "rb");
-			}
-			else
-				solve_and_print(stack, "ra");
-		}
-		while (check_if_ordered(stack) != TRUE)
-		{
-			if (is_list(stack, stack->a[stack->top_a]) < 0)
-				push_and_update(stack, 'b');
-			else
-				solve_and_print(stack, "ra");
-		}
+		split_stack(stack);
 		if (stack->list)
 			free(stack->list);
-		int multi;
-		
 		if (stack->bottom < 50)
 			multi = 2;
 		else if (stack->bottom < 250)
@@ -154,25 +131,3 @@ void	sort_stack(t_stack *stack)
 		stack_rotate_init(stack);
 	}
 }
-
-
-
-/*
-
-look at how algorythm is working.
-
-something wrong with pushing to stack a were it loops way to much.
-maybe figure out a better way to sort stack b than pushing directly to stack a
-
-
-is there a way to sort as many of the chunks as i'm pushing to stack b to make sure i can get a bigger chunk in stack b that is going to be in order??
-
-*/
-
-
-
-/*
-
-rust is a good language to learn
-
-*/

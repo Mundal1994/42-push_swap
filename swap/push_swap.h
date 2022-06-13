@@ -23,8 +23,9 @@ void	solve_and_print(t_stack *stack, char *str);
 int		longest_list(t_stack *stack);
 void	push_to_stack(t_stack *stack, char c);
 int		push_a_rotation_logic(t_stack *stack, int nbr);
-void	sort_middle(t_stack *stack, int calc, int multi);
 void	sort_smallest(t_stack *stack, int calc, int multi);
+void	sort_middle(t_stack *stack, int calc, int multi);
+void	sort_biggest(t_stack *stack, int calc, int multi);
 void	rotate_based_on_calc(t_stack *stack, int calc, char c);
 
 #endif

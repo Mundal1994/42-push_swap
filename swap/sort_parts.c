@@ -12,63 +12,6 @@
 
 #include "push_swap.h"
 
-/*	locates nearest index of number that is below value we are looking for	*/
-
-static int	find_index(t_stack *stack, int start, int value, int d)
-{
-	int	i;
-
-	i = start;
-	if (d == 'd')
-	{
-		while (i > stack->top_b)
-		{
-			if (stack->b[i] <= value)
-				return (i);
-			--i;
-		}
-	}
-	else
-	{
-		while (i < stack->bottom)
-		{
-			if (stack->b[i] <= value)
-				return (i);
-			++i;
-		}
-	}
-	return (-1);
-}
-
-/*
-**	rotation logic that also will move stack a if stacks has to be moved
-**	in both directions
-*/
-
-void	rotate_based_on_calc(t_stack *stack, int value, char c)
-{
-	int	d;
-
-	if (c == 'r')
-	{
-		d = push_a_rotation_logic(stack, stack->b[find_index(stack, \
-		stack->top_b + 1, value, 'r')]);
-		if (d == FALSE)
-			solve_and_print(stack, "rr");
-		else
-			solve_and_print(stack, "rb");
-	}
-	else
-	{
-		d = push_a_rotation_logic(stack, stack->b[find_index(stack, \
-		stack->bottom - 1, value, 'd')]);
-		if (d == TRUE)
-			solve_and_print(stack, "rrr");
-		else
-			solve_and_print(stack, "rrb");
-	}
-}
-
 /*	push or rotate stack based on number that has been calculated	*/
 
 static void	push_to_a_or_rotate(t_stack *stack, int first, int value)
@@ -133,6 +76,34 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 			first = FALSE;
 			mid_calc = stack->big_low - (calc * multi--);
 			rotate_based_on_calc(stack, mid_calc, 'd');
+		}
+	}
+}
+
+/*	apply same rotation logic to middle and small numbers	*/
+
+void	sort_biggest(t_stack *stack, int calc, int multi)
+{
+	int	check_nbr;
+	int big_calc;
+
+	check_nbr = stack->b[stack->bottom - 1];
+	--multi;
+	big_calc = stack->big_heigh - (calc * multi--);
+	while (stack->b_empty == FALSE)
+	{
+		if (stack->b[stack->top_b] <= big_calc)
+		{
+			if (stack->b[stack->top_b] == check_nbr)
+				check_nbr = stack->b[stack->top_b + 1];
+			push_and_update(stack, 'a');
+		}
+		else
+			rotate_based_on_calc(stack, big_calc, 'r');
+		if (stack->b[stack->top_b] == check_nbr)
+		{
+			big_calc = stack->big_heigh - (calc * multi);
+			--multi;
 		}
 	}
 }

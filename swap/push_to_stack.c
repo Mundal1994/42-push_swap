@@ -19,7 +19,8 @@ static int	keep_looking(t_stack *stack, int *save, int i, int nbr)
 		*save = i - stack->top_a;
 		return (FALSE);
 	}
-	else if (stack->a[i] > nbr && i == stack->top_a && stack->a[i] == stack->a_small)
+	else if (stack->a[i] > nbr && i == stack->top_a && stack->a[i] == \
+		stack->a_small)
 	{
 		*save = i - stack->top_a;
 		return (FALSE);
@@ -30,9 +31,7 @@ static int	keep_looking(t_stack *stack, int *save, int i, int nbr)
 		return (FALSE);
 	}
 	else if (stack->a[i] > nbr && stack->a[i - 1] < nbr)
-	{
 		*save = i - stack->top_a;
-	}
 	return (TRUE);
 }
 
@@ -53,7 +52,8 @@ int	push_a_rotation_logic(t_stack *stack, int nbr)
 	}
 	if (save == stack->bottom + 1)
 		return (ERROR);
-	if (save + 1 >= (((stack->bottom - stack->top_a) / 2) + ((stack->bottom - stack->top_a) % 2)))
+	if (save + 1 >= (((stack->bottom - stack->top_a) / 2) + \
+		((stack->bottom - stack->top_a) % 2)))
 		return (TRUE);
 	return (FALSE);
 }
@@ -64,20 +64,24 @@ static void	rotate_stack_a(t_stack *stack, int d)
 {
 	if (d == FALSE)
 	{
-		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
+		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < \
+			stack->b[stack->top_b])
 			while (stack->a[stack->bottom - 1] != stack->a_big)
 				solve_and_print(stack, "ra");
 		else
-			while (!(stack->a[stack->top_a] > stack->b[stack->top_b] && stack->a[stack->bottom - 1] < stack->b[stack->top_b]))
+			while (!(stack->a[stack->top_a] > stack->b[stack->top_b] && \
+				stack->a[stack->bottom - 1] < stack->b[stack->top_b]))
 				solve_and_print(stack, "ra");
 	}
 	else if (d == TRUE)
 	{
-		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < stack->b[stack->top_b])
+		if (stack->a_small > stack->b[stack->top_b] || stack->a_big < \
+			stack->b[stack->top_b])
 			while (stack->a[stack->bottom - 1] != stack->a_big)
 				solve_and_print(stack, "rra");
 		else
-			while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && stack->a[stack->top_a] > stack->b[stack->top_b])))
+			while (!((stack->a[stack->bottom - 1] < stack->b[stack->top_b] && \
+				stack->a[stack->top_a] > stack->b[stack->top_b])))
 				solve_and_print(stack, "rra");
 	}
 }

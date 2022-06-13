@@ -93,4 +93,3 @@ int	longest_list(t_stack *stack)
 	}
 	return (stack->len);
 }
-
