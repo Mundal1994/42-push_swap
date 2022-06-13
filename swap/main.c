@@ -45,6 +45,24 @@ static void	data_collect(t_stack *stack)
 	}
 }
 
+static void	make_box(t_stack *stack, int i)
+{
+	ft_printf("|	%d	|	%d	|\n", stack->a[i], stack->b[i]);
+}
+
+static void	make_visuals(t_stack *stack)
+{
+	int	i;
+	
+	i = 0;
+	while (i < stack->bottom)
+	{
+		make_box(stack, i);
+		++i;
+	}
+	ft_printf("     STACK A	     STACK B\n");
+}
+
 int	main(int argc, char **argv)
 {
 	t_stack	*stack;
@@ -53,13 +71,14 @@ int	main(int argc, char **argv)
 	{
 		stack = malloc(sizeof(t_stack));
 		if (!stack)
-			exit(1);
+			return (1);
 		if (valid_input_checker(argc, argv, stack) == ERROR)
 			return (1);
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
 		data_collect(stack);
 		sort_stack(stack);
+		make_visuals(stack);
 		if (stack->a)
 			free(stack->a);
 		if (stack->b)

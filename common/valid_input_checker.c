@@ -99,7 +99,7 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 	while (i < argc)
 	{
 		stack->line = argv[i];
-		if (ft_isdigit(stack->line[0]) == 0)
+		if (ft_isdigit(stack->line[0]) == 0 && ft_isdigit(stack->line[1]) == 0)
 			read_from_file(stack);
 		if (argc)
 			stack->bottom += ft_word_count(stack->line, ' ');
