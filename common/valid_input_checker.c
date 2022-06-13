@@ -65,6 +65,24 @@ static int	digit_checker(char *argv, int len)
 	}
 	return (0);
 }
+#include <fcntl.h>
+static void	*read_from_file(char *line)
+{
+	int		fd;
+	int		ret;
+	char	*temp;
+
+	fd = open(line, O_RDONLY);
+	temp = NULL;
+	ret = get_next_line(fd, &line);
+	if (ret != 1 || get_next_line(fd, &temp) != 0)
+	{
+		close(fd);
+		return (line);
+	}
+	close(fd);
+	return (line);
+}
 
 /*	loops through arguments to check if valid input	*/
 
@@ -72,17 +90,21 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 {
 	int	i;
 	int	len;
+	char *line;
 
 	i = 1;
 	stack->bottom = 0;
 	while (i < argc)
 	{
+		line = argv[i];
+		if (ft_isdigit(*line) == 0)
+			line = read_from_file(line);
 		if (argc)
-			stack->bottom += ft_word_count(argv[i], ' ');
-		len = ft_strlen(argv[i]);
-		if (digit_checker(argv[i], len) == ERROR)
+			stack->bottom += ft_word_count(line, ' ');
+		len = ft_strlen(line);
+		if (digit_checker(line, len) == ERROR)
 			return (error(stack, 0));
-		if (bigger_than_int(argv[i], len) == ERROR)
+		if (bigger_than_int(line, len) == ERROR)
 			return (error(stack, 0));
 		++i;
 	}

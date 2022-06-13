@@ -122,14 +122,20 @@ void	sort_stack(t_stack *stack)
 		if (stack->list)
 			free(stack->list);
 		if (stack->bottom < 50)
-			multi = 2;
-		else if (stack->bottom < 250)
-			multi = 6;
+		{
+			while (stack->b_empty == FALSE)
+				push_and_update(stack, 'a');
+		}
 		else
-			multi = 10;
-		sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
-		sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
-		sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
+		{
+			if (stack->bottom < 250)
+				multi = 6;
+			else
+				multi = 10;
+			sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
+			sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
+			sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
+		}
 		stack_rotate_init(stack);
 	}
 }
