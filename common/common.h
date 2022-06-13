@@ -35,6 +35,7 @@ typedef struct s_stack
 	int			small_heigh;
 	int			big_low;
 	int			big_heigh;
+	char		*line;
 } t_stack;
 
 typedef struct s_instruction
@@ -43,6 +44,7 @@ typedef struct s_instruction
 } t_instruction;
 
 int		valid_input_checker(int argc, char **argv, t_stack *stack);
+void	read_from_file(t_stack *stack);
 int		error(t_stack *stack, int i);
 int		check_if_solved(t_stack *stack);
 int		create_stack(int argc, char **argv, t_stack *stack);
