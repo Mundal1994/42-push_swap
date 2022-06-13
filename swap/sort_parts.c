@@ -12,6 +12,8 @@
 
 #include "push_swap.h"
 
+/*	locates nearest index of number that is below value we are looking for	*/
+
 static int	find_index(t_stack *stack, int start, int value, int d)
 {
 	int	i;
@@ -38,14 +40,19 @@ static int	find_index(t_stack *stack, int start, int value, int d)
 	return (-1);
 }
 
-void	rotate_based_on_calc(t_stack *stack, int calc, char c)
+/*
+**	rotation logic that also will move stack a if stacks has to be moved
+**	in both directions
+*/
+
+void	rotate_based_on_calc(t_stack *stack, int value, char c)
 {
 	int	d;
 
 	if (c == 'r')
 	{
 		d = calc_push_a_rotation(stack, stack->b[find_index(stack, \
-		stack->top_b + 1, calc, 'r')], stack->top_a);
+		stack->top_b + 1, value, 'r')], stack->top_a);
 		if (d == FALSE)
 			solve_and_print(stack, "rr");
 		else
@@ -54,13 +61,30 @@ void	rotate_based_on_calc(t_stack *stack, int calc, char c)
 	else
 	{
 		d = calc_push_a_rotation(stack, stack->b[find_index(stack, \
-		stack->bottom - 1, calc, 'd')], stack->top_a);
+		stack->bottom - 1, value, 'd')], stack->top_a);
 		if (d == TRUE)
 			solve_and_print(stack, "rrr");
 		else
 			solve_and_print(stack, "rrb");
 	}
 }
+
+/*	push or rotate stack based on number that has been calculated	*/
+
+static void	push_to_a_or_rotate(t_stack *stack, int first, int value)
+{
+	if (first == TRUE && stack->b[stack->top_b] <= value)
+		push_and_update(stack, 'a');
+	else if (first == TRUE)
+		rotate_based_on_calc(stack, value, 'r');
+	else if (first == FALSE && stack->b[stack->top_b] <= value)// \
+	//	&& stack->b[stack->top_b] < stack->big_low)
+		push_and_update(stack, 'a');
+	else if (first == FALSE)
+		rotate_based_on_calc(stack, value, 'd');
+}
+
+/*	rotation logic for stack b middle numbered section	*/
 
 void	sort_middle(t_stack *stack, int calc, int multi)
 {
@@ -72,15 +96,16 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 	first = TRUE;
 	while (multi >= -1)
 	{
-		if (first == TRUE && stack->b[stack->top_b] <= mid_calc)
-			push_and_update(stack, 'a');
-		else if (first == TRUE)
-			rotate_based_on_calc(stack, mid_calc, 'r');
-		else if (first == FALSE && stack->b[stack->top_b] <= mid_calc \
-			&& stack->b[stack->top_b] < stack->big_low)
-			push_and_update(stack, 'a');
-		else if (first == FALSE)
-			rotate_based_on_calc(stack, mid_calc, 'd');
+		// if (first == TRUE && stack->b[stack->top_b] <= mid_calc)
+		// 	push_and_update(stack, 'a');
+		// else if (first == TRUE)
+		// 	rotate_based_on_calc(stack, mid_calc, 'r');
+		// else if (first == FALSE && stack->b[stack->top_b] <= mid_calc)// \
+		// //	&& stack->b[stack->top_b] < stack->big_low)
+		// 	push_and_update(stack, 'a');
+		// else if (first == FALSE)
+		// 	rotate_based_on_calc(stack, mid_calc, 'd');
+		push_to_a_or_rotate(stack, first, mid_calc);
 		if (first == FALSE && stack->b[stack->bottom - 1] >= stack->big_low)
 		{
 			mid_calc = stack->big_low - (calc * multi--);
@@ -95,74 +120,37 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 	}
 }
 
-/*	apply same rotation logic to middle and small numbers	*/
+/*	rotation logic for stack b small numbered section	*/
 
-void	sort_biggest(t_stack *stack, int calc, int multi)
+void	sort_smallest(t_stack *stack, int calc, int multi)
 {
-	int	check_nbr;
-	int big_calc;
-
-	check_nbr = stack->b[stack->bottom - 1];
-	--multi;
-	big_calc = stack->big_heigh - (calc * multi--);
-	while (stack->b_empty == FALSE)
-	{
-		if (stack->b[stack->top_b] <= big_calc)
-		{
-			if (stack->b[stack->top_b] == check_nbr)
-				check_nbr = stack->b[stack->top_b + 1];
-			push_and_update(stack, 'a');
-		}
-		else
-		{
-			//if (!check_nbr)
-			//	check_nbr = stack->b[stack->top_b];
-			rotate_based_on_calc(stack, big_calc, 'r');
-		}
-		if (stack->b[stack->top_b] == check_nbr)
-		{
-			big_calc = stack->big_heigh - (calc * multi);
-			--multi;
-		}
-	}
-	/*
 	int	first;
-	int big_calc;
+	int small_calc;
 
 	--multi;
-	big_calc = stack->big_heigh - (calc * multi--);
+	small_calc = stack->small_heigh - (calc * multi--);
 	first = TRUE;
 	while (multi >= -1)
 	{
-		if (first == TRUE && stack->b[stack->top_b] <= big_calc)
-			push_and_update(stack, 'a');
-		else if (first == TRUE)
-			rotate_based_on_calc(stack, big_calc, 'r');
-		else if (first == FALSE && stack->b[stack->top_b] <= big_calc && \
-			stack->b[stack->top_b] >= stack->big_low)
-			push_and_update(stack, 'a');
-		else if (first == FALSE)
-			rotate_based_on_calc(stack, big_calc, 'd');
-		if (first == FALSE && stack->b[stack->bottom - 1] <= stack->small_heigh)
+		push_to_a_or_rotate(stack, first, small_calc);
+		// if (first == TRUE && stack->b[stack->top_b] <= small_calc)
+		// 	push_and_update(stack, 'a');
+		// else if (first == TRUE)
+		// 	rotate_based_on_calc(stack, small_calc, 'r');
+		// else if (first == FALSE && stack->b[stack->top_b] <= small_calc)
+		// 	push_and_update(stack, 'a');
+		// else if (first == FALSE)
+		// 	rotate_based_on_calc(stack, small_calc, 'd');
+		if (first == FALSE && stack->b[stack->bottom - 1] > stack->small_heigh)
 		{
-			big_calc = stack->big_heigh - (calc * multi--);
+			small_calc = stack->small_heigh - (calc * multi--);
 			first = TRUE;
 		}
-		else if (first == TRUE && stack->b[stack->top_b] <= stack->small_heigh)
+		else if (first == TRUE && stack->b[stack->top_b] > stack->small_heigh)
 		{
 			first = FALSE;
-			big_calc = stack->big_heigh - (calc * multi--);
-			rotate_based_on_calc(stack, big_calc, 'd');
+			small_calc = stack->small_heigh - (calc * multi--);
+			rotate_based_on_calc(stack, small_calc, 'd');
 		}
 	}
-	if (stack->b[stack->top_b] > stack->small_heigh)
-	{
-		rotate_based_on_calc(stack, big_calc, 'd');
-		push_and_update(stack, 'a');
-	}
-	if (stack->b[stack->bottom - 1] > stack->small_heigh)
-	{
-		rotate_based_on_calc(stack, big_calc, 'd');
-		push_and_update(stack, 'a');
-	}*/
 }

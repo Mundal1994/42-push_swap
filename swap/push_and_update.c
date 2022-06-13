@@ -112,12 +112,6 @@ int	calc_push_a_rotation(t_stack *stack, int nbr, int top_c)
 		}
 		++i;
 	}
-//	}
-	// if (stack->bottom - 1 == stack->top_b)
-	// {	
-	// 	first_small = FALSE;
-	// }
-	//ft_printf("\nsave: %d, div: %d, nbr: %d\n", save, (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)), nbr);
 	if (save == stack->bottom + 1)
 		return (ERROR);
 	if (save + 1 >= (((stack->bottom - top_c) / 2) + ((stack->bottom - top_c) % 2)))

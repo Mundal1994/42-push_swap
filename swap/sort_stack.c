@@ -61,7 +61,6 @@ static int	is_sorted(t_stack *stack)
 
 	while (i < stack->bottom)
 	{
-		//if (stack->a[i] <= stack->small_heigh || stack->a[i] >= stack->big_low)
 		if (stack->a[i] > stack->small_heigh && is_list(stack, stack->a[i]) < 0)
 			return (FALSE);
 		++i;
@@ -69,63 +68,32 @@ static int	is_sorted(t_stack *stack)
 	return (TRUE);
 }
 
-static void	sort_smallest(t_stack *stack, int calc, int multi)
+/*	apply same rotation logic to middle and small numbers	*/
+
+static void	sort_biggest(t_stack *stack, int calc, int multi)
 {
-	int	first;
-	int small_calc;
-
-	--multi;
-	small_calc = stack->small_heigh - (calc * multi--);
-	first = TRUE;
-	while (multi >= -1)
-	{
-		if (first == TRUE && stack->b[stack->top_b] <= small_calc)
-			push_and_update(stack, 'a');
-		else if (first == TRUE)
-			rotate_based_on_calc(stack, small_calc, 'r');
-		else if (first == FALSE && stack->b[stack->top_b] <= small_calc)
-			push_and_update(stack, 'a');
-		else if (first == FALSE)
-			rotate_based_on_calc(stack, small_calc, 'd');
-		if (first == FALSE && stack->b[stack->bottom - 1] > stack->small_heigh)
-		{
-			small_calc = stack->small_heigh - (calc * multi--);
-			first = TRUE;
-		}
-		else if (first == TRUE && stack->b[stack->top_b] > stack->small_heigh)
-		{
-			first = FALSE;
-			small_calc = stack->small_heigh - (calc * multi--);
-			rotate_based_on_calc(stack, small_calc, 'd');
-		}
-	}
-	/*
 	int	check_nbr;
-	int small_calc;
+	int big_calc;
 
-	check_nbr = 0;
+	check_nbr = stack->b[stack->bottom - 1];
 	--multi;
-	small_calc = stack->small_heigh - (calc * multi--);
+	big_calc = stack->big_heigh - (calc * multi--);
 	while (stack->b_empty == FALSE)
 	{
-		if (stack->b[stack->top_b] <= small_calc)
+		if (stack->b[stack->top_b] <= big_calc)
 		{
 			if (stack->b[stack->top_b] == check_nbr)
 				check_nbr = stack->b[stack->top_b + 1];
 			push_and_update(stack, 'a');
 		}
 		else
-		{
-			if (!check_nbr)
-				check_nbr = stack->b[stack->top_b];
-			rotate_based_on_calc(stack, small_calc, 'r');
-		}
+			rotate_based_on_calc(stack, big_calc, 'r');
 		if (stack->b[stack->top_b] == check_nbr)
 		{
-			small_calc = stack->small_heigh - (calc * multi);
+			big_calc = stack->big_heigh - (calc * multi);
 			--multi;
 		}
-	}*/
+	}
 }
 
 void	sort_stack(t_stack *stack)
@@ -135,7 +103,6 @@ void	sort_stack(t_stack *stack)
 		longest_list(stack);
 		while (is_sorted(stack) == FALSE)
 		{
-			//if (stack->a[stack->top_a] <= stack->small_heigh)
 			if (stack->a[stack->top_a] > stack->small_heigh && \
 				stack->a[stack->top_a] < stack->big_low && \
 				is_list(stack, stack->a[stack->top_a]) < 0)
