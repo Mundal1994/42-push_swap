@@ -14,8 +14,10 @@
 
 /*	error printing message	*/
 
-int	error(t_stack *stack, int i)
+int	error(t_stack *stack, int i, char *line)
 {
+	if (line)
+		free(line);
 	if (i == 1)
 	{
 		if (stack->a)

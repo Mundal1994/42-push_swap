@@ -31,7 +31,7 @@ static int	bigger_than_int(char *argv, int len)
 					return (ERROR);
 			}
 			else if (argv[i] != '-' && nbr_len >= 10)
-				if (nbr_len > 10 || (nbr_len == 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) < 0))
+				if (nbr_len > 10 || (nbr_len == 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) > 0))
 					return (ERROR);
 			i += nbr_len + 1;
 			nbr_len = ft_strlen_stop(&argv[i], ' ');
@@ -39,7 +39,6 @@ static int	bigger_than_int(char *argv, int len)
 	}
 	else
 	{
-		ft_printf("len: %d, strcmp: %d\n", len, ft_strcmp(argv, "2147483647"));
 		if (argv[0] == '-' && len >= 11)
 		{
 			if (len > 11 || (len == 11 && ft_strcmp(argv, "-2147483648") > 0))
@@ -116,9 +115,9 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 			stack->bottom += ft_word_count(stack->line, ' ');
 		len = ft_strlen(stack->line);
 		if (digit_checker(stack->line, len) == ERROR)
-			return (error(stack, 0));
+			return (error(stack, 0, NULL));
 		if (bigger_than_int(stack->line, len) == ERROR)
-			return (error(stack, 0));
+			return (error(stack, 0, NULL));
 		++i;
 	}
 	stack->top_a = 0;

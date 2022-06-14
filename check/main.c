@@ -23,10 +23,7 @@ int main(int argc, char **argv)
 		if (!stack)
 			exit(1);
 		if (valid_input_checker(argc, argv, stack) == ERROR)
-		{
-			system("leaks checker");
 			return (1);
-		}
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
 		ret = instruction_solve(stack);

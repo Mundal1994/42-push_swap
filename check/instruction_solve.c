@@ -99,15 +99,11 @@ int	instruction_solve(t_stack *stack)
 	{
 		ret = get_next_line(0, &line);
 		if (ret == ERROR)
-		{
-			if (line)
-				free(line);
-			return (error(stack, 1));
-		}
+			return (error(stack, 1, line));
 		if (!line)
 			break ;
 		if (valid_instruction_checker(line) == ERROR)
-			return (error(stack, 1));
+			return (error(stack, 1, line));
 		solve_stack(stack, line);
 		free(line);
 	}

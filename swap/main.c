@@ -12,155 +12,77 @@
 
 #include "push_swap.h"
 
-static void	data_collect(t_stack *stack)
+static void	data_of_big_and_small(t_stack *stack, int i)
 {
-	int	i;
 	int	j;
 	int	count;
 
-	stack->small_low = 2147483647;
-	stack->small_heigh = 2147483647;
-	stack->big_low = -2147483648;
-	stack->big_heigh = -2147483648;
+	j = 0;
+	count = 0;
+	while (j < stack->bottom)
+	{
+		if (stack->a[j] < stack->a[i])
+			++count;
+		++j;
+	}
+	if (count == ((stack->bottom / 3) * 1) - 1)
+		stack->small_heigh = stack->a[i];
+	else if (count == 0)
+		stack->small_low = stack->a[i];
+	else if (count == stack->bottom - 1)
+		stack->big_heigh = stack->a[i];
+	else if (count == ((stack->bottom / 3) * 2) + 1)
+		stack->big_low = stack->a[i];
+}
+
+static void	data_collect(t_stack *stack)
+{
+	int	i;
+
+	stack->small_low = stack->a_small;
+	stack->small_heigh = stack->a_small;
+	stack->big_low = stack->a_big;
+	stack->big_heigh = stack->a_big;
 	i = 0;
 	while (i < stack->bottom)
 	{
-		j = 0;
-		count = 0;
-		while (j < stack->bottom)
-		{
-			if (stack->a[j] < stack->a[i])
-				++count;
-			++j;
-		}
-		if (count == ((stack->bottom / 3) * 1) - 1)
-			stack->small_heigh = stack->a[i];
-		else if (count == 0)
-			stack->small_low = stack->a[i];
-		else if (count == stack->bottom - 1)
-			stack->big_heigh = stack->a[i];
-		else if (count == ((stack->bottom / 3) * 2) + 1)
-			stack->big_low = stack->a[i];
+		data_of_big_and_small(stack, i);
 		++i;
 	}
 }
 
-/*
-
-printf("\033[XA"); // Move up X lines;
-printf("\033[XB"); // Move down X lines;
-printf("\033[XC"); // Move right X column;
-printf("\033[XD"); // Move left X column;
-printf("\033[2J"); // Clear screen
-
-*/
-
-
-static void	print_with_commands(t_stack *stack, char *commands, int first)
+static void	free_stack(t_stack *stack)
 {
-	int	i;
-
-	//i = 0;
-	i = stack->bottom - 1;
-	ft_printf("\n\33[2K");
-	ft_printf("\n\33[2K{purple}COMMAND:{uncolor} %s\n", commands);
-	ft_printf("\n\33[2K");
-	ft_printf("{purple}STACK A: {uncolor}");
-	while (i > 0)//i < stack->bottom)
-	{
-		//ft_printf("\x1b[2K");
-		if (i < stack->top_a || first == TRUE)
-			ft_printf("\033[30;40m0	");
-		else if (stack->a[i] >= stack->big_low)
-			ft_printf("\033[30;41m%d	\033[0m", stack->a[i]);
-		else if (stack->a[i] > stack->small_heigh)
-			ft_printf("\033[30;42m%d	\033[0m", stack->a[i]);
-		else
-			ft_printf("\033[30;46m%d	\033[0m", stack->a[i]);
-			/*
-			if (i < stack->top_a)
-				ft_printf("|		|");
-			else if (stack->a[i] >= stack->big_low)
-				ft_printf("|\033[30;41m	%d	\033[0m|", stack->a[i]);
-			else if (stack->a[i] > stack->small_heigh)
-				ft_printf("|\033[30;42m	%d	\033[0m|", stack->a[i]);
-			else
-				ft_printf("|\033[30;46m	%d	\033[0m|", stack->a[i]);
-			if (i < stack->top_b)
-				ft_printf("		|\n");
-			else if (stack->b[i] >= stack->big_low)
-				ft_printf("\033[30;41m	%d	\033[0m|\n", stack->b[i]);
-			else if (stack->b[i] > stack->small_heigh)
-				ft_printf("\033[30;42m	%d	\033[0m|\n", stack->b[i]);
-			else
-				ft_printf("\033[30;46m	%d	\033[0m|\n", stack->b[i]);*/
-		--i;
-		ft_printf("|");
-	}
-	i = stack->bottom - 1;
-	ft_printf("\n\33[2K");
-	ft_printf("\n\33[2K{purple}STACK B: {uncolor}");
-	while (i > 0)//i < stack->bottom)
-	{
-		if (i < stack->top_b || first == TRUE)
-			ft_printf("\033[30;40m0	");
-		else if (stack->b[i] >= stack->big_low)
-			ft_printf("\033[30;41m%d	\033[0m", stack->b[i]);
-		else if (stack->b[i] > stack->small_heigh)
-			ft_printf("\033[30;42m%d	\033[0m", stack->b[i]);
-		else
-			ft_printf("\033[30;46m%d	\033[0m", stack->b[i]);
-		--i;
-		ft_printf("|");
-	}
-	//ft_printf("     {purple}STACK A	     STACK B{uncolor}	     %s\n", commands);
-}
-
-void	make_visuals(t_stack *stack, int first, char *command)
-{
-	int j = 0;
-	int	time;
-	
-	if (first == FALSE)
-		ft_printf("\033c");
-	ft_printf("\033[%d;%dH", 0, 0);
-	print_with_commands(stack, command, first);
-	if (stack->bottom < 50)
-		time = 200000000;
-	else if (stack->bottom < 250)
-		time = 35000000;
-	else
-		time = 75000000;
-	while (j < time)
-		++j;
+	if (stack->a)
+		free(stack->a);
+	if (stack->b)
+		free(stack->b);
+	if (stack)
+		free(stack);
 }
 
 int	main(int argc, char **argv)
 {
 	t_stack	*stack;
 
-	if (argc > 1)
+	if ((argc > 1 && ft_strcmp("-v", argv[1]) != 0) || (argc > 2 &&\
+		ft_strcmp("-v", argv[1]) == 0))
 	{
 		stack = malloc(sizeof(t_stack));
 		if (!stack)
 			return (1);
 		stack->visual = FALSE;
 		if (ft_strcmp("-v", argv[1]) == 0)
-			stack->visual = TRUE;
+			make_visuals(stack, TRUE, "none");
 		if (valid_input_checker(argc, argv, stack) == ERROR)
 			return (1);
 		if (create_stack(argc, argv, stack) == ERROR)
 			return (1);
 		data_collect(stack);
 		if (stack->visual == TRUE)
-			make_visuals(stack, TRUE, "none");
+			make_visuals(stack, FALSE, "original stack");
 		sort_stack(stack);
-		if (stack->a)
-			free(stack->a);
-		if (stack->b)
-			free(stack->b);
-		if (stack)
-			free(stack);
+		free_stack(stack);
 	}
 	else
 		ft_putstr_fd("Usage: ./push_swap nbr1 nbr2 ...\n", 1);

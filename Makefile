@@ -34,6 +34,7 @@ SRC2 += $(S)longest_list.c
 SRC2 += $(S)sort_parts.c
 SRC2 += $(S)push_to_stack.c
 SRC2 += $(S)sort_parts_helper.c
+SRC2 += $(S)bonus.c
 SRC2 += $(CO)valid_input_checker.c
 SRC2 += $(CO)create_stack.c
 SRC2 += $(CO)solve_stack.c
