@@ -31,7 +31,7 @@ static void	push_to_a_or_rotate(t_stack *stack, int first, int value)
 void	sort_smallest(t_stack *stack, int calc, int multi)
 {
 	int	first;
-	int small_calc;
+	int	small_calc;
 
 	--multi;
 	small_calc = stack->small_heigh - (calc * multi--);
@@ -57,8 +57,8 @@ void	sort_smallest(t_stack *stack, int calc, int multi)
 
 void	sort_middle(t_stack *stack, int calc, int multi)
 {
-	int first;
-	int mid_calc;
+	int	first;
+	int	mid_calc;
 
 	--multi;
 	mid_calc = stack->big_low - (calc * multi--);
@@ -85,7 +85,7 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 void	sort_biggest(t_stack *stack, int calc, int multi)
 {
 	int	check_nbr;
-	int big_calc;
+	int	big_calc;
 
 	check_nbr = stack->b[stack->bottom - 1];
 	--multi;

@@ -12,7 +12,10 @@
 
 #include "push_swap.h"
 
-/*	fills array based on how many previous small numbers a number is connected to	*/
+/*
+**	fills array based on how many previous small numbers a number is
+**	connected to
+*/
 
 static void	*fill_arr(t_stack *stack, int arr[stack->bottom])
 {
@@ -64,25 +67,17 @@ static void	collect_list(t_stack *stack, int arr[stack->bottom], int k, int i)
 	}
 }
 
-/*	collects the longest list of already sorted numbers	*/
+/*	initializes longest list	*/
 
-int	longest_list(t_stack *stack)
+static int	initialize_list(t_stack *stack, int *arr)
 {
-	int	arr[stack->bottom];
 	int	i;
 
-	i = 0;
-	while (i < stack->bottom)
-	{
-		arr[i] = 1;
-		++i;
-	}
-	fill_arr(stack, arr);
 	if (stack->len > 0)
 	{
 		stack->list = (int *)malloc(sizeof(int) * stack->len);
 		if (!stack->list)
-			return (-1);
+			return (ERROR);
 		i = 0;
 		while (i < stack->len)
 		{
@@ -91,5 +86,31 @@ int	longest_list(t_stack *stack)
 		}
 		collect_list(stack, arr, 0, stack->top_a);
 	}
+	return (0);
+}
+
+/*	collects the longest list of already sorted numbers	*/
+
+int	longest_list(t_stack *stack)
+{
+	int	*arr;
+	int	i;
+
+	i = 0;
+	arr = (int *)malloc(sizeof(int) * stack->bottom);
+	if (!arr)
+		return (ERROR);
+	while (i < stack->bottom)
+	{
+		arr[i] = 1;
+		++i;
+	}
+	fill_arr(stack, arr);
+	if (initialize_list(stack, arr) == ERROR)
+	{
+		free(arr);
+		return (ERROR);
+	}
+	free(arr);
 	return (stack->len);
 }

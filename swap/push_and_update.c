@@ -19,7 +19,7 @@ static void	update_small_nbr(int *c, int *small, int len, int top_c)
 	int	i;
 
 	i = top_c;
-	*small = c[top_c];	
+	*small = c[top_c];
 	while (i < len)
 	{
 		if (c[i] < *small)
@@ -44,7 +44,7 @@ static void	update_big_nbr(int *c, int *big, int len, int top_c)
 	}
 }
 
-/*	updates biggest and smallest number in the stack that is being pushed to	*/
+/*	updates biggest and smallest nbr in the stack that is being pushed to	*/
 
 static void	update_values(int *c, int *small, int *big)
 {

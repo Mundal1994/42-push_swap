@@ -55,7 +55,7 @@ int	main(int argc, char **argv)
 {
 	t_stack	*stack;
 
-	if ((argc > 1 && ft_strcmp("-v", argv[1]) != 0) || (argc > 2 &&\
+	if ((argc > 1 && ft_strcmp("-v", argv[1]) != 0) || (argc > 2 && \
 		ft_strcmp("-v", argv[1]) == 0))
 	{
 		stack = malloc(sizeof(t_stack));

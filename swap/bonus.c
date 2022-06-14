@@ -61,9 +61,9 @@ static void	print_visuals(t_stack *stack, char *commands)
 
 void	make_visuals(t_stack *stack, int first, char *command)
 {
-	int j = 0;
+	int	j;
 	int	time;
-	
+
 	if (first == FALSE)
 	{
 		ft_printf("\033c");
@@ -74,6 +74,7 @@ void	make_visuals(t_stack *stack, int first, char *command)
 			time = 35000000;
 		else
 			time = 75000000;
+		j = 0;
 		while (j < time)
 			++j;
 	}

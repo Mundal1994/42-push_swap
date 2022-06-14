@@ -12,6 +12,8 @@
 
 #include "common.h"
 
+/*	checks if nbrs are bigger than int if they are in a string	*/
+
 static int	bigger_than_int_loop(char *argv, int len, int nbr_len)
 {
 	int	i;

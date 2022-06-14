@@ -69,8 +69,9 @@ static int	is_list(t_stack *stack, int nbr)
 
 static int	is_sorted(t_stack *stack)
 {
-	int i = stack->top_a;
+	int	i;
 
+	i = stack->top_a;
 	while (i < stack->bottom)
 	{
 		if (stack->a[i] > stack->small_heigh && is_list(stack, stack->a[i]) < 0)
@@ -109,7 +110,7 @@ static void	split_stack(t_stack *stack)
 	}
 }
 
-/*	function that calls the functions that are behind the logic of the sorting	*/
+/*	calls the functions that are behind the logic of the sorting	*/
 
 void	sort_stack(t_stack *stack)
 {
