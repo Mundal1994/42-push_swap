@@ -103,12 +103,14 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 	stack->a = (int *)malloc(sizeof(int) * stack->bottom);
 	stack->b = (int *)malloc(sizeof(int) * stack->bottom);
 	if (!stack->a || !stack->b)
-		return (ERROR);
+		return (error(stack, 1));
 	i = 1;
+	if (stack->visual == TRUE)
+		++i;
 	j = 0;
 	stack->a_small = 1;
 	stack->a_big = -1;
-	if (ft_isdigit(argv[1][0]) == 0 && ft_isdigit(argv[1][1]) == 0)
+	if (ft_isdigit(argv[i][0]) == 0 && ft_isdigit(argv[i][1]) == 0)
 	{
 		if (initialize_stack_file(stack->line, stack, &j) == ERROR)
 			return (error(stack, 1));

@@ -25,20 +25,29 @@ static int	bigger_than_int(char *argv, int len)
 		i = 0;
 		while (i < len)
 		{
-			if (argv[i] == '-' && nbr_len >= 11 && ft_strncmp(&argv[i], "-2147483648", nbr_len) > 0)
-				return (ERROR);
-			else if (argv[i] != '-' && nbr_len >= 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) > 0)
-				return (ERROR);
+			if (argv[i] == '-' && nbr_len >= 11)
+			{
+				if (nbr_len > 11 || (nbr_len == 11 && ft_strncmp(&argv[i], "-2147483648", nbr_len) > 0))
+					return (ERROR);
+			}
+			else if (argv[i] != '-' && nbr_len >= 10)
+				if (nbr_len > 10 || (nbr_len == 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) < 0))
+					return (ERROR);
 			i += nbr_len + 1;
 			nbr_len = ft_strlen_stop(&argv[i], ' ');
 		}
 	}
 	else
 	{
-		if (argv[0] == '-' && len >= 11 && ft_strcmp(argv, "-2147483648") > 0)
-			return (ERROR);
-		else if (argv[0] != '-' && len >= 10 && ft_strcmp(argv, "2147483647") > 0)
-			return (ERROR);
+		ft_printf("len: %d, strcmp: %d\n", len, ft_strcmp(argv, "2147483647"));
+		if (argv[0] == '-' && len >= 11)
+		{
+			if (len > 11 || (len == 11 && ft_strcmp(argv, "-2147483648") > 0))
+				return (ERROR);
+		}
+		else if (argv[0] != '-' && len >= 10)
+			if (len > 10|| (len == 10 && ft_strcmp(argv, "2147483647") > 0))
+				return (ERROR);
 	}
 	return (0);
 }
@@ -95,6 +104,8 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 	int	len;
 
 	i = 1;
+	if (stack->visual == TRUE)
+		++i;
 	stack->bottom = 0;
 	while (i < argc)
 	{

@@ -27,5 +27,6 @@ void	sort_smallest(t_stack *stack, int calc, int multi);
 void	sort_middle(t_stack *stack, int calc, int multi);
 void	sort_biggest(t_stack *stack, int calc, int multi);
 void	rotate_based_on_calc(t_stack *stack, int calc, char c);
+void	make_visuals(t_stack *stack, int first, char *command);
 
 #endif

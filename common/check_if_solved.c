@@ -18,8 +18,10 @@ int	error(t_stack *stack, int i)
 {
 	if (i == 1)
 	{
-		free(stack->a);
-		free(stack->b);
+		if (stack->a)
+			free(stack->a);
+		if (stack->b)
+			free(stack->b);
 	}
 	free(stack);
 	ft_putstr_fd("Error\n", 2);

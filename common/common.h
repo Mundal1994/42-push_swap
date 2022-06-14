@@ -37,13 +37,14 @@ typedef struct s_stack
 	int			big_low;
 	int			big_heigh;
 	char		*line;
+	int			visual;
 } t_stack;
-
+/*
 typedef struct s_instruction
 {
 	char		*instr;
 } t_instruction;
-
+*/
 int		valid_input_checker(int argc, char **argv, t_stack *stack);
 void	read_from_file(t_stack *stack);
 int		error(t_stack *stack, int i);

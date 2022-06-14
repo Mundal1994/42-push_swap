@@ -17,8 +17,15 @@
 void	solve_and_print(t_stack *stack, char *str)
 {
 	solve_stack(stack, str);
-	ft_putstr(str);
-	ft_putchar('\n');
+	if (stack->visual == TRUE)
+	{
+		make_visuals(stack, FALSE, str);
+	}
+	else
+	{
+		ft_putstr(str);
+		ft_putchar('\n');
+	}
 }
 
 /*	narrows down which direction to rotate	*/
