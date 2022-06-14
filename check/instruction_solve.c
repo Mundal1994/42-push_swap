@@ -12,80 +12,22 @@
 
 #include "checker.h"
 
-static int	rotate_check(char *line, int len)
-{
-	switch(line[1])
-	{
-		case 'a':
-		case 'b':
-			return (0);
-		case 'r':
-			if (len == 2)
-				return (0);
-			switch(line[2])
-			{
-				case 'a':
-				case 'b':
-				case 'r':
-					if (len == 3)
-						return (0);
-					return (ERROR);
-			}
-		default:
-			return (ERROR);
-	}
-}
-
-static int	swap_push_check(char *line, int len, char c)
-{
-	if (c == 's')
-	{
-		switch(line[1])
-		{
-			case 'a':
-			case 'b':
-			case 's':
-				if (len == 2)
-					return (0);
-				return (ERROR);
-		}
-	}
-	else if (c == 'p')
-	{
-		switch(line[1])
-		{
-			case 'a':
-			case 'b':
-				if (len == 2)
-					return (0);
-				return (ERROR);
-		}
-	}
-	return (ERROR);
-}
-
 static int	valid_instruction_checker(char *line)
 {
 	int	len;
 
 	len = ft_strlen(line);
-	switch(line[0])
-	{
-		case 's':
-			if (swap_push_check(line, len, 's') == 0)
-				return (0);
-			return (ERROR);
-		case 'p':
-			if (swap_push_check(line, len, 'p') == 0)
-				return (0);
-			return (ERROR);
-		case 'r':
-			if (rotate_check(line, len) == 0)
-				return (0);
-			return (ERROR);
-		default:
-			return (ERROR);
-	}
+	if (ft_strcmp(line, "sa") == 0 || ft_strcmp(line, "sb") == 0)
+		return (0);
+	if (ft_strcmp(line, "pa") == 0 || ft_strcmp(line, "pb") == 0)
+		return (0);
+	if (ft_strcmp(line, "ra") == 0 || ft_strcmp(line, "rb") == 0)
+		return (0);
+	if (ft_strcmp(line, "rr") == 0 || ft_strcmp(line, "rrr") == 0)
+		return (0);
+	if (ft_strcmp(line, "rra") == 0 || ft_strcmp(line, "rrb") == 0)
+		return (0);
+	return (ERROR);
 }
 
 int	instruction_solve(t_stack *stack)
