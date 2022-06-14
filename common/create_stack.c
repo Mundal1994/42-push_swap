@@ -78,42 +78,21 @@ static int	initialize_stacks(char **argv, t_stack *stack, int i, int *j)
 	return (0);
 }
 
-/*	initializes stack if it is read from a file	*/
+/*	initializes stacks depending on if numbers are from a file or not	*/
 
-static int	initialize_stack_file(char *line, t_stack *stack, int *j)
+static int	initialize(int argc, char **argv, t_stack *stack, int i)
 {
-	if (collect_from_str(line, stack, j) == ERROR)
-	{
-		free(stack->line);
-		return (ERROR);
-	}
-	free(stack->line);
-	return (0);
-}
-
-/*	mallocs and starts creatings stack a and b	*/
-
-// maybe free stack->a or stack->b
-
-int	create_stack(int argc, char **argv, t_stack *stack)
-{
-	int	i;
 	int	j;
 
-	stack->a = (int *)malloc(sizeof(int) * stack->bottom);
-	stack->b = (int *)malloc(sizeof(int) * stack->bottom);
-	if (!stack->a || !stack->b)
-		return (error(stack, 1, NULL));
-	i = 1;
-	if (stack->visual == TRUE)
-		++i;
 	j = 0;
-	stack->a_small = 1;
-	stack->a_big = -1;
 	if (ft_isdigit(argv[i][0]) == 0 && ft_isdigit(argv[i][1]) == 0)
 	{
-		if (initialize_stack_file(stack->line, stack, &j) == ERROR)
-			return (error(stack, 1, NULL));
+		if (collect_from_str(stack->line, stack, &j) == ERROR)
+		{
+			return (error(stack, 1, stack->line));
+		}
+		free(stack->line);
+		return (0);
 	}
 	else
 	{
@@ -124,6 +103,26 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 			++i;
 		}
 	}
+	return (0);
+}
+
+/*	mallocs and starts creatings stack a and b	*/
+
+int	create_stack(int argc, char **argv, t_stack *stack)
+{
+	int	i;
+
+	stack->a = (int *)malloc(sizeof(int) * stack->bottom);
+	stack->b = (int *)malloc(sizeof(int) * stack->bottom);
+	if (!stack->a || !stack->b)
+		return (error(stack, 1, NULL));
+	i = 1;
+	if (stack->visual == TRUE)
+		++i;
+	stack->a_small = 1;
+	stack->a_big = -1;
+	if (initialize(argc, argv, stack, i) == ERROR)
+		return (ERROR);
 	stack->b_small = 2147483647;
 	stack->b_big = -2147483648;
 	return (0);

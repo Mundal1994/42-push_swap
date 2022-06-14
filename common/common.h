@@ -38,16 +38,12 @@ typedef struct s_stack
 	int			big_heigh;
 	char		*line;
 	int			visual;
-} t_stack;
-/*
-typedef struct s_instruction
-{
-	char		*instr;
-} t_instruction;
-*/
+}	t_stack;
+
 int		valid_input_checker(int argc, char **argv, t_stack *stack);
 void	read_from_file(t_stack *stack);
 int		error(t_stack *stack, int i, char *line);
+void	free_stack(t_stack *stack);
 int		check_if_solved(t_stack *stack);
 int		create_stack(int argc, char **argv, t_stack *stack);
 void	solve_stack(t_stack *stack, char *line);

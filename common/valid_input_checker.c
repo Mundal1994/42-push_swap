@@ -12,41 +12,45 @@
 
 #include "common.h"
 
+static int	bigger_than_int_loop(char *argv, int len, int nbr_len)
+{
+	int	i;
+
+	i = 0;
+	while (i < len)
+	{
+		if ((argv[i] == '-' && nbr_len > 11) || (argv[i] == '-' && \
+		nbr_len == 11 && ft_strncmp(&argv[i], "-2147483648", nbr_len) > 0))
+			return (ERROR);
+		else if ((argv[i] != '-' && nbr_len > 10) || (argv[i] != '-' && \
+		nbr_len == 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) > 0))
+			return (ERROR);
+		i += nbr_len + 1;
+		nbr_len = ft_strlen_stop(&argv[i], ' ');
+	}
+	return (0);
+}
+
 /*	checks if integer is bigger than an int	*/
 
 static int	bigger_than_int(char *argv, int len)
 {
 	int	nbr_len;
-	int	i;
 
 	nbr_len = ft_strlen_stop(argv, ' ');
 	if (nbr_len != len)
 	{
-		i = 0;
-		while (i < len)
-		{
-			if (argv[i] == '-' && nbr_len >= 11)
-			{
-				if (nbr_len > 11 || (nbr_len == 11 && ft_strncmp(&argv[i], "-2147483648", nbr_len) > 0))
-					return (ERROR);
-			}
-			else if (argv[i] != '-' && nbr_len >= 10)
-				if (nbr_len > 10 || (nbr_len == 10 && ft_strncmp(&argv[i], "2147483647", nbr_len) > 0))
-					return (ERROR);
-			i += nbr_len + 1;
-			nbr_len = ft_strlen_stop(&argv[i], ' ');
-		}
+		if (bigger_than_int_loop(argv, len, nbr_len) == ERROR)
+			return (ERROR);
 	}
 	else
 	{
-		if (argv[0] == '-' && len >= 11)
-		{
-			if (len > 11 || (len == 11 && ft_strcmp(argv, "-2147483648") > 0))
-				return (ERROR);
-		}
-		else if (argv[0] != '-' && len >= 10)
-			if (len > 10|| (len == 10 && ft_strcmp(argv, "2147483647") > 0))
-				return (ERROR);
+		if ((argv[0] == '-' && len > 11) || (argv[0] == '-' && len == 11 && \
+			ft_strcmp(argv, "-2147483648") > 0))
+			return (ERROR);
+		else if ((argv[0] != '-' && len > 10) || (argv[0] != '-' && len == 10 \
+			&& ft_strcmp(argv, "2147483647") > 0))
+			return (ERROR);
 	}
 	return (0);
 }
@@ -64,7 +68,8 @@ static int	digit_checker(char *argv, int len)
 	{
 		if (ft_isdigit(argv[j]) == 1)
 			++j;
-		else if (argv[j] == ' ' && (ft_isdigit(argv[j + 1]) == 1 || argv[j + 1] == '-'))
+		else if (argv[j] == ' ' && (ft_isdigit(argv[j + 1]) == 1 || \
+			argv[j + 1] == '-'))
 			++j;
 		else if (argv[j] == '-' && ft_isdigit(argv[j + 1]) == 1)
 			++j;
@@ -72,27 +77,6 @@ static int	digit_checker(char *argv, int len)
 			return (ERROR);
 	}
 	return (0);
-}
-
-void	read_from_file(t_stack *stack)
-{
-	int		fd;
-	int		ret;
-	int		ret2;
-	char	*temp;
-
-	fd = open(stack->line, O_RDONLY);
-	temp = NULL;
-	ret = get_next_line(fd, &stack->line);
-	ret2 = get_next_line(fd, &temp);
-	if (ret != 1 || ret2 != 0)
-	{
-		stack->line[0] = 'n';
-		if (ret2 == 1)
-			free(temp);
-		close(fd);
-	}
-	close(fd);
 }
 
 /*	loops through arguments to check if valid input	*/
@@ -114,9 +98,8 @@ int	valid_input_checker(int argc, char **argv, t_stack *stack)
 		if (argc)
 			stack->bottom += ft_word_count(stack->line, ' ');
 		len = ft_strlen(stack->line);
-		if (digit_checker(stack->line, len) == ERROR)
-			return (error(stack, 0, NULL));
-		if (bigger_than_int(stack->line, len) == ERROR)
+		if (digit_checker(stack->line, len) == ERROR || \
+			bigger_than_int(stack->line, len) == ERROR)
 			return (error(stack, 0, NULL));
 		++i;
 	}

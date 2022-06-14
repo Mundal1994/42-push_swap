@@ -85,20 +85,26 @@ static void	reverse_rotate(int *a, int top_a, int bottom)
 
 void	solve_stack(t_stack *stack, char *line)
 {
-	if (stack->a_empty == FALSE && (ft_strcmp(line, "sa") == 0 || ft_strcmp(line, "ss") == 0))
+	if (stack->a_empty == FALSE && (ft_strcmp(line, "sa") == 0 || \
+		ft_strcmp(line, "ss") == 0))
 		swap(&stack->a[stack->top_a], &stack->a[stack->top_a + 1]);
-	if (stack->b_empty == FALSE && (ft_strcmp(line, "sb") == 0 || ft_strcmp(line, "ss") == 0))
+	if (stack->b_empty == FALSE && (ft_strcmp(line, "sb") == 0 || \
+		ft_strcmp(line, "ss") == 0))
 		swap(&stack->b[stack->top_b], &stack->b[stack->top_b + 1]);
 	if (stack->b_empty == FALSE && ft_strcmp(line, "pa") == 0)
 		push(&stack->a[stack->top_a - 1], &stack->b[stack->top_b], stack, 0);
 	if (stack->a_empty == FALSE && ft_strcmp(line, "pb") == 0)
 		push(&stack->b[stack->top_b - 1], &stack->a[stack->top_a], stack, 1);
-	if (stack->a_empty == FALSE && (ft_strcmp(line, "ra") == 0 || ft_strcmp(line, "rr") == 0))
+	if (stack->a_empty == FALSE && (ft_strcmp(line, "ra") == 0 || \
+		ft_strcmp(line, "rr") == 0))
 		rotate(stack->a, stack->top_a, stack->bottom);
-	if (stack->b_empty == FALSE && (ft_strcmp(line, "rb") == 0 || ft_strcmp(line, "rr") == 0))
+	if (stack->b_empty == FALSE && (ft_strcmp(line, "rb") == 0 || \
+		ft_strcmp(line, "rr") == 0))
 		rotate(stack->b, stack->top_b, stack->bottom);
-	if (stack->a_empty == FALSE && (ft_strcmp(line, "rra") == 0 || ft_strcmp(line, "rrr") == 0))
+	if (stack->a_empty == FALSE && (ft_strcmp(line, "rra") == 0 || \
+		ft_strcmp(line, "rrr") == 0))
 		reverse_rotate(stack->a, stack->top_a, stack->bottom);
-	if (stack->b_empty == FALSE && (ft_strcmp(line, "rrb") == 0 || ft_strcmp(line, "rrr") == 0))
+	if (stack->b_empty == FALSE && (ft_strcmp(line, "rrb") == 0 || \
+		ft_strcmp(line, "rrr") == 0))
 		reverse_rotate(stack->b, stack->top_b, stack->bottom);
 }

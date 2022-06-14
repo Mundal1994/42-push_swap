@@ -12,7 +12,7 @@
 
 #include "checker.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_stack	*stack;
 	int		ret;
@@ -33,12 +33,7 @@ int main(int argc, char **argv)
 			ft_putstr("KO\n");
 		else
 			ft_putstr("OK\n");
-		if (stack->a)
-			free(stack->a);
-		if (stack->b)
-			free(stack->b);
-		if (stack)
-			free(stack);
+		free_stack(stack);
 	}
 	else
 		ft_putstr_fd("Usage: ./checker nbr1 nbr2 ...\n", 1);

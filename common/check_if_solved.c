@@ -12,6 +12,41 @@
 
 #include "common.h"
 
+/*	reads numbers from file	*/
+
+void	read_from_file(t_stack *stack)
+{
+	int		fd;
+	int		ret;
+	int		ret2;
+	char	*temp;
+
+	fd = open(stack->line, O_RDONLY);
+	temp = NULL;
+	ret = get_next_line(fd, &stack->line);
+	ret2 = get_next_line(fd, &temp);
+	if (ret != 1 || ret2 != 0)
+	{
+		stack->line[0] = 'n';
+		if (ret2 == 1)
+			free(temp);
+		close(fd);
+	}
+	close(fd);
+}
+
+/*	frees stack	*/
+
+void	free_stack(t_stack *stack)
+{
+	if (stack->a)
+		free(stack->a);
+	if (stack->b)
+		free(stack->b);
+	if (stack)
+		free(stack);
+}
+
 /*	error printing message	*/
 
 int	error(t_stack *stack, int i, char *line)

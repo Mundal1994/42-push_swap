@@ -51,16 +51,6 @@ static void	data_collect(t_stack *stack)
 	}
 }
 
-static void	free_stack(t_stack *stack)
-{
-	if (stack->a)
-		free(stack->a);
-	if (stack->b)
-		free(stack->b);
-	if (stack)
-		free(stack);
-}
-
 int	main(int argc, char **argv)
 {
 	t_stack	*stack;
