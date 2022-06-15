@@ -28,8 +28,6 @@ typedef struct s_stack
 	int			b_empty;
 	int			a_small;
 	int			a_big;
-	int			b_small;
-	int			b_big;
 	int			*list;
 	int			len;
 	int			small_low;

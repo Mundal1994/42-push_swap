@@ -15,21 +15,6 @@
 
 # include "../common/common.h"
 
-// typedef enum
-// {
-// 	SA,
-// 	SB,
-// 	SS,
-// 	PA,
-// 	PB,
-// 	RA,
-// 	RB,
-// 	RR,
-// 	RRA,
-// 	RRB,
-// 	RRR
-// } operations;
-
-int		instruction_solve(t_stack *stack);
+int	instruction_solve(t_stack *stack);
 
 #endif

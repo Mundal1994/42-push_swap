@@ -12,6 +12,8 @@
 
 #include "checker.h"
 
+/*	beginning of checker function. calls nescessary functions	*/
+
 int	main(int argc, char **argv)
 {
 	t_stack	*stack;
@@ -21,14 +23,14 @@ int	main(int argc, char **argv)
 	{
 		stack = malloc(sizeof(t_stack));
 		if (!stack)
-			exit(1);
+			return (0);
 		if (valid_input_checker(argc, argv, stack) == ERROR)
-			return (1);
+			return (0);
 		if (create_stack(argc, argv, stack) == ERROR)
-			return (1);
+			return (0);
 		ret = instruction_solve(stack);
 		if (ret == ERROR)
-			return (1);
+			return (0);
 		else if (ret == 1)
 			ft_putstr("KO\n");
 		else

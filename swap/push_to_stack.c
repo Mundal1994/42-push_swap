@@ -86,10 +86,7 @@ static void	rotate_stack_a(t_stack *stack, int d)
 	}
 }
 
-/*
-**	does the logic for pushing to stack a and updating values depending on if
-**	last element in stack b or not
-*/
+/*	does the logic for pushing to stack a and stack b	*/
 
 void	push_to_stack(t_stack *stack, char c)
 {
@@ -100,19 +97,7 @@ void	push_to_stack(t_stack *stack, char c)
 		d = push_a_rotation_logic(stack, stack->b[stack->top_b]);
 		rotate_stack_a(stack, d);
 		solve_and_print(stack, "pa");
-		if (stack->top_b == stack->bottom)
-		{
-			stack->b_small = 2147483647;
-			stack->b_big = -2147483648;
-		}
 	}
 	else
-	{
 		solve_and_print(stack, "pb");
-		if (stack->b_small > stack->b_big)
-		{
-			stack->b_small = stack->b[stack->bottom - 1];
-			stack->b_big = stack->b[stack->top_b];
-		}
-	}
 }

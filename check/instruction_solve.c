@@ -12,6 +12,8 @@
 
 #include "checker.h"
 
+/*	checks if instructions are valid	*/
+
 static int	valid_instruction_checker(char *line)
 {
 	int	len;
@@ -29,6 +31,8 @@ static int	valid_instruction_checker(char *line)
 		return (0);
 	return (ERROR);
 }
+
+/*	reads one line at a time and checks instruction	*/
 
 int	instruction_solve(t_stack *stack)
 {

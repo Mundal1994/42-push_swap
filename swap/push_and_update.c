@@ -54,23 +54,6 @@ static void	update_values(int *c, int *small, int *big)
 		*small = c[0];
 }
 
-/*	function that makes sure right update functions are called	*/
-
-static void	update_stack_a_values(t_stack *stack)
-{
-	update_values(&stack->a[stack->top_a], &stack->a_small, &stack->a_big);
-	if (stack->b_empty == TRUE)
-	{
-		stack->b_small = 2147483647;
-		stack->b_big = -2147483648;
-	}
-	else if (stack->a[stack->top_a] == stack->b_big)
-		update_big_nbr(stack->b, &stack->b_big, stack->bottom, stack->top_b);
-	else if (stack->a[stack->top_a] == stack->b_small)
-		update_small_nbr(stack->b, &stack->b_small, stack->bottom, \
-		stack->top_b);
-}
-
 /*	rotation logic and updating correct values	*/
 
 void	push_and_update(t_stack *stack, char c)
@@ -78,12 +61,11 @@ void	push_and_update(t_stack *stack, char c)
 	if (c == 'a')
 	{
 		push_to_stack(stack, c);
-		update_stack_a_values(stack);
+		update_values(&stack->a[stack->top_a], &stack->a_small, &stack->a_big);
 	}
 	else
 	{
 		push_to_stack(stack, c);
-		update_values(&stack->b[stack->top_b], &stack->b_small, &stack->b_big);
 		if (stack->b[stack->top_b] == stack->a_big)
 			update_big_nbr(stack->a, &stack->a_big, stack->bottom, \
 			stack->top_a);

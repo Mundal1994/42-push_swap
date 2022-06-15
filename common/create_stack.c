@@ -123,7 +123,5 @@ int	create_stack(int argc, char **argv, t_stack *stack)
 	stack->a_big = -1;
 	if (initialize(argc, argv, stack, i) == ERROR)
 		return (ERROR);
-	stack->b_small = 2147483647;
-	stack->b_big = -2147483648;
 	return (0);
 }
