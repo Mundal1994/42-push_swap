@@ -12,6 +12,8 @@
 
 #include "push_swap.h"
 
+/*	prints the visuals of stack b	*/
+
 static void	print_stack_b(t_stack *stack)
 {
 	int	i;
@@ -33,6 +35,8 @@ static void	print_stack_b(t_stack *stack)
 	}
 	ft_printf("\n\033[0;37m______________________\n");
 }
+
+/*	prints the visuals of stack a	*/
 
 static void	print_visuals(t_stack *stack, char *commands)
 {
@@ -57,6 +61,8 @@ static void	print_visuals(t_stack *stack, char *commands)
 	}
 	print_stack_b(stack);
 }
+
+/*	logic of the visuals and takes care of the delaying of next print	*/
 
 void	make_visuals(t_stack *stack, int first, char *command)
 {
