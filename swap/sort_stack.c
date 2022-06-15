@@ -17,7 +17,7 @@
 **	takes into consideration that stack might need to rotate
 */
 
-static int	check_if_ordered(t_stack *stack)
+int	check_if_ordered(t_stack *stack)
 {
 	int	i;
 
@@ -118,24 +118,29 @@ void	sort_stack(t_stack *stack)
 
 	if (check_if_solved(stack) == ERROR)
 	{
-		longest_list(stack);
-		split_stack(stack);
-		if (stack->list)
-			free(stack->list);
-		if (stack->bottom < 50)
-		{
-			while (stack->b_empty == FALSE)
-				push_and_update(stack, 'a');
-		}
+		if (stack->bottom < 10)
+			short_stack_logic(stack);
 		else
 		{
-			if (stack->bottom < 250)
-				multi = 6;
+			longest_list(stack);
+			split_stack(stack);
+			if (stack->list)
+				free(stack->list);
+			if (stack->bottom < 50)
+			{
+				while (stack->b_empty == FALSE)
+					push_and_update(stack, 'a');
+			}
 			else
-				multi = 10;
-			sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
-			sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
-			sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
+			{
+				if (stack->bottom < 250)
+					multi = 6;
+				else
+					multi = 10;
+				sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
+				sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
+				sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
+			}
 		}
 		stack_rotate_init(stack);
 	}
