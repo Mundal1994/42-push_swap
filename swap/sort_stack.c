@@ -12,40 +12,6 @@
 
 #include "push_swap.h"
 
-/*
-**	checks if everything is ordered in stack a
-**	takes into consideration that stack might need to rotate
-*/
-
-int	check_if_ordered(t_stack *stack)
-{
-	int	i;
-
-	i = stack->top_a;
-	while (i < stack->bottom && stack->a[i] != stack->a_small)
-		++i;
-	if (stack->top_a != i && stack->a[stack->bottom - 1] > stack->a[stack->top_a])
-		return (ERROR);
-	++i;
-	while (i < stack->bottom)
-	{
-		if (stack->a[i] < stack->a[i - 1])
-			return (ERROR);
-		++i;
-	}
-	if (stack->a[stack->top_a] != stack->a_small)
-	{
-		i = stack->top_a + 1;
-		while (stack->a[i] != stack->a_small)
-		{
-			if (stack->a[i] < stack->a[i - 1])
-				return (ERROR);
-			++i;
-		}
-	}
-	return (TRUE);
-}
-
 /*	checks if nbr is part of the already sorted list	*/
 
 static int	is_list(t_stack *stack, int nbr)
@@ -110,6 +76,22 @@ static void	split_stack(t_stack *stack)
 	}
 }
 
+static int	stack_contain_nbrs(t_stack *stack, int nbr, int equal)
+{
+	int	i;
+
+	i = stack->top_b;
+	while (i < stack->bottom)
+	{
+		if (stack->b[i] > nbr && equal == FALSE)
+			return (TRUE);
+		if (stack->b[i] >= nbr && equal == TRUE)
+			return (TRUE);
+		++i;
+	}
+	return (FALSE);
+}
+
 /*	calls the functions that are behind the logic of the sorting	*/
 
 void	sort_stack(t_stack *stack)
@@ -118,7 +100,7 @@ void	sort_stack(t_stack *stack)
 
 	if (check_if_solved(stack) == ERROR)
 	{
-		if (stack->bottom < 10)
+		if (stack->bottom < 20)
 			short_stack_logic(stack);
 		else
 		{
@@ -126,21 +108,16 @@ void	sort_stack(t_stack *stack)
 			split_stack(stack);
 			if (stack->list)
 				free(stack->list);
-			if (stack->bottom < 50)
-			{
-				while (stack->b_empty == FALSE)
-					push_and_update(stack, 'a');
-			}
+			if (stack->bottom < 250)
+				multi = 6;
 			else
-			{
-				if (stack->bottom < 250)
-					multi = 6;
-				else
-					multi = 10;
+				multi = 10;
+			if (stack_contain_nbrs(stack, stack->small_heigh, FALSE) == TRUE)
 				sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
+			if (stack_contain_nbrs(stack, stack->big_low, TRUE) == TRUE)
 				sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
+			if (stack->b_empty == FALSE)
 				sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
-			}
 		}
 		stack_rotate_init(stack);
 	}
