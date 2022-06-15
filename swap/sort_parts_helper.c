@@ -12,6 +12,39 @@
 
 #include "push_swap.h"
 
+/*
+**	checks if everything is ordered in stack a
+**	takes into consideration that stack might need to rotate
+*/
+
+int	check_if_ordered(t_stack *stack)
+{
+	int	i;
+
+	i = stack->top_a;
+	while (i < stack->bottom && stack->a[i] != stack->a_small)
+		++i;
+	if (stack->top_a != i && stack->a[stack->bottom - 1] > \
+		stack->a[stack->top_a])
+		return (ERROR);
+	while (++i < stack->bottom)
+	{
+		if (stack->a[i] < stack->a[i - 1])
+			return (ERROR);
+	}
+	if (stack->a[stack->top_a] != stack->a_small)
+	{
+		i = stack->top_a + 1;
+		while (stack->a[i] != stack->a_small)
+		{
+			if (stack->a[i] < stack->a[i - 1])
+				return (ERROR);
+			++i;
+		}
+	}
+	return (TRUE);
+}
+
 /*	locates nearest index of number that is below value we are looking for	*/
 
 static int	find_index(t_stack *stack, int start, int value, int d)

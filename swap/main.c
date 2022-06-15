@@ -71,7 +71,8 @@ int	main(int argc, char **argv)
 		data_collect(stack);
 		if (stack->visual == TRUE)
 			make_visuals(stack, FALSE, "original stack");
-		sort_stack(stack);
+		if (check_if_solved(stack) == ERROR)
+			sort_stack(stack);
 		free_stack(stack);
 	}
 	else

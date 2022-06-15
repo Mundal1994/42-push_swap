@@ -28,26 +28,6 @@ void	solve_and_print(t_stack *stack, char *str)
 	}
 }
 
-/*	narrows down which direction to rotate	*/
-
-void	rotate_stacks(t_stack *stack, char c, char a)
-{
-	if (c == 'r')
-	{
-		if (a == 'a')
-			solve_and_print(stack, "ra");
-		else
-			solve_and_print(stack, "rb");
-	}
-	else
-	{
-		if (a == 'a')
-			solve_and_print(stack, "rra");
-		else
-			solve_and_print(stack, "rrb");
-	}
-}
-
 /*	calculates quickest way to get a specific number to be at the bottom	*/
 
 static int	rotate_based_on_nbr(t_stack *stack)
@@ -83,8 +63,8 @@ void	stack_rotate_init(t_stack *stack)
 	d = rotate_based_on_nbr(stack);
 	if (d == FALSE)
 		while (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
-			rotate_stacks(stack, 'r', 'a');
+			solve_and_print(stack, "ra");
 	else if (d == TRUE)
 		while (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
-			rotate_stacks(stack, 'd', 'a');
+			solve_and_print(stack, "rra");
 }

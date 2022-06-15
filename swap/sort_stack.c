@@ -98,27 +98,27 @@ void	sort_stack(t_stack *stack)
 {
 	int	multi;
 
-	if (check_if_solved(stack) == ERROR)
+	if (stack->bottom < 20)
+		short_stack_logic(stack);
+	else
 	{
-		if (stack->bottom < 20)
-			short_stack_logic(stack);
+		longest_list(stack);
+		split_stack(stack);
+		if (stack->list)
+			free(stack->list);
+		if (stack->bottom < 250)
+			multi = 6;
 		else
-		{
-			longest_list(stack);
-			split_stack(stack);
-			if (stack->list)
-				free(stack->list);
-			if (stack->bottom < 250)
-				multi = 6;
-			else
-				multi = 10;
-			if (stack_contain_nbrs(stack, stack->small_heigh, FALSE) == TRUE)
-				sort_smallest(stack, (stack->small_heigh - stack->small_low) / multi, multi);
-			if (stack_contain_nbrs(stack, stack->big_low, TRUE) == TRUE)
-				sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, multi);
-			if (stack->b_empty == FALSE)
-				sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, multi);
-		}
-		stack_rotate_init(stack);
+			multi = 10;
+		if (stack_contain_nbrs(stack, stack->small_heigh, FALSE) == TRUE)
+			sort_smallest(stack, (stack->small_heigh - stack->small_low) / \
+			multi, multi);
+		if (stack_contain_nbrs(stack, stack->big_low, TRUE) == TRUE)
+			sort_middle(stack, (stack->big_low - stack->small_heigh) / multi, \
+			multi);
+		if (stack->b_empty == FALSE)
+			sort_biggest(stack, (stack->big_heigh - stack->big_low) / multi, \
+			multi);
 	}
+	stack_rotate_init(stack);
 }
