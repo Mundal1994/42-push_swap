@@ -17,8 +17,7 @@ static void	print_stack_b(t_stack *stack)
 	int	i;
 
 	i = stack->bottom - 1;
-	ft_printf("\n\33[2K");
-	ft_printf("\n\33[2K{purple}STACK B: {uncolor}");
+	ft_printf("\n\n{purple}STACK B: {uncolor}");
 	while (i >= 0)
 	{
 		if (i < stack->top_b)
@@ -32,6 +31,7 @@ static void	print_stack_b(t_stack *stack)
 		--i;
 		ft_printf("|");
 	}
+	ft_printf("\n\033[0;37m______________________\n");
 }
 
 static void	print_visuals(t_stack *stack, char *commands)
@@ -39,9 +39,8 @@ static void	print_visuals(t_stack *stack, char *commands)
 	int	i;
 
 	i = stack->bottom - 1;
-	ft_printf("\n\33[2K");
-	ft_printf("\n\33[2K{purple}COMMAND:{uncolor} %s\n", commands);
-	ft_printf("\n\33[2K");
+	ft_printf("\n{purple}COMMAND:{uncolor} %s\n", commands);
+	ft_printf("\n");
 	ft_printf("{purple}STACK A: {uncolor}");
 	while (i >= 0)
 	{
