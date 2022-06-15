@@ -4,9 +4,6 @@ command -v $MYPATH/push_swap >/dev/null 2>&1 || { printf "\npush_swap not found!
 command -v $MYPATH/checker >/dev/null 2>&1 || { printf "\nchecker not found!\n"; exit 1; }
 LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# nb of total valid test
-nb=0
-
 # colors
 BOLD="\033[1m"
 RED="\033[0;31m"
@@ -38,7 +35,7 @@ function number_put()
 	printf "\nYOUR OUTPUT IS:"
 }
 
-# $1: type test $2: example $3: number of test arg $4: var2 $5: 1 if var2 take i for arg, else 0 $6 fnctn error
+# $1: type test $2: nbr input $3: var2 $5: fnctn error
 function test()
 {
 	printf "\n$1 test: ${YELLOW}[$2]${UNCOLOR}\n"
