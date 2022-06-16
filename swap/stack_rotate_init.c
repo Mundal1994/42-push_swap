@@ -58,13 +58,13 @@ static int	rotate_based_on_nbr(t_stack *stack)
 
 void	stack_rotate_init(t_stack *stack)
 {
-	int	d;
+	int	double_r;
 
-	d = rotate_based_on_nbr(stack);
-	if (d == FALSE)
+	double_r = rotate_based_on_nbr(stack);
+	if (double_r == FALSE)
 		while (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
 			solve_and_print(stack, "ra");
-	else if (d == TRUE)
+	else if (double_r == TRUE)
 		while (stack->a[stack->bottom - 1] < stack->a[stack->top_a])
 			solve_and_print(stack, "rra");
 }
