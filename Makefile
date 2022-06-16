@@ -41,14 +41,15 @@ SRC2 += $(CO)create_stack.c
 SRC2 += $(CO)solve_stack.c
 SRC2 += $(CO)check_if_solved.c
 
-MAKELIB = make -C libft/ fclean && make -C libft/
+MAKELIB = make -C libft/ clean && make -C libft/
 
 all: $(NAME) $(NAME2)
-$(NAME):
+$(NAME): $(SRC)
 	$(MAKELIB)
-	$(CC) -o $(NAME) $(SRC) ./libft/libft.a
-$(NAME2):
-	$(CC) -o $(NAME2) $(SRC2) ./libft/libft.a
+	$(CC) $(SRC) ./libft/libft.a -o $(NAME)
+$(NAME2): $(SRC2)
+	$(MAKELIB)
+	$(CC) $(SRC2) ./libft/libft.a -o $(NAME2)
 
 clean:
 	/bin/rm -f *.o

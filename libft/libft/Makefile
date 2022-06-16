@@ -100,7 +100,7 @@ SRCS += ft_addr_to_str.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
-$(NAME):
+$(NAME): $(SRCS)
 	@$(CC) -c -I ./includes $(SRCS)
 	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)

@@ -34,7 +34,7 @@ OBJ = $(SRC:.c=.o)
 MAKELIB = make -C libft/ fclean && make -C libft/
 
 all: $(NAME)
-$(NAME):
+$(NAME): $(SRC)
 	@$(MAKELIB)
 	@$(CC) -c -I ./includes $(SRC)
 	@ar rc $(NAME) $(OBJ) libft/*.o
