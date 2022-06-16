@@ -46,7 +46,7 @@ static void	update_big_nbr(int *c, int *big, int len, int top_c)
 
 /*	updates biggest and smallest nbr in the stack that is being pushed to	*/
 
-static void	update_values(int *c, int *small, int *big)
+void	update_values(int *c, int *small, int *big)
 {
 	if (c[0] > *big)
 		*big = c[0];
