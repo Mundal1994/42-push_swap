@@ -21,6 +21,8 @@ static int	valid_instruction_checker(char *line)
 	len = ft_strlen(line);
 	if (ft_strcmp(line, "sa") == 0 || ft_strcmp(line, "sb") == 0)
 		return (0);
+	if (ft_strcmp(line, "ss") == 0)
+		return (0);
 	if (ft_strcmp(line, "pa") == 0 || ft_strcmp(line, "pb") == 0)
 		return (0);
 	if (ft_strcmp(line, "ra") == 0 || ft_strcmp(line, "rb") == 0)
