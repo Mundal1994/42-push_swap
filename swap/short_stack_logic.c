@@ -106,10 +106,12 @@ void	short_stack_logic(t_stack *stack)
 		sorting_logic(stack);
 	while (stack->b_empty == FALSE)
 	{
-		if (stack->a[stack->bottom - 1] == stack->a_big && stack->b[stack->top_b] > stack->a_big)
+		if (stack->a[stack->bottom - 1] == stack->a_big && \
+			stack->b[stack->top_b] > stack->a_big)
 		{
 			solve_and_print(stack, "pa");
-			update_values(&stack->a[stack->top_a], &stack->a_small, &stack->a_big);
+			update_values(&stack->a[stack->top_a], &stack->a_small, \
+			&stack->a_big);
 			solve_and_print(stack, "ra");
 		}
 		push_and_update(stack, 'a');

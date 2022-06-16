@@ -1,5 +1,5 @@
 #!/bin/bash
-MYPATH="/Users/molesen/Desktop/Hive/swap"
+MYPATH="/Users/molesen/Desktop/Hive/eval_swap"
 command -v $MYPATH/push_swap >/dev/null 2>&1 || { printf "\npush_swap not found!\n"; exit 1; }
 command -v $MYPATH/checker >/dev/null 2>&1 || { printf "\nchecker not found!\n"; exit 1; }
 LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -178,6 +178,8 @@ function operation_test()
 	op_test wc-l "4 3 1 5 2" "printf "12""
 	op_test wc-l "4 67 3 87 23" "printf "12""
 	op_test wc-l "5 2 3 1 4" "printf "12""
+	op_test wc-l "-3 4 -1 -2 5" "printf "12""
+	op_test wc-l "4 -2 -1 -3 5" "printf "12""
 
 	#100 number test
 	printf "\n${BLUE}100 number tests${UNCOLOR}"
