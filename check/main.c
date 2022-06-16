@@ -37,7 +37,5 @@ int	main(int argc, char **argv)
 			ft_putstr("OK\n");
 		free_stack(stack);
 	}
-	else
-		ft_putstr_fd("Usage: ./checker 2 1 0\n", 1);
 	return (0);
 }

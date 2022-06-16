@@ -75,7 +75,5 @@ int	main(int argc, char **argv)
 			sort_stack(stack);
 		free_stack(stack);
 	}
-	else
-		ft_putstr_fd("Usage: ./push_swap 2 1 0\n", 1);
 	return (0);
 }
