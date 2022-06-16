@@ -76,9 +76,9 @@ void	make_visuals(t_stack *stack, int first, char *command)
 		if (stack->bottom < 50)
 			time = 200000000;
 		else if (stack->bottom < 250)
-			time = 35000000;
+			time = 20000000;
 		else
-			time = 75000000;
+			time = 0;
 		j = 0;
 		while (j < time)
 			++j;
