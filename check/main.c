@@ -38,6 +38,6 @@ int	main(int argc, char **argv)
 		free_stack(stack);
 	}
 	else
-		ft_putstr_fd("Usage: ./checker nbr1 nbr2 ...\n", 1);
+		ft_putstr_fd("Usage: ./checker 2 1 0\n", 1);
 	return (0);
 }

@@ -60,14 +60,14 @@ int	main(int argc, char **argv)
 	{
 		stack = malloc(sizeof(t_stack));
 		if (!stack)
-			return (1);
+			return (0);
 		stack->visual = FALSE;
 		if (ft_strcmp("-v", argv[1]) == 0)
 			make_visuals(stack, TRUE, "none");
 		if (valid_input_checker(argc, argv, stack) == ERROR)
-			return (1);
+			return (0);
 		if (create_stack(argc, argv, stack) == ERROR)
-			return (1);
+			return (0);
 		data_collect(stack);
 		if (stack->visual == TRUE)
 			make_visuals(stack, FALSE, "original stack");
@@ -76,6 +76,6 @@ int	main(int argc, char **argv)
 		free_stack(stack);
 	}
 	else
-		ft_putstr_fd("Usage: ./push_swap nbr1 nbr2 ...\n", 1);
+		ft_putstr_fd("Usage: ./push_swap 2 1 0\n", 1);
 	return (0);
 }
