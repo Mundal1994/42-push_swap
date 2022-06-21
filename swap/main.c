@@ -12,6 +12,8 @@
 
 #include "push_swap.h"
 
+/*	collects heighest and smallest number for big and small sections	*/
+
 static void	data_of_big_and_small(t_stack *stack, int i)
 {
 	int	j;
@@ -35,6 +37,8 @@ static void	data_of_big_and_small(t_stack *stack, int i)
 		stack->big_low = stack->a[i];
 }
 
+/*	collects data for big and small sections	*/
+
 static void	data_collect(t_stack *stack)
 {
 	int	i;
@@ -50,6 +54,8 @@ static void	data_collect(t_stack *stack)
 		++i;
 	}
 }
+
+/*	push_swap main function	*/
 
 int	main(int argc, char **argv)
 {
