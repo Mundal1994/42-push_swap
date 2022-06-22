@@ -13,7 +13,7 @@
 #ifndef COMMON_H
 # define COMMON_H
 
-# include "../libft/ft_printf.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <fcntl.h>
 

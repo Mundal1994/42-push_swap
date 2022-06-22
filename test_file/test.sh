@@ -1,5 +1,5 @@
 #!/bin/bash
-MYPATH="/Users/molesen/Desktop/Hive/eval_swap"
+MYPATH="/Users/molesen/Desktop/Hive/swap"
 command -v $MYPATH/push_swap >/dev/null 2>&1 || { printf "\npush_swap not found!\n"; exit 1; }
 command -v $MYPATH/checker >/dev/null 2>&1 || { printf "\nchecker not found!\n"; exit 1; }
 LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
