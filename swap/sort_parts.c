@@ -95,13 +95,15 @@ void	sort_biggest(t_stack *stack, int calc, int multi)
 		if (stack->b[stack->top_b] <= big_calc)
 		{
 			if (stack->b[stack->top_b] == check_nbr)
-				check_nbr = stack->b[stack->top_b + 1];
+				check_nbr = stack->b[stack->bottom - 1];
 			push_and_update(stack, 'a');
 		}
 		else
 			rotate_based_on_calc(stack, big_calc, 'r');
 		if (stack->b[stack->top_b] == check_nbr)
 		{
+			if (multi < 0)
+				multi = 0;
 			big_calc = stack->big_heigh - (calc * multi);
 			--multi;
 		}
