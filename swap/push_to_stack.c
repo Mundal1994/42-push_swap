@@ -12,6 +12,11 @@
 
 #include "push_swap.h"
 
+/*
+**	checks if conditions are meet in knowing which way to rotate stack a
+**	or else it will keep looking through stack a
+*/
+
 static int	keep_looking(t_stack *stack, int *save, int i, int nbr)
 {
 	if (stack->a_small > nbr && stack->a[i] == stack->a_small)

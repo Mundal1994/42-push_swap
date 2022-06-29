@@ -98,7 +98,7 @@ void	sort_stack(t_stack *stack)
 {
 	int	multi;
 
-	if (stack->bottom < 20)
+	if (stack->bottom < 6)
 		short_stack_logic(stack);
 	else
 	{
@@ -107,9 +107,9 @@ void	sort_stack(t_stack *stack)
 		if (stack->list)
 			free(stack->list);
 		if (stack->bottom < 250)
-			multi = 6;
+			multi = 4;
 		else
-			multi = 10;
+			multi = 8;
 		if (stack_contain_nbrs(stack, stack->small_heigh, FALSE) == TRUE)
 			sort_smallest(stack, (stack->small_heigh - stack->small_low) / \
 			multi, multi);

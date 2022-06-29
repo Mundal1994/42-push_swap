@@ -36,7 +36,7 @@ void	sort_smallest(t_stack *stack, int calc, int multi)
 	--multi;
 	small_calc = stack->small_heigh - (calc * multi--);
 	first = TRUE;
-	while (multi >= -1)
+	while (multi >= -1 && stack->b_empty == FALSE)
 	{
 		push_to_a_or_rotate(stack, first, small_calc);
 		if (first == FALSE && stack->b[stack->bottom - 1] > stack->small_heigh)
@@ -63,7 +63,7 @@ void	sort_middle(t_stack *stack, int calc, int multi)
 	--multi;
 	mid_calc = stack->big_low - (calc * multi--);
 	first = TRUE;
-	while (multi >= -1)
+	while (multi >= -1 && stack->b_empty == FALSE)
 	{
 		push_to_a_or_rotate(stack, first, mid_calc);
 		if (first == FALSE && stack->b[stack->bottom - 1] >= stack->big_low)
@@ -100,7 +100,7 @@ void	sort_biggest(t_stack *stack, int calc, int multi)
 		}
 		else
 			rotate_based_on_calc(stack, big_calc, 'r');
-		if (stack->b[stack->top_b] == check_nbr)
+		if (stack->b[stack->top_b] == check_nbr || stack->bottom - stack->top_b == 10)
 		{
 			if (multi < 0)
 				multi = 0;
