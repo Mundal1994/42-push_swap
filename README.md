@@ -14,10 +14,13 @@ The following programs needs to be created
 
 The game is composed of 2 stacks named a and b.
 At the beginning of the game
+
 	a contains a random number of either positive or negative numbers without any duplicates.
 	b is empty
+
 Goal: sort in ascending order numbers into stack a.
 Operations at your disposal:
+
 	sa : swap a - swap the first 2 elements at the top of stack a. Do nothing if there is only one or no elements).
 	sb : swap b - swap the first 2 elements at the top of stack b. Do nothing if there is only one or no elements).
 	ss : sa and sb at the same time.
