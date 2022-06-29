@@ -6,19 +6,24 @@ This is a project that tests your ability to simple and highly effective create 
 instructions to manipulate both stacks.
 
 The following programs needs to be created
+
 	The first, named checker which takes integer arguments and reads instructions on the standard output. Once read, checker executes them and displays OK if integers are sorted. Otherwise, it will display KO.
+
 	The second one called push_swap which calculates and displays on the standard output the smallest progam using Push_swap instruction language that sorts integer arguments received.
 
 
 ## BASIC INSTRUCTIONS
 
 The game is composed of 2 stacks named a and b.
+
 At the beginning of the game
 
 	a contains a random number of either positive or negative numbers without any duplicates.
+	
 	b is empty
 
 Goal: sort in ascending order numbers into stack a.
+
 Operations at your disposal:
 
 	sa : swap a - swap the first 2 elements at the top of stack a. Do nothing if there is only one or no elements).
