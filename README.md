@@ -1,4 +1,4 @@
-## push_swap
+## PUSH_SWAP
 
 ## ABOUT
 
@@ -7,9 +7,12 @@ instructions to manipulate both stacks.
 
 The following programs needs to be created
 
-	The first, named checker which takes integer arguments and reads instructions on the standard output. Once read, checker executes them and displays OK if integers are sorted. Otherwise, it will display KO.
+	The first, named checker which takes integer arguments and reads instructions on the standard
+	output. Once read, checker executes them and displays OK if integers are sorted. Otherwise, it
+	will display KO.
 
-	The second one called push_swap which calculates and displays on the standard output the smallest progam using Push_swap instruction language that sorts integer arguments received.
+	The second one called push_swap which calculates and displays on the standard output the smallest
+	progam using Push_swap instruction language that sorts integer arguments received.
 
 
 ## BASIC INSTRUCTIONS
@@ -19,7 +22,7 @@ The game is composed of 2 stacks named a and b.
 At the beginning of the game
 
 	a contains a random number of either positive or negative numbers without any duplicates.
-	
+
 	b is empty
 
 Goal: sort in ascending order numbers into stack a.
@@ -39,7 +42,7 @@ Operations at your disposal:
 	rrr : rra and rrb at the same time.
 
 
-## HOW TO RUN PUSH_SWAP and CHECKER
+## HOW TO RUN PUSH_SWAP & CHECKER
 
 	1. make all
 	2. two executables had been created: push_swap and checker
