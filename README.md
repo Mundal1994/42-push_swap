@@ -2,7 +2,7 @@
 
 ## ABOUT
 
-This is a project that tests your ability to simple and highly effective create an algorithm that sort data. At your disposal you have a set of int values, 2 stacks and a set of
+This project is about creating an algorithm that sorts data simple and effectively. At your disposal you have a set of int values, 2 stacks and a set of
 instructions to manipulate both stacks.
 
 The following programs needs to be created
