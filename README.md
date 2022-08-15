@@ -21,9 +21,9 @@ The game is composed of 2 stacks named a and b.
 
 At the beginning of the game
 
-	a contains a random number of either positive or negative numbers without any duplicates.
+	a : contains a random number of either positive or negative numbers without any duplicates.
 
-	b is empty
+	b : is empty
 
 Goal: sort in ascending order numbers into stack a.
 
